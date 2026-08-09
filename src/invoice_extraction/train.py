@@ -136,6 +136,7 @@ def train(config_path: str) -> None:
         save_strategy=config.save_strategy,
         bf16=True,
         report_to=[],
+        remove_unused_columns=False,
     )
 
     trainer = Trainer(
