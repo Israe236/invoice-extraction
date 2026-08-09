@@ -5,7 +5,16 @@ too tight for a full training run.
 """
 
 import json
+import os
 from dataclasses import dataclass
+
+# Must run before torch initializes CUDA. This is single-GPU QLoRA (batch
+# size 1, no distributed setup) — on a multi-GPU box, leaving every GPU
+# visible makes Trainer auto-wrap the model in torch.nn.DataParallel, which
+# corrupts 4-bit quantized weights during replication (a submodule ends up
+# with zero parameters, surfacing as a confusing StopIteration deep in
+# forward()). Restricting to one GPU up front avoids that entirely.
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
 
 import torch
 import yaml
