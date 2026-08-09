@@ -1,5 +1,5 @@
 model_id: Qwen/Qwen2-VL-2B-Instruct
-max_pixels: 1003520  # cap per the 6GB VRAM constraint
+max_pixels: 401408  # ~512 image tokens; 1003520 was ~2.5x slower with no accuracy need for it on receipts
 min_pixels: 3136
 
 lora_r: 16
@@ -8,7 +8,7 @@ lora_dropout: 0.05
 lora_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
 
 learning_rate: 0.0002
-num_train_epochs: 3
+num_train_epochs: 1  # first run to prove the pipeline works end to end; raise once this succeeds
 per_device_train_batch_size: 1
 gradient_accumulation_steps: 8
 gradient_checkpointing: true
