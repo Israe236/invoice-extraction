@@ -106,11 +106,34 @@ under our simplified schema because we deliberately excluded
 service_price (only 14/100 receipts had it) from the total. That's a
 schema simplification showing up as expected "failures," not a bug.
 
-Only remaining gap before the fine-tune: schema is now final and
-stable (this was the last change), so no more baseline re-runs should
-be needed after training.
+Schema is final and stable (no more retroactive changes expected).
 
-Next: take train.py + configs/train.yaml to Kaggle and run the actual
-fine-tune, mixing CORD + synthetic examples. After that, re-run
-evaluate.py on the fine-tuned model for the real before/after
-comparison, then README + demo GIF.
+Kaggle run in progress. Hit and fixed three real bugs along the way:
+- Trainer strips dataset dict keys that aren't in the model's
+  forward() signature by default (RemoveColumnsCollator) — our raw
+  "image"/"messages" keys got silently dropped before the collator
+  ever ran. Fix: remove_unused_columns=False.
+- Kaggle's 2xT4 GPUs both being visible made Trainer auto-wrap the
+  model in torch.nn.DataParallel, which corrupts 4-bit quantized
+  weights during replication. Fix: pin CUDA_VISIBLE_DEVICES=0 before
+  torch initializes (this is single-GPU QLoRA, not distributed).
+- max_pixels=1003520 (Qwen2-VL's high-res preset) made one training
+  step take ~217s — 300 steps would be ~18h, more than a single
+  Kaggle session and most of the weekly GPU-hour quota, without even
+  finishing. Dropped to max_pixels=401408 and num_train_epochs=1 for
+  a first real run.
+
+Caveat to resolve before the final before/after writeup: the
+zero-shot baseline (configs/baseline.yaml) still uses max_pixels
+=1003520, but training now uses 401408. For a clean comparison,
+either re-run the baseline at 401408, or eval the fine-tuned
+checkpoint at both resolutions to check how much it matters. Cheap
+to do, just not done yet.
+
+train.py currently trains on CORD only — synthetic French/Moroccan
+examples aren't mixed in yet.
+
+Next: get this Kaggle run to complete and produce a checkpoint, then
+re-run evaluate.py on it for the real before/after comparison. After
+that: mix in synthetic data for a second training pass, then README
++ demo GIF.
