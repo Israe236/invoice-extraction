@@ -9,7 +9,7 @@ import yaml
 
 from invoice_extraction.data import EXTRACTION_PROMPT, extract_fields, load_cord_split
 from invoice_extraction.evaluate import FieldScore, format_report, score_dataset
-from invoice_extraction.model import load_config, load_model_and_processor
+from invoice_extraction.model import load_config, load_finetuned_model, load_model_and_processor
 
 
 @dataclass
@@ -42,10 +42,13 @@ def generate(model, processor, image, prompt: str, max_new_tokens: int) -> str:
     return processor.batch_decode(trimmed, skip_special_tokens=True)[0]
 
 
-def run_baseline(config_path: str) -> dict[str, FieldScore]:
+def run_baseline(config_path: str, adapter_path: str | None = None) -> dict[str, FieldScore]:
     model_config = load_config(config_path)
     baseline_config = load_baseline_config(config_path)
-    model, processor = load_model_and_processor(model_config)
+    if adapter_path:
+        model, processor = load_finetuned_model(model_config, adapter_path)
+    else:
+        model, processor = load_model_and_processor(model_config)
 
     dataset = load_cord_split(baseline_config.split)
     raw_predictions = []
@@ -63,5 +66,7 @@ def run_baseline(config_path: str) -> dict[str, FieldScore]:
 if __name__ == "__main__":
     import sys
 
-    scores = run_baseline(sys.argv[1] if len(sys.argv) > 1 else "configs/baseline.yaml")
+    config_path = sys.argv[1] if len(sys.argv) > 1 else "configs/baseline.yaml"
+    adapter_path = sys.argv[2] if len(sys.argv) > 2 else None
+    scores = run_baseline(config_path, adapter_path)
     print(format_report(scores))

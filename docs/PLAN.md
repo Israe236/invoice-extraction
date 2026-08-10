@@ -53,28 +53,27 @@ extended with ice/if_number once the synthetic generator made clear
 those are the project's actual differentiator fields (CORD examples
 just carry them as empty strings).
 
-Zero-shot baseline (Qwen2-VL-2B-Instruct, untrained), final 6-field
-schema, 20 CORD-v2 validation examples:
-  subtotal F1 0.000, tax F1 0.118, total F1 0.069, items F1 0.039,
+FINAL zero-shot baseline (Qwen2-VL-2B-Instruct, untrained), 6-field
+schema, max_pixels=401408 (matches training resolution), 20 CORD-v2
+validation examples — this is the real "before" number:
+  subtotal F1 0.286, tax F1 0.111, total F1 0.467, items F1 0.407,
   ice F1 0.000, if_number F1 0.000 (last two: CORD has neither, so
   0 is expected/uninformative here, not a real signal).
-This is meaningfully lower than the earlier 4-field run (subtotal
-0.353, tax 0.286, total 0.308, items 0.130). Confirmed why by
-diffing raw outputs on the same images across both prompts: the
-dominant failure mode (model returns a flat list instead of the
-{items, subtotal, ...} dict) pre-dates the schema change, but adding
-ice/if_number visibly confuses the untrained model further — e.g. one
-example hallucinated a field that was never requested ("morocco": "0")
-apparently triggered by the word "Moroccan" in the prompt, and got
-subtotal/tax/total all wrong on the same turn. This is the honest
-"before" number: same schema/prompt the fine-tuned model will be
-trained and judged against, so it's a fair comparison point, not an
-apples-to-oranges one.
+Two earlier runs at max_pixels=1003520 scored notably lower on
+total/items (0.069/0.039 and 0.308/0.130 across schema versions).
+Checked whether this was just sampling noise before trusting it: the
+model's own generation_config uses top_k=1, which makes decoding
+deterministic regardless of do_sample, so the resolution itself is
+doing this, not run-to-run variance. Genuinely interesting: lower
+resolution helped zero-shot accuracy here, not just speed.
 
-train.py (LoRA/QLoRA via peft) is written and its trickiest part (the
-label-masking collator) verified correct against real data — but not
-executed. Training runs on Kaggle, watched manually — local is for
-code, debugging, and evaluation only, per the project's compute plan.
+train.py (LoRA/QLoRA via peft) ran on Kaggle (T4 x2, single GPU
+pinned): 1 epoch, CORD-only, max_pixels=401408. Loss 0.144 -> 0.045,
+stable the whole way, ~2h04m. Checkpoint at
+checkpoints/qwen2vl-2b-lora/ on Kaggle, not yet pulled locally.
+model.py/baseline.py now support loading a fine-tuned adapter
+(load_finetuned_model, run_baseline's optional adapter_path arg) —
+written and lint-clean, not yet run since the checkpoint isn't local.
 
 Synthetic generator (synthetic.py + render.py + templates/invoice.html.jinja):
 Faker-based French/Moroccan invoice data -> Jinja HTML -> WeasyPrint PDF
@@ -108,7 +107,8 @@ schema simplification showing up as expected "failures," not a bug.
 
 Schema is final and stable (no more retroactive changes expected).
 
-Kaggle run in progress. Hit and fixed three real bugs along the way:
+First Kaggle run complete (see baseline/training numbers above). Hit
+and fixed three real bugs along the way:
 - Trainer strips dataset dict keys that aren't in the model's
   forward() signature by default (RemoveColumnsCollator) — our raw
   "image"/"messages" keys got silently dropped before the collator
@@ -123,17 +123,10 @@ Kaggle run in progress. Hit and fixed three real bugs along the way:
   finishing. Dropped to max_pixels=401408 and num_train_epochs=1 for
   a first real run.
 
-Caveat to resolve before the final before/after writeup: the
-zero-shot baseline (configs/baseline.yaml) still uses max_pixels
-=1003520, but training now uses 401408. For a clean comparison,
-either re-run the baseline at 401408, or eval the fine-tuned
-checkpoint at both resolutions to check how much it matters. Cheap
-to do, just not done yet.
-
 train.py currently trains on CORD only — synthetic French/Moroccan
 examples aren't mixed in yet.
 
-Next: get this Kaggle run to complete and produce a checkpoint, then
-re-run evaluate.py on it for the real before/after comparison. After
-that: mix in synthetic data for a second training pass, then README
-+ demo GIF.
+Next: pull checkpoints/qwen2vl-2b-lora/ from Kaggle to local disk,
+run it through run_baseline(config_path, adapter_path) for the real
+before/after comparison. After that: mix in synthetic data for a
+second training pass, then README + demo GIF.

@@ -1,5 +1,5 @@
 model_id: Qwen/Qwen2-VL-2B-Instruct
-max_pixels: 1003520  # 1280x784-ish upper bound; caps VRAM use per the 6GB constraint
+max_pixels: 401408  # matches configs/train.yaml so before/after comparison isn't skewed by resolution
 min_pixels: 3136
 max_new_tokens: 512
 load_in_4bit: true

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import torch
 import yaml
+from peft import PeftModel
 from transformers import AutoProcessor, BitsAndBytesConfig, Qwen2VLForConditionalGeneration
 
 
@@ -53,5 +54,14 @@ def load_model_and_processor(
         dtype=torch.bfloat16,
         device_map="cuda",
     )
+    model.eval()
+    return model, processor
+
+
+def load_finetuned_model(
+    config: ModelConfig, adapter_path: str
+) -> tuple[Qwen2VLForConditionalGeneration, AutoProcessor]:
+    model, processor = load_model_and_processor(config)
+    model = PeftModel.from_pretrained(model, adapter_path)
     model.eval()
     return model, processor
