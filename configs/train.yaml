@@ -2,6 +2,9 @@ model_id: Qwen/Qwen2-VL-2B-Instruct
 max_pixels: 401408  # ~512 image tokens; 1003520 was ~2.5x slower with no accuracy need for it on receipts
 min_pixels: 3136
 
+num_synthetic_examples: 200  # mixed in alongside the 800 CORD examples, so the model sees ice/if_number/TVA at all
+synthetic_seed: 42
+
 lora_r: 16
 lora_alpha: 32
 lora_dropout: 0.05
@@ -16,4 +19,4 @@ optim: paged_adamw_8bit
 warmup_ratio: 0.03
 logging_steps: 10
 save_strategy: epoch
-output_dir: checkpoints/qwen2vl-2b-lora
+output_dir: checkpoints/qwen2vl-2b-lora-v2  # separate from the CORD-only v1 checkpoint, kept for comparison

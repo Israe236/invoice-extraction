@@ -19,7 +19,7 @@ os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
 import torch
 import yaml
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from torch.utils.data import Dataset
+from torch.utils.data import ConcatDataset, Dataset
 from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
@@ -30,6 +30,7 @@ from transformers import (
 )
 
 from invoice_extraction.data import extract_fields, load_cord_split, to_chat_example
+from invoice_extraction.render import iter_synthetic_examples
 
 
 @dataclass
@@ -51,6 +52,8 @@ class TrainConfig:
     logging_steps: int
     save_strategy: str
     output_dir: str
+    num_synthetic_examples: int
+    synthetic_seed: int
 
 
 def load_train_config(path: str) -> TrainConfig:
@@ -87,7 +90,7 @@ def load_model_for_training(config: TrainConfig) -> tuple[PreTrainedModel, AutoP
     return get_peft_model(model, lora_config), processor
 
 
-class ChatDataset(Dataset):
+class CordDataset(Dataset):
     def __init__(self, split: str):
         self.rows = list(load_cord_split(split))
 
@@ -99,6 +102,18 @@ class ChatDataset(Dataset):
         gt_parse = json.loads(row["ground_truth"]).get("gt_parse", {})
         fields = extract_fields(gt_parse)
         return {"image": row["image"], "messages": to_chat_example(row["image"], fields)}
+
+
+class SyntheticDataset(Dataset):
+    def __init__(self, n: int, seed: int):
+        self.examples = list(iter_synthetic_examples(n, seed=seed))
+
+    def __len__(self) -> int:
+        return len(self.examples)
+
+    def __getitem__(self, idx: int) -> dict:
+        messages = self.examples[idx]
+        return {"image": messages[0]["content"][0]["image"], "messages": messages}
 
 
 def make_collate_fn(processor: AutoProcessor):
@@ -130,7 +145,9 @@ def make_collate_fn(processor: AutoProcessor):
 def train(config_path: str) -> None:
     config = load_train_config(config_path)
     model, processor = load_model_for_training(config)
-    dataset = ChatDataset("train")
+    cord_dataset = CordDataset("train")
+    synthetic_dataset = SyntheticDataset(config.num_synthetic_examples, seed=config.synthetic_seed)
+    dataset = ConcatDataset([cord_dataset, synthetic_dataset])
 
     training_args = TrainingArguments(
         output_dir=config.output_dir,
