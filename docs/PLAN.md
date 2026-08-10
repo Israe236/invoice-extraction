@@ -25,12 +25,13 @@ metrics matter as much as the model.
   OOM cause at 6GB.
 
 ## Deliverables
-1. Zero-shot baseline, per-field F1, before any training.
-2. Fine-tuned model, same metrics, honest comparison.
-3. validate.py — accounting rules: HT + TVA = TTC, line items sum
-   to subtotal, date sanity. Outputs a confidence flag for human
-   review. This is the part that makes it a product, not a demo.
-4. README with a demo GIF (not a live Space — free Spaces are CPU
+1. [x] Zero-shot baseline, per-field F1, before any training.
+2. [x] Fine-tuned model, same metrics, honest comparison (CORD-only
+   so far — see status; ice/if_number need synthetic data mixed in).
+3. [x] validate.py — accounting rules: HT + TVA = TTC, line items sum
+   to subtotal. (No date-sanity check — see status for why.) Outputs
+   a pass/fail per check for human review.
+4. [ ] README with a demo GIF (not a live Space — free Spaces are CPU
    only and too slow).
 
 ## Order of work
@@ -38,7 +39,7 @@ metrics matter as much as the model.
 2. [x] data.py — loading + chat-format conversion
 3. [x] evaluate.py — per-field F1, handle malformed JSON output
 4. [x] Zero-shot baseline
-5. [ ] LoRA fine-tune  <- CURRENT (script ready, run pending on Kaggle)
+5. [x] LoRA fine-tune (CORD-only pass done)  <- CURRENT: synthetic-mixed pass next
 6. [x] Synthetic invoice generator
 7. [x] validate.py
 8. [ ] README + demo GIF
@@ -69,11 +70,22 @@ resolution helped zero-shot accuracy here, not just speed.
 
 train.py (LoRA/QLoRA via peft) ran on Kaggle (T4 x2, single GPU
 pinned): 1 epoch, CORD-only, max_pixels=401408. Loss 0.144 -> 0.045,
-stable the whole way, ~2h04m. Checkpoint at
-checkpoints/qwen2vl-2b-lora/ on Kaggle, not yet pulled locally.
-model.py/baseline.py now support loading a fine-tuned adapter
-(load_finetuned_model, run_baseline's optional adapter_path arg) —
-written and lint-clean, not yet run since the checkpoint isn't local.
+stable the whole way, ~2h04m. Checkpoint pulled to
+checkpoints/qwen2vl-2b-lora/ locally (gitignored).
+
+BEFORE/AFTER RESULT (deliverable 2, done) — same 20 CORD-v2
+validation examples, same max_pixels=401408, via run_baseline() with
+and without the adapter:
+  field       before  after
+  subtotal    0.286   0.909
+  tax         0.111   0.800
+  total       0.467   0.900
+  items       0.407   0.686
+  ice         0.000   0.000  (expected -- CORD has no ICE examples)
+  if_number   0.000   0.000  (expected -- same reason)
+Large, clean improvement on every field CORD actually contains, from
+just 1 epoch. ice/if_number staying at 0 isn't a failure, it's the
+exact gap the synthetic generator exists to close next.
 
 Synthetic generator (synthetic.py + render.py + templates/invoice.html.jinja):
 Faker-based French/Moroccan invoice data -> Jinja HTML -> WeasyPrint PDF
@@ -126,7 +138,6 @@ and fixed three real bugs along the way:
 train.py currently trains on CORD only — synthetic French/Moroccan
 examples aren't mixed in yet.
 
-Next: pull checkpoints/qwen2vl-2b-lora/ from Kaggle to local disk,
-run it through run_baseline(config_path, adapter_path) for the real
-before/after comparison. After that: mix in synthetic data for a
-second training pass, then README + demo GIF.
+Next: mix synthetic French/Moroccan examples into train.py for a
+second training pass (this should move ice/if_number off 0), then
+README + demo GIF.
