@@ -22,6 +22,9 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "ipykernel", "matplotlib"]
+# The demo service. Kept separate so a machine that only needs to run the
+# validation layer does not pull in a web server.
+api = ["fastapi", "uvicorn[standard]", "python-multipart"]
 
 [build-system]
 requires = ["hatchling"]
@@ -42,6 +45,12 @@ line-length = 100
 # ruff cannot silently change what counts as a lint failure.
 # pycodestyle, pyflakes, import sorting, pyupgrade, bugbear, simplify.
 select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# FastAPI's documented idiom is a call in the argument default (File(...),
+# Depends(...)). B008 exists to catch accidental shared mutable defaults, which
+# is not what is happening here.
+"src/invoice_extraction/api.py" = ["B008"]
 
 [tool.uv.sources]
 torch = [{ index = "pytorch-cu126" }]

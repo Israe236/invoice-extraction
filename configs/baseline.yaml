@@ -3,5 +3,9 @@ max_pixels: 401408  # matches configs/train.yaml so before/after comparison isn'
 min_pixels: 3136
 max_new_tokens: 512
 load_in_4bit: true
-num_eval_examples: 20
-split: validation
+
+# The CORD-v2 *test* split, never touched by training (which uses "train").
+# The earlier runs used "validation"; test is the stricter, more honest choice
+# and costs nothing extra.
+split: test
+num_eval_examples: 50  # 50 of the 100 available; 20 was too few to trust a per-field F1

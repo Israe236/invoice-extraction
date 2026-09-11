@@ -1,11 +1,32 @@
+# ---- Python ----
 .venv/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# ---- Data, weights, run artefacts ----
+# results/ is deliberately NOT ignored: the measured numbers are the evidence
+# behind the README and belong in version control.
 data/
 outputs/
 checkpoints/
+logs/
 wandb/
 *.pt
 *.safetensors
+
+# ---- Secrets ----
 .env
+*.key
+
+# ---- Frontend ----
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
