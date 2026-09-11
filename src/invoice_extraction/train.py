@@ -7,6 +7,7 @@ too tight for a full training run.
 import json
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 # Must run before torch initializes CUDA. This is single-GPU QLoRA (batch
 # size 1, no distributed setup) — on a multi-GPU box, leaving every GPU
@@ -54,6 +55,10 @@ class TrainConfig:
     output_dir: str
     num_synthetic_examples: int
     synthetic_seed: int
+    seed: int = 42
+    # Set to a small number for an end-to-end smoke test before committing a
+    # Kaggle session to a multi-hour run. 0 means "train the full epochs".
+    max_steps: int = 0
 
 
 def load_train_config(path: str) -> TrainConfig:
@@ -145,9 +150,15 @@ def make_collate_fn(processor: AutoProcessor):
 def train(config_path: str) -> None:
     config = load_train_config(config_path)
     model, processor = load_model_for_training(config)
+
     cord_dataset = CordDataset("train")
     synthetic_dataset = SyntheticDataset(config.num_synthetic_examples, seed=config.synthetic_seed)
     dataset = ConcatDataset([cord_dataset, synthetic_dataset])
+    print(
+        f"Training on {len(cord_dataset)} CORD receipts "
+        f"+ {len(synthetic_dataset)} synthetic invoices = {len(dataset)} examples",
+        flush=True,
+    )
 
     training_args = TrainingArguments(
         output_dir=config.output_dir,
@@ -155,11 +166,13 @@ def train(config_path: str) -> None:
         gradient_accumulation_steps=config.gradient_accumulation_steps,
         learning_rate=config.learning_rate,
         num_train_epochs=config.num_train_epochs,
+        max_steps=config.max_steps or -1,
         gradient_checkpointing=config.gradient_checkpointing,
         optim=config.optim,
         warmup_ratio=config.warmup_ratio,
         logging_steps=config.logging_steps,
         save_strategy=config.save_strategy,
+        seed=config.seed,
         bf16=True,
         report_to=[],
         remove_unused_columns=False,
@@ -173,6 +186,12 @@ def train(config_path: str) -> None:
     )
     trainer.train()
     trainer.save_model(config.output_dir)
+
+    # The loss curve is evidence. Persist it next to the adapter so the README
+    # can show what training actually did instead of asserting that it worked.
+    history_path = Path(config.output_dir) / "log_history.json"
+    history_path.write_text(json.dumps(trainer.state.log_history, indent=2), encoding="utf-8")
+    print(f"Saved adapter and loss history to {config.output_dir}", flush=True)
 
 
 if __name__ == "__main__":
