@@ -12,7 +12,8 @@ CORD_DATASET = "naver-clova-ix/cord-v2"
 EXTRACTION_PROMPT = (
     "Extract the following fields from this document as JSON: "
     "items (list of objects with name, qty, price), subtotal, tax, total, "
-    "ice (Moroccan company ID number), if_number (Moroccan tax ID number). "
+    "ice (Moroccan company ID number), if_number (Moroccan tax ID number), "
+    "invoice_number, date (as YYYY-MM-DD), currency (as a 3-letter code). "
     "Return only the JSON. Use an empty string for any field that is "
     "missing from the document."
 )
@@ -25,12 +26,28 @@ class LineItem(TypedDict):
 
 
 class ExtractedFields(TypedDict):
+    """The single target schema, shared by CORD receipts and synthetic invoices.
+
+    Every scalar is a string, including amounts: the model emits text, and
+    forcing it to emit a JSON number is a second failure mode on top of the one
+    we care about. Comparison is done through `normalize`, not by string
+    equality, so `1 234,56` and `1234.56` score as the same value.
+
+    Fields a source genuinely does not carry are `""`. CORD-v2 receipts have no
+    ICE, IF, invoice number or currency in their ground truth, so those stay
+    empty there and are supplied only by the synthetic French/Moroccan
+    invoices -- which is exactly why the synthetic data exists.
+    """
+
     items: list[LineItem]
     subtotal: str
     tax: str
     total: str
     ice: str
     if_number: str
+    invoice_number: str
+    date: str
+    currency: str
 
 
 def load_cord_split(split: str) -> Dataset:
@@ -77,8 +94,14 @@ def extract_fields(gt_parse: dict) -> ExtractedFields:
         subtotal=_as_str(sub_total.get("subtotal_price")),
         tax=_as_str(sub_total.get("tax_price")),
         total=_as_str(total.get("total_price")),
+        # CORD-v2's gt_parse carries none of these. They are left empty rather
+        # than guessed, and the metric treats an empty gold field as "nothing
+        # to find" so the model is not rewarded or punished for them here.
         ice="",
         if_number="",
+        invoice_number="",
+        date="",
+        currency="",
     )
 
 

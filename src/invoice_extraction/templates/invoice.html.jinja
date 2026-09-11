@@ -41,19 +41,23 @@
 
   <table class="items">
     <thead>
-      <tr><th>D&eacute;signation</th><th class="num">Qt&eacute;</th><th class="num">Montant (MAD)</th></tr>
+      <tr><th>D&eacute;signation</th><th class="num">Qt&eacute;</th><th class="num">P.U. ({{ currency }})</th><th class="num">Montant ({{ currency }})</th></tr>
     </thead>
     <tbody>
+      {# The P.U. column is a deliberate distractor: real invoices always show
+         a unit price next to the line total, and a model that grabs the wrong
+         column is the most common real-world extraction failure. Ground truth
+         is the Montant column. #}
       {% for item in items %}
-      <tr><td>{{ item.name }}</td><td class="num">{{ item.qty }}</td><td class="num">{{ item.price }}</td></tr>
+      <tr><td>{{ item.name }}</td><td class="num">{{ item.qty }}</td><td class="num">{{ unit_prices[loop.index0] }}</td><td class="num">{{ item.price }}</td></tr>
       {% endfor %}
     </tbody>
   </table>
 
   <table class="totals">
-    <tr><td class="label">Total HT</td><td class="value">{{ subtotal }}</td></tr>
-    <tr><td class="label">TVA ({{ tax_rate_pct }}%)</td><td class="value">{{ tax }}</td></tr>
-    <tr class="grand-total"><td class="label">Total TTC</td><td class="value">{{ total }}</td></tr>
+    <tr><td class="label">Total HT</td><td class="value">{{ subtotal }} {{ currency }}</td></tr>
+    <tr><td class="label">TVA ({{ tax_rate_pct }}%)</td><td class="value">{{ tax }} {{ currency }}</td></tr>
+    <tr class="grand-total"><td class="label">Total TTC</td><td class="value">{{ total }} {{ currency }}</td></tr>
   </table>
 </body>
 </html>
