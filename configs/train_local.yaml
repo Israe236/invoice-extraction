@@ -1,0 +1,51 @@
+# Training on the local RTX 4050 (6 GB, ~4.9 GB actually free under Windows).
+#
+# Measured peak with these settings: 4.16 GB for a full forward+backward at
+# seq_len 1255. It fits because of four things, each of which was worth a
+# gigabyte or more -- see docs/DECISIONS.md §10a:
+#
+#   freeze_vision_tower    runs the ViT under no_grad. Without it the backward
+#                          pass asked for 12.21 GB, because enable_input_require_grads
+#                          drags the whole vision subgraph into autograd even
+#                          though no vision weight is ever trained.
+#   cast_frozen_to_bf16    undoes prepare_model_for_kbit_training's fp32 upcast
+#                          on frozen tensors. Qwen's 152k-token embedding alone
+#                          was 0.869 GB in fp32. Saves 0.44 GB.
+#   cuda_memory_fraction   keeps the allocator below physically free VRAM, so
+#                          WSL2's WDDM passthrough cannot spill into host RAM.
+#                          Without it, over-allocation surfaced as
+#                          "CUDA driver error: device not ready" and once took
+#                          the whole WSL VM down.
+#   gradient_checkpointing only active when the module is in training mode.
+#
+# Identical to configs/train.yaml apart from the local-GPU block at the bottom.
+
+model_id: Qwen/Qwen2-VL-2B-Instruct
+max_pixels: 401408
+min_pixels: 3136
+
+num_synthetic_examples: 200
+synthetic_seed: 42
+
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+learning_rate: 0.0002
+num_train_epochs: 1
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+optim: paged_adamw_8bit
+warmup_ratio: 0.03
+logging_steps: 10
+save_strategy: epoch
+seed: 42
+output_dir: checkpoints/qwen2vl-2b-lora-v2
+
+# --- local 6 GB GPU ---
+freeze_vision_tower: true
+cast_frozen_to_bf16: true
+cuda_memory_fraction: 0.82  # 4.92 GB of 6.00 GB; measured free is ~4.88 GB
+attn_implementation: sdpa

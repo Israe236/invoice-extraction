@@ -1,0 +1,15 @@
+# WSL2 resource limits.
+#
+# Default is 50% of host RAM, which on this 15.7 GB machine gave the VM 7.8 GB.
+# That is not enough to load a 2B vision-language model for training: the
+# kernel OOM-killer ends the process with no traceback, and because WSL's WDDM
+# GPU passthrough lets CUDA oversubscribe into host RAM, a GPU allocation that
+# overflows VRAM turns into host memory pressure rather than a clean CUDA OOM.
+#
+# 11 GB leaves Windows roughly 4.7 GB, which is enough for the desktop.
+# Swap absorbs transient spikes instead of letting the OOM-killer fire.
+
+[wsl2]
+memory=11GB
+swap=8GB
+processors=8

@@ -1,21 +1,34 @@
-"""Measure peak training VRAM at one image resolution.
+"""Measure peak training VRAM for one configuration.
 
-Run one resolution per process. An OOM leaves the CUDA context unusable --
-subsequent allocations in the same process fail with "device not ready" -- so
+Run one configuration per process. A CUDA OOM leaves the context unusable, so
 sweeping inside a single process produces garbage after the first failure.
 `scripts/sweep_train_memory.sh` drives this across a range.
 
-    python scripts/probe_train_memory.py 401408
+    python scripts/probe_train_memory.py --max-pixels 200704
+    python scripts/probe_train_memory.py --max-pixels 200704 --reentrant
+
+Two things this controls that turned out to matter more than the resolution:
+
+**Memory fraction.** WSL2's WDDM passthrough lets CUDA allocate past the
+physical 6 GB into host RAM. PyTorch then happily reports "12.21 GiB
+allocated" on a 6 GB card, the VM starts thrashing, and the failure surfaces
+as `CUDA driver error: device not ready` or as the kernel OOM-killer -- never
+as the out-of-memory error it actually is. Capping the fraction makes the
+allocator refuse instead of spill, so a configuration that does not fit says
+so cleanly in a tenth of the time.
+
+**use_reentrant.** With PEFT, reentrant gradient checkpointing silently does
+nothing when the checkpointed inputs do not require grad. The flag is on, the
+memory saving is absent. `--reentrant` exists to measure that difference
+rather than argue about it.
 """
 
 from __future__ import annotations
 
+import argparse
 import os
-import sys
 
 os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
-# At 6 GB, fragmentation alone can fail a 44 MB allocation while hundreds of MB
-# sit reserved-but-unusable.
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 import torch  # noqa: E402
@@ -30,66 +43,133 @@ from invoice_extraction.train import (  # noqa: E402
 )
 
 
-def report_checkpointing(model) -> None:
-    """Which submodules actually have gradient checkpointing switched on.
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--max-pixels", type=int, default=401408)
+    parser.add_argument("--config", default="configs/train_smoke.yaml")
+    parser.add_argument(
+        "--reentrant",
+        action="store_true",
+        help="use reentrant gradient checkpointing (the old default; usually a no-op with PEFT)",
+    )
+    parser.add_argument(
+        "--fraction",
+        type=float,
+        default=0.92,
+        help="cap PyTorch at this fraction of total VRAM so it cannot spill into host RAM",
+    )
+    parser.add_argument("--attn", default=None, choices=("sdpa", "eager"))
+    parser.add_argument("--liger", action="store_true", help="fused linear cross-entropy")
+    parser.add_argument("--forward-only", action="store_true", help="skip the backward pass")
+    parser.add_argument("--dataset", default="both", choices=("both", "cord", "synthetic"))
+    return parser.parse_args()
 
-    The vision tower matters as much as the language model here: Qwen2-VL's ViT
-    runs full attention over ~2000 patches, and `prepare_model_for_kbit_training`
-    makes the embedding output require grad, which keeps the whole vision
-    subgraph alive for backward even though none of its weights are trained.
-    """
-    on, off = [], []
-    for name, module in model.named_modules():
+
+def checkpointing_summary(model) -> tuple[int, int]:
+    on = off = 0
+    for module in model.modules():
         flag = getattr(module, "gradient_checkpointing", None)
         if flag is True:
-            on.append(name or "<root>")
+            on += 1
         elif flag is False:
-            off.append(name or "<root>")
-    print(f"  checkpointing ON : {len(on)} modules {on[:3]}")
-    print(f"  checkpointing OFF: {len(off)} modules {off[:3]}")
+            off += 1
+    return on, off
 
 
 def main() -> None:
-    max_pixels = int(sys.argv[1]) if len(sys.argv) > 1 else 401408
-    config = load_train_config("configs/train_smoke.yaml")
+    args = parse_args()
+    config = load_train_config(args.config)
+    if args.attn:
+        config.attn_implementation = args.attn
+    if args.liger:
+        config.use_liger_kernel = True
+
+    total = torch.cuda.get_device_properties(0).total_memory / 1024**3
+    free_before = torch.cuda.mem_get_info()[0] / 1024**3
+    # The hard stop that turns a host-RAM spill into an honest CUDA OOM.
+    torch.cuda.set_per_process_memory_fraction(args.fraction)
 
     model, _ = load_model_for_training(config)
-    # prepare_model_for_kbit_training enables this, but being explicit costs
-    # nothing and use_reentrant=False is required for it to work with PEFT.
-    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
-    if hasattr(model, "base_model"):
-        visual = getattr(model.base_model.model, "visual", None)
-        if visual is not None:
-            visual.gradient_checkpointing = True
+    model.gradient_checkpointing_enable(
+        gradient_checkpointing_kwargs={"use_reentrant": args.reentrant}
+    )
+    # Essential, and easy to leave out: HuggingFace's GradientCheckpointingLayer
+    # only checkpoints when `self.training` is true. Probing an eval-mode model
+    # measures a configuration with checkpointing silently disabled, which is
+    # strictly worse than what Trainer actually runs.
+    model.train()
+    on, off = checkpointing_summary(model)
 
-    report_checkpointing(model)
-    print(f"  VRAM after load: {torch.cuda.memory_allocated() / 1024**3:.2f} GB")
+    print(f"  device total {total:.2f}G, free before load {free_before:.2f}G")
+    print(f"  memory fraction cap {args.fraction} -> {total * args.fraction:.2f}G")
+    print(f"  gradient checkpointing: {on} modules on, {off} off, reentrant={args.reentrant}")
+    print(f"  VRAM after load: {torch.cuda.memory_allocated() / 1024**3:.2f}G")
 
     processor = AutoProcessor.from_pretrained(
-        config.model_id, min_pixels=config.min_pixels, max_pixels=max_pixels
+        config.model_id, min_pixels=config.min_pixels, max_pixels=args.max_pixels
     )
     collate = make_collate_fn(processor)
-    datasets = [CordDataset("train"), SyntheticDataset(2, seed=config.synthetic_seed)]
+    datasets = {
+        "cord": CordDataset("train"),
+        "synthetic": SyntheticDataset(2, seed=config.synthetic_seed),
+    }
+    if args.dataset != "both":
+        datasets = {args.dataset: datasets[args.dataset]}
 
-    torch.cuda.reset_peak_memory_stats()
     seq_len = 0
+    verdict = "FITS"
+    peak = 0.0
     try:
-        for dataset in datasets:
-            batch = collate([dataset[0]])
-            seq_len = max(seq_len, batch["input_ids"].shape[1])
-            batch = {k: v.to(model.device) for k, v in batch.items()}
-            outputs = model(**batch)
-            outputs.loss.backward()
-            model.zero_grad(set_to_none=True)
-            del outputs, batch
+        for name, dataset in datasets.items():
             torch.cuda.empty_cache()
-    except torch.OutOfMemoryError:
-        peak = torch.cuda.max_memory_allocated() / 1024**3
-        print(f"RESULT max_pixels={max_pixels} seq_len={seq_len} peak={peak:.2f}G verdict=OOM")
-        raise SystemExit(2) from None
+            torch.cuda.reset_peak_memory_stats()
+            batch = collate([dataset[0]])
+            this_seq = batch["input_ids"].shape[1]
+            seq_len = max(seq_len, this_seq)
+            batch = {k: v.to(model.device) for k, v in batch.items()}
 
-    peak = torch.cuda.max_memory_allocated() / 1024**3
-    print(f"RESULT max_pixels={max_pixels} seq_len={seq_len} peak={peak:.2f}G verdict=FITS")
+            outputs = model(**batch)
+            after_forward = torch.cuda.max_memory_allocated() / 1024**3
+            # Liger's fused linear cross-entropy returns a loss without ever
+            # building the logits tensor. If logits comes back with a shape,
+            # the fused path did NOT engage, whatever the patch call reported.
+            logits = getattr(outputs, "logits", None)
+            if logits is None:
+                print("    logits: not materialised (fused CE active)")
+            else:
+                print(
+                    f"    logits: {tuple(logits.shape)} {logits.dtype} = "
+                    f"{logits.numel() * logits.element_size() / 1024**3:.2f}G"
+                )
+            if not args.forward_only:
+                outputs.loss.backward()
+                model.zero_grad(set_to_none=True)
+            after_backward = torch.cuda.max_memory_allocated() / 1024**3
+            peak = max(peak, after_backward)
+            print(
+                f"  {name:10s} seq={this_seq:5d}  fwd_peak={after_forward:.2f}G  "
+                f"total_peak={after_backward:.2f}G"
+            )
+            del outputs, batch
+    except torch.OutOfMemoryError as exc:
+        verdict = "OOM"
+        peak = max(peak, torch.cuda.max_memory_allocated() / 1024**3)
+        # The size of the allocation that failed is the most informative
+        # number available: it says whether we are slightly over budget or
+        # asking for something structurally wrong.
+        first_line = str(exc).split(". ")[0]
+        print(f"  OOM DETAIL: {first_line}")
+        print(
+            f"  at failure: allocated={torch.cuda.memory_allocated() / 1024**3:.2f}G "
+            f"reserved={torch.cuda.memory_reserved() / 1024**3:.2f}G"
+        )
+
+    print(
+        f"RESULT max_pixels={args.max_pixels} attn={config.attn_implementation} "
+        f"liger={config.use_liger_kernel} fwd_only={args.forward_only} "
+        f"seq_len={seq_len} peak={peak:.2f}G verdict={verdict}"
+    )
+    raise SystemExit(0 if verdict == "FITS" else 2)
 
 
 if __name__ == "__main__":
