@@ -41,7 +41,9 @@ needs were untestable.
 - [x] **238 tests**, none requiring a GPU or a download
 - [x] FastAPI `/extract`, `/validate`, `/health` + React/Vite frontend
 - [x] Kaggle training notebook with a 3-step smoke test
-- [x] **Zero-shot baseline measured** — CORD-v2 *test* split, 50 examples
+- [x] **Zero-shot baseline measured** on both test sets — CORD-v2 *test* split and the
+      held-out synthetic set, 50 examples each
+- [x] End-to-end API smoke test against a real image (22 s/document)
 - [x] README, DECISIONS.md
 
 ### Measured so far
@@ -67,9 +69,36 @@ measured on the synthetic test set instead.
 > (test instead of validation), and n changed (50 instead of 20). Both the base and the
 > fine-tuned model are being re-measured under the current metric via the same code path.
 
+Zero-shot on the held-out **synthetic** test set, same settings, n=50:
+
+| field | precision | recall | F1 | support |
+|---|---|---|---|---|
+| subtotal | 0.688 | 0.660 | 0.673 | 50 |
+| tax | 0.688 | 0.660 | 0.673 | 50 |
+| total | 0.833 | 0.800 | 0.816 | 50 |
+| items | 0.097 | 0.093 | 0.095 | 161 |
+| ice | 0.854 | 0.820 | 0.837 | 50 |
+| if_number | 1.000 | 0.960 | 0.980 | 50 |
+| invoice_number | 1.000 | 0.680 | 0.809 | 50 |
+| date | 1.000 | 0.680 | 0.809 | 50 |
+| currency | 1.000 | 0.340 | 0.507 | 50 |
+
+micro-F1 **0.567**, parse rate **49/50 (98 %)**.
+
+Three things this changes about the plan:
+
+1. **The parse rate gap (44 % on photos vs 98 % on renders) is the main baseline weakness**,
+   not raw reading accuracy. Fine-tuning should be judged mostly on whether it closes that.
+2. **ICE and IF are already strong zero-shot** (0.837 / 0.980) — the opposite of the v1
+   expectation that they were the big gap. The earlier "ice F1 0.000" was a *support-0
+   artefact of measuring on CORD*, not evidence the model could not read an ICE. Worth
+   remembering: it was a reporting bug masquerading as a model finding.
+3. **Line items are the real weakness** (0.095), and the cause is measured: 104 of 137
+   matched lines took the unit price from the P.U. distractor column instead of the line
+   total. See `scripts/inspect_items.py`.
+
 ### In progress
 
-- [ ] Zero-shot baseline on the held-out **synthetic** test set (running locally)
 - [ ] v2 training run on Kaggle: CORD + 200 synthetic. This is what should move
       `ice` / `if_number` / `date` / `currency` off zero — the v1 adapter was trained on
       CORD only, which contains none of those fields.

@@ -1,0 +1,5679 @@
+[
+  {
+    "raw_output": "```json\n[\n  {\n    \"items\": [\n      {\n        \"description\": \"Services de nettoyage\",\n        \"quantity\": 6,\n        \"price\": \"645.30\"\n      }\n    ],\n    \"subtotal\": \"645.30\",\n    \"tax\": \"3871.80\",\n    \"total\": \"4413.85\",\n    \"ice\": \"040978053964059\",\n    \"if_number\": \"80947950\"\n  }\n]\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Services de nettoyage",
+          "quantity": 6,
+          "price": "645.30"
+        }
+      ],
+      "subtotal": "645.30",
+      "tax": "3871.80",
+      "total": "4413.85",
+      "ice": "040978053964059",
+      "if_number": "80947950"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Services de nettoyage",
+          "qty": "6",
+          "price": "3871.80"
+        }
+      ],
+      "subtotal": "3871.80",
+      "tax": "542.05",
+      "total": "4413.85",
+      "ice": "040978053964059",
+      "if_number": "80947950",
+      "invoice_number": "FA-7314",
+      "date": "2026-05-11",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 645.30 + tax 3871.80 = 4517.10, stated total 4413.85 (difference 103.25)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 645.30, subtotal 645.30 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 600.00%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 5,\n      \"price\": \"1313.41\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 3,\n      \"price\": \"897.38\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 8,\n      \"price\": \"1795.32\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 4,\n      \"price\": \"1005.71\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 1,\n      \"price\": \"1343.84\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 5,\n      \"price\": \"534.78\"\n    }\n  ],\n  \"subtotal\": \"31662.33\",\n  \"tax\": \"4432.73\",\n  \"total\": \"36095.06\",\n  \"ice\": \"350277312383695\",\n  \"if_number\": \"51234489\",\n  \"invoice_number\": \"FA-1709\",\n  \"date\": \"24/11/2025\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": 5,
+          "price": "1313.41"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 3,
+          "price": "897.38"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 8,
+          "price": "1795.32"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 4,
+          "price": "1005.71"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 1,
+          "price": "1343.84"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 5,
+          "price": "534.78"
+        }
+      ],
+      "subtotal": "31662.33",
+      "tax": "4432.73",
+      "total": "36095.06",
+      "ice": "350277312383695",
+      "if_number": "51234489",
+      "invoice_number": "FA-1709",
+      "date": "24/11/2025",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "5",
+          "price": "6567.05"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "3",
+          "price": "2692.14"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "8",
+          "price": "14362.56"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "4",
+          "price": "4022.84"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "1",
+          "price": "1343.84"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "5",
+          "price": "2673.90"
+        }
+      ],
+      "subtotal": "31662.33",
+      "tax": "4432.73",
+      "total": "36095.06",
+      "ice": "350277312383695",
+      "if_number": "51234489",
+      "invoice_number": "FA-1709",
+      "date": "2025-11-24",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 31662.33 + tax 4432.73 = 36095.06, stated total 36095.06 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "6 line item(s) sum to 6890.44, subtotal 31662.33 (difference 24771.89)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-11-24",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 10,\n      \"price\": \"1032.46\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 4,\n      \"price\": \"374.96\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 8,\n      \"price\": \"1640.69\"\n    }\n  ],\n  \"subtotal\": \"1032.46\",\n  \"tax\": \"1746.50\",\n  \"total\": \"26696.46\",\n  \"ice\": \"318585785122889\",\n  \"if_number\": \"66252618\",\n  \"invoice_number\": \"FA-8313\",\n  \"date\": \"02/08/2025\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": 10,
+          "price": "1032.46"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 4,
+          "price": "374.96"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 8,
+          "price": "1640.69"
+        }
+      ],
+      "subtotal": "1032.46",
+      "tax": "1746.50",
+      "total": "26696.46",
+      "ice": "318585785122889",
+      "if_number": "66252618",
+      "invoice_number": "FA-8313",
+      "date": "02/08/2025",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": "10",
+          "price": "10324.60"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "4",
+          "price": "1499.84"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "8",
+          "price": "13125.52"
+        }
+      ],
+      "subtotal": "24949.96",
+      "tax": "1746.50",
+      "total": "26696.46",
+      "ice": "318585785122889",
+      "if_number": "66252618",
+      "invoice_number": "FA-8313",
+      "date": "2025-08-02",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1032.46 + tax 1746.50 = 2778.96, stated total 26696.46 (difference 23917.50)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 3048.11, subtotal 1032.46 (difference 2015.65)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 169.16%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-08-02",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"description\": \"Location de matériel\",\n      \"quantity\": 8,\n      \"price\": \"73.81\"\n    }\n  ],\n  \"subtotal\": \"590.48\",\n  \"tax\": \"41.33\",\n  \"total\": \"631.81\",\n  \"ice\": \"740958079719913\",\n  \"if_number\": \"77984829\",\n  \"invoice_number\": \"FA-9981\",\n  \"date\": \"23/01/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Location de matériel",
+          "quantity": 8,
+          "price": "73.81"
+        }
+      ],
+      "subtotal": "590.48",
+      "tax": "41.33",
+      "total": "631.81",
+      "ice": "740958079719913",
+      "if_number": "77984829",
+      "invoice_number": "FA-9981",
+      "date": "23/01/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": "8",
+          "price": "590.48"
+        }
+      ],
+      "subtotal": "590.48",
+      "tax": "41.33",
+      "total": "631.81",
+      "ice": "740958079719913",
+      "if_number": "77984829",
+      "invoice_number": "FA-9981",
+      "date": "2026-01-23",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 590.48 + tax 41.33 = 631.81, stated total 631.81 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 73.81, subtotal 590.48 (difference 516.67)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-01-23",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 10,\n      \"price\": \"490.21\"\n    }\n  ],\n  \"subtotal\": \"4902.10\",\n  \"tax\": \"686.29\",\n  \"total\": \"5588.39\",\n  \"ice\": \"855332384899193\",\n  \"if_number\": \"05933790\",\n  \"invoice_number\": \"FA-3023\",\n  \"date\": \"29/03/2025\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": 10,
+          "price": "490.21"
+        }
+      ],
+      "subtotal": "4902.10",
+      "tax": "686.29",
+      "total": "5588.39",
+      "ice": "855332384899193",
+      "if_number": "05933790",
+      "invoice_number": "FA-3023",
+      "date": "29/03/2025"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": "10",
+          "price": "4902.10"
+        }
+      ],
+      "subtotal": "4902.10",
+      "tax": "686.29",
+      "total": "5588.39",
+      "ice": "855332384899193",
+      "if_number": "05933790",
+      "invoice_number": "FA-3023",
+      "date": "2025-03-29",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 4902.10 + tax 686.29 = 5588.39, stated total 5588.39 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 490.21, subtotal 4902.10 (difference 4411.89)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-03-29",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 9,\n      \"price\": \"336.45\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 3,\n      \"price\": \"569.22\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 8,\n      \"price\": \"1164.20\"\n    }\n  ],\n  \"subtotal\": \"14049.31\",\n  \"tax\": \"983.45\",\n  \"total\": \"15032.76\",\n  \"ice\": \"465285300601535\",\n  \"if_number\": \"75245101\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": 9,
+          "price": "336.45"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 3,
+          "price": "569.22"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 8,
+          "price": "1164.20"
+        }
+      ],
+      "subtotal": "14049.31",
+      "tax": "983.45",
+      "total": "15032.76",
+      "ice": "465285300601535",
+      "if_number": "75245101"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": "9",
+          "price": "3028.05"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "3",
+          "price": "1707.66"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "8",
+          "price": "9313.60"
+        }
+      ],
+      "subtotal": "14049.31",
+      "tax": "983.45",
+      "total": "15032.76",
+      "ice": "465285300601535",
+      "if_number": "75245101",
+      "invoice_number": "FA-3217",
+      "date": "2025-09-06",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 14049.31 + tax 983.45 = 15032.76, stated total 15032.76 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 2069.87, subtotal 14049.31 (difference 11979.44)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"description\": \"Location de matériel\",\n      \"quantity\": 6,\n      \"price\": \"966.86\"\n    },\n    {\n      \"description\": \"Formation professionnelle\",\n      \"quantity\": 9,\n      \"price\": \"991.95\"\n    }\n  ],\n  \"subtotal\": \"14728.71\",\n  \"tax\": \"2945.74\",\n  \"total\": \"17674.45\",\n  \"ice\": \"250849110147141\",\n  \"if_number\": \"00649390\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Location de matériel",
+          "quantity": 6,
+          "price": "966.86"
+        },
+        {
+          "description": "Formation professionnelle",
+          "quantity": 9,
+          "price": "991.95"
+        }
+      ],
+      "subtotal": "14728.71",
+      "tax": "2945.74",
+      "total": "17674.45",
+      "ice": "250849110147141",
+      "if_number": "00649390"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": "6",
+          "price": "5801.16"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "9",
+          "price": "8927.55"
+        }
+      ],
+      "subtotal": "14728.71",
+      "tax": "2945.74",
+      "total": "17674.45",
+      "ice": "250849110147141",
+      "if_number": "00649390",
+      "invoice_number": "FA-2816",
+      "date": "2025-09-27",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 14728.71 + tax 2945.74 = 17674.45, stated total 17674.45 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 1958.81, subtotal 14728.71 (difference 12769.90)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 20.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 1,\n      \"price\": \"1829.70\"\n    },\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 6,\n      \"price\": \"1558.88\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 5,\n      \"price\": \"1826.78\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 8,\n      \"price\": \"1466.67\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 3,\n      \"price\": \"63.11\"\n    }\n  ],\n  \"subtotal\": \"1829.70\",\n  \"tax\": \"9353.28\",\n  \"total\": \"32239.57\",\n  \"ice\": \"760298513142643\",\n  \"if_number\": \"59241576\",\n  \"invoice_number\": \"FA-8190\",\n  \"date\": \"08/06/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": 1,
+          "price": "1829.70"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": 6,
+          "price": "1558.88"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 5,
+          "price": "1826.78"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 8,
+          "price": "1466.67"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 3,
+          "price": "63.11"
+        }
+      ],
+      "subtotal": "1829.70",
+      "tax": "9353.28",
+      "total": "32239.57",
+      "ice": "760298513142643",
+      "if_number": "59241576",
+      "invoice_number": "FA-8190",
+      "date": "08/06/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": "1",
+          "price": "1829.70"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "6",
+          "price": "9353.28"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "5",
+          "price": "9133.90"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "8",
+          "price": "11733.36"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "3",
+          "price": "189.33"
+        }
+      ],
+      "subtotal": "32239.57",
+      "tax": "3223.96",
+      "total": "35463.53",
+      "ice": "760298513142643",
+      "if_number": "59241576",
+      "invoice_number": "FA-8190",
+      "date": "2026-06-08",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1829.70 + tax 9353.28 = 11182.98, stated total 32239.57 (difference 21056.59)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 6745.14, subtotal 1829.70 (difference 4915.44)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 511.19%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-06-08",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 4,\n      \"price\": \"1576.55\"\n    }\n  ],\n  \"subtotal\": \"6306.20\",\n  \"tax\": \"882.87\",\n  \"total\": \"7189.07\",\n  \"ice\": \"192968306546148\",\n  \"if_number\": \"38545855\",\n  \"invoice_number\": \"FA-3737\",\n  \"date\": \"07/08/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": 4,
+          "price": "1576.55"
+        }
+      ],
+      "subtotal": "6306.20",
+      "tax": "882.87",
+      "total": "7189.07",
+      "ice": "192968306546148",
+      "if_number": "38545855",
+      "invoice_number": "FA-3737",
+      "date": "07/08/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": "4",
+          "price": "6306.20"
+        }
+      ],
+      "subtotal": "6306.20",
+      "tax": "882.87",
+      "total": "7189.07",
+      "ice": "192968306546148",
+      "if_number": "38545855",
+      "invoice_number": "FA-3737",
+      "date": "2026-08-07",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 6306.20 + tax 882.87 = 7189.07, stated total 7189.07 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 1576.55, subtotal 6306.20 (difference 4729.65)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-08-07",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 9,\n      \"price\": \"75.06\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 3,\n      \"price\": \"272.22\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 4,\n      \"price\": \"895.56\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 7,\n      \"price\": \"1780.61\"\n    }\n  ],\n  \"subtotal\": \"17538.71\",\n  \"tax\": \"1753.87\",\n  \"total\": \"19292.58\",\n  \"ice\": \"4828626293202221\",\n  \"if_number\": \"48737595\",\n  \"invoice_number\": \"FA-8409\",\n  \"date\": \"10/01/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": 9,
+          "price": "75.06"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 3,
+          "price": "272.22"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 4,
+          "price": "895.56"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 7,
+          "price": "1780.61"
+        }
+      ],
+      "subtotal": "17538.71",
+      "tax": "1753.87",
+      "total": "19292.58",
+      "ice": "4828626293202221",
+      "if_number": "48737595",
+      "invoice_number": "FA-8409",
+      "date": "10/01/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": "9",
+          "price": "675.54"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "3",
+          "price": "816.66"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "4",
+          "price": "3582.24"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "7",
+          "price": "12464.27"
+        }
+      ],
+      "subtotal": "17538.71",
+      "tax": "1753.87",
+      "total": "19292.58",
+      "ice": "482862629320221",
+      "if_number": "48737595",
+      "invoice_number": "FA-8409",
+      "date": "2026-01-10",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 17538.71 + tax 1753.87 = 19292.58, stated total 19292.58 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 3023.45, subtotal 17538.71 (difference 14515.26)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-01-10",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "16 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 8,\n      \"price\": \"1549.92\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 1,\n      \"price\": \"1193.47\"\n    }\n  ],\n  \"subtotal\": \"13592.83\",\n  \"tax\": \"1359.28\",\n  \"total\": \"14952.11\",\n  \"ice\": \"078772491875515\",\n  \"if_number\": \"60598374\",\n  \"invoice_number\": \"FA-3911\",\n  \"date\": \"25/05/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": 8,
+          "price": "1549.92"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 1,
+          "price": "1193.47"
+        }
+      ],
+      "subtotal": "13592.83",
+      "tax": "1359.28",
+      "total": "14952.11",
+      "ice": "078772491875515",
+      "if_number": "60598374",
+      "invoice_number": "FA-3911",
+      "date": "25/05/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": "8",
+          "price": "12399.36"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "1",
+          "price": "1193.47"
+        }
+      ],
+      "subtotal": "13592.83",
+      "tax": "1359.28",
+      "total": "14952.11",
+      "ice": "078772491875515",
+      "if_number": "60598374",
+      "invoice_number": "FA-3911",
+      "date": "2026-05-25",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 13592.83 + tax 1359.28 = 14952.11, stated total 14952.11 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 2743.39, subtotal 13592.83 (difference 10849.44)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-05-25",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 7,\n      \"price\": \"1845.27\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 2,\n      \"price\": \"1057.83\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 10,\n      \"price\": \"1106.10\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 10,\n      \"price\": \"241.16\"\n    }\n  ],\n  \"subtotal\": \"28505.15\",\n  \"tax\": \"3990.72\",\n  \"total\": \"32495.87\",\n  \"ice\": \"090533721970743\",\n  \"if_number\": \"28209962\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": 7,
+          "price": "1845.27"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 2,
+          "price": "1057.83"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 10,
+          "price": "1106.10"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 10,
+          "price": "241.16"
+        }
+      ],
+      "subtotal": "28505.15",
+      "tax": "3990.72",
+      "total": "32495.87",
+      "ice": "090533721970743",
+      "if_number": "28209962"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": "7",
+          "price": "12916.89"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "2",
+          "price": "2115.66"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "10",
+          "price": "11061.00"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "10",
+          "price": "2411.60"
+        }
+      ],
+      "subtotal": "28505.15",
+      "tax": "3990.72",
+      "total": "32495.87",
+      "ice": "090533721970743",
+      "if_number": "28209962",
+      "invoice_number": "FA-4701",
+      "date": "2025-02-25",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 28505.15 + tax 3990.72 = 32495.87, stated total 32495.87 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 4250.36, subtotal 28505.15 (difference 24254.79)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 6,\n      \"price\": \"493.56\"\n    },\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 2,\n      \"price\": \"665.65\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 1,\n      \"price\": \"1101.34\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 6,\n      \"price\": \"1203.66\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 9,\n      \"price\": \"362.94\"\n    }\n  ],\n  \"subtotal\": \"15882.42\",\n  \"tax\": \"3176.48\",\n  \"total\": \"19058.90\",\n  \"ice\": \"513290330385643\",\n  \"if_number\": \"40628588\",\n  \"invoice_number\": \"FA-6960\",\n  \"date\": \"19/07/2025\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": 6,
+          "price": "493.56"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": 2,
+          "price": "665.65"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 1,
+          "price": "1101.34"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 6,
+          "price": "1203.66"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 9,
+          "price": "362.94"
+        }
+      ],
+      "subtotal": "15882.42",
+      "tax": "3176.48",
+      "total": "19058.90",
+      "ice": "513290330385643",
+      "if_number": "40628588",
+      "invoice_number": "FA-6960",
+      "date": "19/07/2025",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "6",
+          "price": "2961.36"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "2",
+          "price": "1331.30"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "1",
+          "price": "1101.34"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "6",
+          "price": "7221.96"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "9",
+          "price": "3266.46"
+        }
+      ],
+      "subtotal": "15882.42",
+      "tax": "3176.48",
+      "total": "19058.90",
+      "ice": "513290330385643",
+      "if_number": "40628588",
+      "invoice_number": "FA-6960",
+      "date": "2025-07-19",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 15882.42 + tax 3176.48 = 19058.90, stated total 19058.90 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 3827.15, subtotal 15882.42 (difference 12055.27)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 20.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-07-19",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 7,\n      \"price\": \"132.03\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 4,\n      \"price\": \"586.97\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 3,\n      \"price\": \"1977.98\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 5,\n      \"price\": \"637.69\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 1,\n      \"price\": \"1094.24\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 8,\n      \"price\": \"1198.84\"\n    }\n  ],\n  \"subtotal\": \"23079.44\",\n  \"tax\": \"3231.12\",\n  \"total\": \"26310.56\",\n  \"ice\": \"576183542741147\",\n  \"if_number\": \"07654089\",\n  \"invoice_number\": \"FA-9503\",\n  \"date\": \"21/06/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": 7,
+          "price": "132.03"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 4,
+          "price": "586.97"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 3,
+          "price": "1977.98"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 5,
+          "price": "637.69"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 1,
+          "price": "1094.24"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 8,
+          "price": "1198.84"
+        }
+      ],
+      "subtotal": "23079.44",
+      "tax": "3231.12",
+      "total": "26310.56",
+      "ice": "576183542741147",
+      "if_number": "07654089",
+      "invoice_number": "FA-9503",
+      "date": "21/06/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "7",
+          "price": "924.21"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "4",
+          "price": "2347.88"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "3",
+          "price": "5933.94"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "5",
+          "price": "3188.45"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "1",
+          "price": "1094.24"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "8",
+          "price": "9590.72"
+        }
+      ],
+      "subtotal": "23079.44",
+      "tax": "3231.12",
+      "total": "26310.56",
+      "ice": "576183542741147",
+      "if_number": "07654089",
+      "invoice_number": "FA-9503",
+      "date": "2026-06-21",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 23079.44 + tax 3231.12 = 26310.56, stated total 26310.56 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "6 line item(s) sum to 5627.75, subtotal 23079.44 (difference 17451.69)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-06-21",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"description\": \"Abonnement mensuel\",\n      \"quantity\": 1,\n      \"price\": \"70.65\"\n    },\n    {\n      \"description\": \"Location de matériel\",\n      \"quantity\": 10,\n      \"price\": \"185.17\"\n    }\n  ],\n  \"subtotal\": \"1851.70\",\n  \"tax\": \"192.24\",\n  \"total\": \"2114.59\",\n  \"ice\": \"238207457347452\",\n  \"if_number\": \"16622725\",\n  \"invoice_number\": \"FA-5069\",\n  \"date\": \"27/01/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Abonnement mensuel",
+          "quantity": 1,
+          "price": "70.65"
+        },
+        {
+          "description": "Location de matériel",
+          "quantity": 10,
+          "price": "185.17"
+        }
+      ],
+      "subtotal": "1851.70",
+      "tax": "192.24",
+      "total": "2114.59",
+      "ice": "238207457347452",
+      "if_number": "16622725",
+      "invoice_number": "FA-5069",
+      "date": "27/01/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "1",
+          "price": "70.65"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "10",
+          "price": "1851.70"
+        }
+      ],
+      "subtotal": "1922.35",
+      "tax": "192.24",
+      "total": "2114.59",
+      "ice": "238207457347452",
+      "if_number": "16622725",
+      "invoice_number": "FA-5069",
+      "date": "2026-01-27",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1851.70 + tax 192.24 = 2043.94, stated total 2114.59 (difference 70.65)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 255.82, subtotal 1851.70 (difference 1595.88)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.38%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-01-27",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 3,\n      \"price\": \"823.89\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 10,\n      \"price\": \"1462.70\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 5,\n      \"price\": \"1142.32\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 6,\n      \"price\": \"1449.75\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 3,\n      \"price\": \"1827.01\"\n    }\n  ],\n  \"subtotal\": \"36989.80\",\n  \"tax\": \"5178.57\",\n  \"total\": \"42168.37\",\n  \"ice\": \"193807619288384\",\n  \"if_number\": \"76331487\",\n  \"invoice_number\": \"FA-4639\",\n  \"date\": \"24/08/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": 3,
+          "price": "823.89"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 10,
+          "price": "1462.70"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 5,
+          "price": "1142.32"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 6,
+          "price": "1449.75"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 3,
+          "price": "1827.01"
+        }
+      ],
+      "subtotal": "36989.80",
+      "tax": "5178.57",
+      "total": "42168.37",
+      "ice": "193807619288384",
+      "if_number": "76331487",
+      "invoice_number": "FA-4639",
+      "date": "24/08/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": "3",
+          "price": "2471.67"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "10",
+          "price": "14627.00"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "5",
+          "price": "5711.60"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "6",
+          "price": "8698.50"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "3",
+          "price": "5481.03"
+        }
+      ],
+      "subtotal": "36989.80",
+      "tax": "5178.57",
+      "total": "42168.37",
+      "ice": "193807619288384",
+      "if_number": "76331487",
+      "invoice_number": "FA-4639",
+      "date": "2026-08-24",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 36989.80 + tax 5178.57 = 42168.37, stated total 42168.37 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 6705.67, subtotal 36989.80 (difference 30284.13)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-08-24",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n[\n  {\n    \"Désignation\": \"Fournitures de bureau\",\n    \"Qté\": 3,\n    \"P.U. (MAD)\": 1058.81,\n    \"Montant (MAD)\": 3176.43\n  },\n  {\n    \"Désignation\": \"Transport de marchandises\",\n    \"Qté\": 10,\n    \"P.U. (MAD)\": 497.63,\n    \"Montant (MAD)\": 4976.30\n  },\n  {\n    \"Désignation\": \"Installation électrique\",\n    \"Qté\": 8,\n    \"P.U. (MAD)\": 1936.50,\n    \"Montant (MAD)\": 15492.00\n  },\n  {\n    \"Désignation\": \"Abonnement mensuel\",\n    \"Qté\": 6,\n    \"P.U. (MAD)\": 296.44,\n    \"Montant (MAD)\": 1778.64\n  },\n  {\n    \"Désignation\": \"Services de nettoyage\",\n    \"Qté\": 4,\n    \"P.U. (MAD)\": 1536.41,\n    \"Montant (MAD)\": 6145.64\n  },\n  {\n    \"Désignation\": \"Impression de documents\",\n    \"Qté\": 2,\n    \"P.U. (MAD)\": 1397.16,\n    \"Montant (MAD)\": 2794.32\n  }\n]\n```",
+    "parsed": null,
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Fournitures de bureau",
+          "qty": "3",
+          "price": "3176.43"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "10",
+          "price": "4976.30"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "8",
+          "price": "15492.00"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "6",
+          "price": "1778.64"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "4",
+          "price": "6145.64"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": "2",
+          "price": "2794.32"
+        }
+      ],
+      "subtotal": "34363.33",
+      "tax": "3436.33",
+      "total": "37799.66",
+      "ice": "918160980572715",
+      "if_number": "92269693",
+      "invoice_number": "FA-7878",
+      "date": "2024-12-18",
+      "currency": "MAD"
+    },
+    "validation": null
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 6,\n      \"price\": \"571.92\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 8,\n      \"price\": \"303.86\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 10,\n      \"price\": \"545.07\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 5,\n      \"price\": \"1099.50\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 4,\n      \"price\": \"95.82\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 3,\n      \"price\": \"826.73\"\n    }\n  ],\n  \"subtotal\": \"19674.07\",\n  \"tax\": \"2754.37\",\n  \"total\": \"22428.44\",\n  \"ice\": \"944663063777303\",\n  \"if_number\": \"95682548\",\n  \"invoice_number\": \"FA-8018\",\n  \"date\": \"20/02/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": 6,
+          "price": "571.92"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 8,
+          "price": "303.86"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 10,
+          "price": "545.07"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 5,
+          "price": "1099.50"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 4,
+          "price": "95.82"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 3,
+          "price": "826.73"
+        }
+      ],
+      "subtotal": "19674.07",
+      "tax": "2754.37",
+      "total": "22428.44",
+      "ice": "944663063777303",
+      "if_number": "95682548",
+      "invoice_number": "FA-8018",
+      "date": "20/02/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": "6",
+          "price": "3431.52"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "8",
+          "price": "2430.88"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "10",
+          "price": "5450.70"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "5",
+          "price": "5497.50"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "4",
+          "price": "383.28"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "3",
+          "price": "2480.19"
+        }
+      ],
+      "subtotal": "19674.07",
+      "tax": "2754.37",
+      "total": "22428.44",
+      "ice": "944663063777303",
+      "if_number": "95682548",
+      "invoice_number": "FA-8018",
+      "date": "2026-02-20",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 19674.07 + tax 2754.37 = 22428.44, stated total 22428.44 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "6 line item(s) sum to 3442.90, subtotal 19674.07 (difference 16231.17)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-02-20",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 5,\n      \"price\": \"1763.34\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 8,\n      \"price\": \"269.06\"\n    }\n  ],\n  \"subtotal\": \"10969.18\",\n  \"tax\": \"20%\",\n  \"total\": \"13163.02\",\n  \"ice\": \"086914204356459\",\n  \"if_number\": \"51465688\",\n  \"invoice_number\": \"FA-2154\",\n  \"date\": \"06/09/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": 5,
+          "price": "1763.34"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 8,
+          "price": "269.06"
+        }
+      ],
+      "subtotal": "10969.18",
+      "tax": "20%",
+      "total": "13163.02",
+      "ice": "086914204356459",
+      "if_number": "51465688",
+      "invoice_number": "FA-2154",
+      "date": "06/09/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": "5",
+          "price": "8816.70"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "8",
+          "price": "2152.48"
+        }
+      ],
+      "subtotal": "10969.18",
+      "tax": "2193.84",
+      "total": "13163.02",
+      "ice": "086914204356459",
+      "if_number": "51465688",
+      "invoice_number": "FA-2154",
+      "date": "2026-09-06",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 10969.18 + tax 20.00 = 10989.18, stated total 13163.02 (difference 2173.84)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 2032.40, subtotal 10969.18 (difference 8936.78)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.18%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-09-06",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 4,\n      \"price\": \"1513.58\"\n    }\n  ],\n  \"subtotal\": \"1513.58\",\n  \"tax\": \"1513.58\",\n  \"total\": \"1513.58\",\n  \"ice\": \"407307215344958\",\n  \"if_number\": \"58517458\",\n  \"invoice_number\": \"FA-8834\",\n  \"date\": \"02/07/2025\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Prestation de conseil",
+          "qty": 4,
+          "price": "1513.58"
+        }
+      ],
+      "subtotal": "1513.58",
+      "tax": "1513.58",
+      "total": "1513.58",
+      "ice": "407307215344958",
+      "if_number": "58517458",
+      "invoice_number": "FA-8834",
+      "date": "02/07/2025",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Prestation de conseil",
+          "qty": "4",
+          "price": "6054.32"
+        }
+      ],
+      "subtotal": "6054.32",
+      "tax": "605.43",
+      "total": "6659.75",
+      "ice": "407307215344958",
+      "if_number": "58517458",
+      "invoice_number": "FA-8834",
+      "date": "2025-07-02",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1513.58 + tax 1513.58 = 3027.16, stated total 1513.58 (difference 1513.58)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 1513.58, subtotal 1513.58 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 100.00%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-07-02",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 8,\n      \"price\": \"1769.30\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 7,\n      \"price\": \"1340.26\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 5,\n      \"price\": \"277.58\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 8,\n      \"price\": \"819.24\"\n    }\n  ],\n  \"subtotal\": \"31478.04\",\n  \"tax\": \"2203.46\",\n  \"total\": \"33681.50\",\n  \"ice\": \"548869211034856\",\n  \"if_number\": \"27734637\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": 8,
+          "price": "1769.30"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 7,
+          "price": "1340.26"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 5,
+          "price": "277.58"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 8,
+          "price": "819.24"
+        }
+      ],
+      "subtotal": "31478.04",
+      "tax": "2203.46",
+      "total": "33681.50",
+      "ice": "548869211034856",
+      "if_number": "27734637"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": "8",
+          "price": "14154.40"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "7",
+          "price": "9381.82"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "5",
+          "price": "1387.90"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "8",
+          "price": "6553.92"
+        }
+      ],
+      "subtotal": "31478.04",
+      "tax": "2203.46",
+      "total": "33681.50",
+      "ice": "548869211034856",
+      "if_number": "27734637",
+      "invoice_number": "FA-9273",
+      "date": "2025-03-21",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 31478.04 + tax 2203.46 = 33681.50, stated total 33681.50 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 4206.38, subtotal 31478.04 (difference 27271.66)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 6,\n      \"price\": \"285.74\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 2,\n      \"price\": \"845.19\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 8,\n      \"price\": \"1304.84\"\n    }\n  ],\n  \"subtotal\": \"1714.44\",\n  \"tax\": \"1690.38\",\n  \"total\": \"15227.89\",\n  \"ice\": \"376902661921954\",\n  \"if_number\": \"55841394\",\n  \"invoice_number\": \"FA-8588\",\n  \"date\": \"27/01/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": 6,
+          "price": "285.74"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 2,
+          "price": "845.19"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 8,
+          "price": "1304.84"
+        }
+      ],
+      "subtotal": "1714.44",
+      "tax": "1690.38",
+      "total": "15227.89",
+      "ice": "376902661921954",
+      "if_number": "55841394",
+      "invoice_number": "FA-8588",
+      "date": "27/01/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": "6",
+          "price": "1714.44"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "2",
+          "price": "1690.38"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "8",
+          "price": "10438.72"
+        }
+      ],
+      "subtotal": "13843.54",
+      "tax": "1384.35",
+      "total": "15227.89",
+      "ice": "376902661921954",
+      "if_number": "55841394",
+      "invoice_number": "FA-8588",
+      "date": "2026-01-27",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1714.44 + tax 1690.38 = 3404.82, stated total 15227.89 (difference 11823.07)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 2435.77, subtotal 1714.44 (difference 721.33)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 98.60%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-01-27",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 3,\n      \"price\": \"816.86\"\n    }\n  ],\n  \"subtotal\": \"2450.58\",\n  \"tax\": \"343.08\",\n  \"total\": \"2793.66\",\n  \"ice\": \"545498605621648\",\n  \"if_number\": \"92740037\",\n  \"invoice_number\": \"FA-3725\",\n  \"date\": \"23/07/2025\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": 3,
+          "price": "816.86"
+        }
+      ],
+      "subtotal": "2450.58",
+      "tax": "343.08",
+      "total": "2793.66",
+      "ice": "545498605621648",
+      "if_number": "92740037",
+      "invoice_number": "FA-3725",
+      "date": "23/07/2025"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": "3",
+          "price": "2450.58"
+        }
+      ],
+      "subtotal": "2450.58",
+      "tax": "343.08",
+      "total": "2793.66",
+      "ice": "545498605621648",
+      "if_number": "92740037",
+      "invoice_number": "FA-3725",
+      "date": "2025-07-23",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 2450.58 + tax 343.08 = 2793.66, stated total 2793.66 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 816.86, subtotal 2450.58 (difference 1633.72)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-07-23",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"description\": \"Réparation véhicule\",\n      \"quantity\": 6,\n      \"price\": \"774.67\"\n    }\n  ],\n  \"subtotal\": \"4648.02\",\n  \"tax\": \"325.36\",\n  \"total\": \"4973.38\",\n  \"ice\": \"4317364211028002\",\n  \"if_number\": \"31995011\",\n  \"invoice_number\": \"FA-5622\",\n  \"date\": \"25/05/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Réparation véhicule",
+          "quantity": 6,
+          "price": "774.67"
+        }
+      ],
+      "subtotal": "4648.02",
+      "tax": "325.36",
+      "total": "4973.38",
+      "ice": "4317364211028002",
+      "if_number": "31995011",
+      "invoice_number": "FA-5622",
+      "date": "25/05/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Réparation véhicule",
+          "qty": "6",
+          "price": "4648.02"
+        }
+      ],
+      "subtotal": "4648.02",
+      "tax": "325.36",
+      "total": "4973.38",
+      "ice": "431736421102802",
+      "if_number": "31995011",
+      "invoice_number": "FA-5622",
+      "date": "2026-05-25",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 4648.02 + tax 325.36 = 4973.38, stated total 4973.38 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 774.67, subtotal 4648.02 (difference 3873.35)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-05-25",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "16 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 4,\n      \"price\": \"268.43\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 1,\n      \"price\": \"1938.54\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 5,\n      \"price\": \"603.35\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 10,\n      \"price\": \"1186.65\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 9,\n      \"price\": \"1209.38\"\n    }\n  ],\n  \"subtotal\": \"28779.93\",\n  \"tax\": \"28779.93 * 0.20 = 5755.99\",\n  \"total\": \"28779.93 + 5755.99 = 34535.92\",\n  \"ice\": \"3982415920429994\",\n  \"if_number\": \"44217967\",\n  \"invoice_number\": \"FA-3174\",\n  \"date\": \"04/06/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": 4,
+          "price": "268.43"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 1,
+          "price": "1938.54"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 5,
+          "price": "603.35"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 10,
+          "price": "1186.65"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 9,
+          "price": "1209.38"
+        }
+      ],
+      "subtotal": "28779.93",
+      "tax": "28779.93 * 0.20 = 5755.99",
+      "total": "28779.93 + 5755.99 = 34535.92",
+      "ice": "3982415920429994",
+      "if_number": "44217967",
+      "invoice_number": "FA-3174",
+      "date": "04/06/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Maintenance informatique",
+          "qty": "4",
+          "price": "1073.72"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "1",
+          "price": "1938.54"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "5",
+          "price": "3016.75"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "10",
+          "price": "11866.50"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "9",
+          "price": "10884.42"
+        }
+      ],
+      "subtotal": "28779.93",
+      "tax": "5755.99",
+      "total": "34535.92",
+      "ice": "398241592042994",
+      "if_number": "44217967",
+      "invoice_number": "FA-3174",
+      "date": "2026-06-04",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 28779.93 + tax 28779930205755.99 = 28779930234535.92, stated total 287799357559934528.00 (difference 287770577629700000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 5206.35, subtotal 28779.93 (difference 23573.58)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 100000000714.93%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-06-04",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "16 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 5,\n      \"price\": \"1537.97\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 1,\n      \"price\": \"1087.82\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 7,\n      \"price\": \"276.13\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 4,\n      \"price\": \"1926.43\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 4,\n      \"price\": \"1311.53\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 9,\n      \"price\": \"374.28\"\n    }\n  ],\n  \"subtotal\": \"27030.94\",\n  \"tax\": \"3784.33\",\n  \"total\": \"30815.27\",\n  \"ice\": \"857096096040014\",\n  \"if_number\": \"29759204\",\n  \"invoice_number\": \"FA-2552\",\n  \"date\": \"23/04/2025\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": 5,
+          "price": "1537.97"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 1,
+          "price": "1087.82"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 7,
+          "price": "276.13"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 4,
+          "price": "1926.43"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 4,
+          "price": "1311.53"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 9,
+          "price": "374.28"
+        }
+      ],
+      "subtotal": "27030.94",
+      "tax": "3784.33",
+      "total": "30815.27",
+      "ice": "857096096040014",
+      "if_number": "29759204",
+      "invoice_number": "FA-2552",
+      "date": "23/04/2025"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": "5",
+          "price": "7689.85"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "1",
+          "price": "1087.82"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "7",
+          "price": "1932.91"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "4",
+          "price": "7705.72"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "4",
+          "price": "5246.12"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "9",
+          "price": "3368.52"
+        }
+      ],
+      "subtotal": "27030.94",
+      "tax": "3784.33",
+      "total": "30815.27",
+      "ice": "857096096040014",
+      "if_number": "29759204",
+      "invoice_number": "FA-2552",
+      "date": "2025-04-23",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 27030.94 + tax 3784.33 = 30815.27, stated total 30815.27 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "6 line item(s) sum to 6514.16, subtotal 27030.94 (difference 20516.78)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-04-23",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"designation\": \"Impression de documents\",\n      \"qty\": 5,\n      \"price\": \"1012.00\"\n    },\n    {\n      \"designation\": \"Abonnement mensuel\",\n      \"qty\": 4,\n      \"price\": \"1939.72\"\n    },\n    {\n      \"designation\": \"Maintenance informatique\",\n      \"qty\": 6,\n      \"price\": \"1311.16\"\n    }\n  ],\n  \"subtotal\": \"1012.00 + 1939.72 + 1311.16 = 3262.88\",\n  \"tax\": \"3262.88 * 10% = 326.288\",\n  \"total\": \"3262.88 + 326.288 = 3589.176\",\n  \"ice\": \"699799861157202\",\n  \"if_number\": \"83427893\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "designation": "Impression de documents",
+          "qty": 5,
+          "price": "1012.00"
+        },
+        {
+          "designation": "Abonnement mensuel",
+          "qty": 4,
+          "price": "1939.72"
+        },
+        {
+          "designation": "Maintenance informatique",
+          "qty": 6,
+          "price": "1311.16"
+        }
+      ],
+      "subtotal": "1012.00 + 1939.72 + 1311.16 = 3262.88",
+      "tax": "3262.88 * 10% = 326.288",
+      "total": "3262.88 + 326.288 = 3589.176",
+      "ice": "699799861157202",
+      "if_number": "83427893"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": "5",
+          "price": "5060.00"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "4",
+          "price": "7758.88"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "6",
+          "price": "7866.96"
+        }
+      ],
+      "subtotal": "20685.84",
+      "tax": "2068.58",
+      "total": "22754.42",
+      "ice": "699799861157202",
+      "if_number": "83427893",
+      "invoice_number": "FA-5739",
+      "date": "2025-12-08",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1012001939721311223808.00 + tax 32628810326.29 = 1012001939753940025344.00, stated total 3262883262883589.00 (difference 1011998676870677135360.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 4262.88, subtotal 1012001939721311223808.00 (difference 1012001939721311223808.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 9,\n      \"price\": \"306.70\"\n    },\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 8,\n      \"price\": \"650.66\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 5,\n      \"price\": \"1631.78\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 10,\n      \"price\": \"1835.18\"\n    }\n  ],\n  \"subtotal\": \"34476.28\",\n  \"tax\": \"2413.34\",\n  \"total\": \"36889.62\",\n  \"ice\": \"358407331655752\",\n  \"if_number\": \"64158888\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": 9,
+          "price": "306.70"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": 8,
+          "price": "650.66"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 5,
+          "price": "1631.78"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 10,
+          "price": "1835.18"
+        }
+      ],
+      "subtotal": "34476.28",
+      "tax": "2413.34",
+      "total": "36889.62",
+      "ice": "358407331655752",
+      "if_number": "64158888"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": "9",
+          "price": "2760.30"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "8",
+          "price": "5205.28"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "5",
+          "price": "8158.90"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "10",
+          "price": "18351.80"
+        }
+      ],
+      "subtotal": "34476.28",
+      "tax": "2413.34",
+      "total": "36889.62",
+      "ice": "358407331655752",
+      "if_number": "64158888",
+      "invoice_number": "FA-2624",
+      "date": "2025-03-06",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 34476.28 + tax 2413.34 = 36889.62, stated total 36889.62 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 4424.32, subtotal 34476.28 (difference 30051.96)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"description\": \"Réparation véhicule\",\n      \"quantity\": 7,\n      \"price\": \"761.29\"\n    }\n  ],\n  \"subtotal\": \"5329.03\",\n  \"tax\": \"746.06\",\n  \"total\": \"6075.09\",\n  \"ice\": \"4267855222573734\",\n  \"if_number\": \"50962183\",\n  \"invoice_number\": \"FA-3650\",\n  \"date\": \"23/12/2024\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Réparation véhicule",
+          "quantity": 7,
+          "price": "761.29"
+        }
+      ],
+      "subtotal": "5329.03",
+      "tax": "746.06",
+      "total": "6075.09",
+      "ice": "4267855222573734",
+      "if_number": "50962183",
+      "invoice_number": "FA-3650",
+      "date": "23/12/2024"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Réparation véhicule",
+          "qty": "7",
+          "price": "5329.03"
+        }
+      ],
+      "subtotal": "5329.03",
+      "tax": "746.06",
+      "total": "6075.09",
+      "ice": "426785522573734",
+      "if_number": "50962183",
+      "invoice_number": "FA-3650",
+      "date": "2024-12-23",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 5329.03 + tax 746.06 = 6075.09, stated total 6075.09 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 761.29, subtotal 5329.03 (difference 4567.74)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2024-12-23",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "16 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"designation\": \"Développement logiciel\",\n      \"qty\": 5,\n      \"price\": \"709.61\"\n    },\n    {\n      \"designation\": \"Prestation de conseil\",\n      \"qty\": 9,\n      \"price\": \"994.73\"\n    },\n    {\n      \"designation\": \"Prestation de conseil\",\n      \"qty\": 4,\n      \"price\": \"1627.42\"\n    },\n    {\n      \"designation\": \"Prestation de conseil\",\n      \"qty\": 4,\n      \"price\": \"1272.18\"\n    }\n  ],\n  \"subtotal\": \"24099.02\",\n  \"tax\": \"20%\",\n  \"total\": \"28918.82\",\n  \"ice\": \"564814719942840\",\n  \"if_number\": \"56115422\",\n  \"invoice_number\": \"FA-8131\",\n  \"date\": \"27/10/2025\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "designation": "Développement logiciel",
+          "qty": 5,
+          "price": "709.61"
+        },
+        {
+          "designation": "Prestation de conseil",
+          "qty": 9,
+          "price": "994.73"
+        },
+        {
+          "designation": "Prestation de conseil",
+          "qty": 4,
+          "price": "1627.42"
+        },
+        {
+          "designation": "Prestation de conseil",
+          "qty": 4,
+          "price": "1272.18"
+        }
+      ],
+      "subtotal": "24099.02",
+      "tax": "20%",
+      "total": "28918.82",
+      "ice": "564814719942840",
+      "if_number": "56115422",
+      "invoice_number": "FA-8131",
+      "date": "27/10/2025"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "5",
+          "price": "3548.05"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "9",
+          "price": "8952.57"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "4",
+          "price": "6509.68"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "4",
+          "price": "5088.72"
+        }
+      ],
+      "subtotal": "24099.02",
+      "tax": "4819.80",
+      "total": "28918.82",
+      "ice": "564814719942840",
+      "if_number": "56115422",
+      "invoice_number": "FA-8131",
+      "date": "2025-10-27",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 24099.02 + tax 20.00 = 24119.02, stated total 28918.82 (difference 4799.80)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 4603.94, subtotal 24099.02 (difference 19495.08)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.08%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-10-27",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 10,\n      \"price\": \"1766.21\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 7,\n      \"price\": \"303.06\"\n    },\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 7,\n      \"price\": \"269.31\"\n    },\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 1,\n      \"price\": \"1528.48\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 5,\n      \"price\": \"464.76\"\n    }\n  ],\n  \"subtotal\": \"17662.10\",\n  \"tax\": \"2121.42\",\n  \"total\": \"30625.16\",\n  \"ice\": \"06519233341555\",\n  \"if_number\": \"81789702\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": 10,
+          "price": "1766.21"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 7,
+          "price": "303.06"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": 7,
+          "price": "269.31"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": 1,
+          "price": "1528.48"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 5,
+          "price": "464.76"
+        }
+      ],
+      "subtotal": "17662.10",
+      "tax": "2121.42",
+      "total": "30625.16",
+      "ice": "06519233341555",
+      "if_number": "81789702"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "10",
+          "price": "17662.10"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "7",
+          "price": "2121.42"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": "7",
+          "price": "1885.17"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": "1",
+          "price": "1528.48"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "5",
+          "price": "2323.80"
+        }
+      ],
+      "subtotal": "25520.97",
+      "tax": "5104.19",
+      "total": "30625.16",
+      "ice": "065192333341555",
+      "if_number": "81789702",
+      "invoice_number": "FA-7421",
+      "date": "2026-08-10",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 17662.10 + tax 2121.42 = 19783.52, stated total 30625.16 (difference 10841.64)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 4331.82, subtotal 17662.10 (difference 13330.28)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 12.01%, nearest standard Moroccan rate 14%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "14 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 4,\n      \"price\": \"564.55\"\n    },\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 8,\n      \"price\": \"607.64\"\n    }\n  ],\n  \"subtotal\": \"7119.32\",\n  \"tax\": \"498.35\",\n  \"total\": \"7617.67\",\n  \"ice\": \"727284011070758\",\n  \"if_number\": \"87800550\",\n  \"invoice_number\": \"FA-1993\",\n  \"date\": \"29/10/2024\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": 4,
+          "price": "564.55"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": 8,
+          "price": "607.64"
+        }
+      ],
+      "subtotal": "7119.32",
+      "tax": "498.35",
+      "total": "7617.67",
+      "ice": "727284011070758",
+      "if_number": "87800550",
+      "invoice_number": "FA-1993",
+      "date": "29/10/2024",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "4",
+          "price": "2258.20"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "8",
+          "price": "4861.12"
+        }
+      ],
+      "subtotal": "7119.32",
+      "tax": "498.35",
+      "total": "7617.67",
+      "ice": "727284011070758",
+      "if_number": "87800550",
+      "invoice_number": "FA-1993",
+      "date": "2024-10-29",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 7119.32 + tax 498.35 = 7617.67, stated total 7617.67 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 1172.19, subtotal 7119.32 (difference 5947.13)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2024-10-29",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 1,\n      \"price\": \"1199.50\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 7,\n      \"price\": \"1333.88\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 10,\n      \"price\": \"1081.83\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 2,\n      \"price\": \"222.79\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 10,\n      \"price\": \"61.77\"\n    }\n  ],\n  \"subtotal\": \"22418.24\",\n  \"tax\": \"4483.65\",\n  \"total\": \"26901.89\",\n  \"ice\": \"398966235771034\",\n  \"if_number\": \"67092774\",\n  \"invoice_number\": \"FA-1310\",\n  \"date\": \"20/11/2024\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": 1,
+          "price": "1199.50"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 7,
+          "price": "1333.88"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 10,
+          "price": "1081.83"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 2,
+          "price": "222.79"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 10,
+          "price": "61.77"
+        }
+      ],
+      "subtotal": "22418.24",
+      "tax": "4483.65",
+      "total": "26901.89",
+      "ice": "398966235771034",
+      "if_number": "67092774",
+      "invoice_number": "FA-1310",
+      "date": "20/11/2024",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": "1",
+          "price": "1199.50"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "7",
+          "price": "9337.16"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "10",
+          "price": "10818.30"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "2",
+          "price": "445.58"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "10",
+          "price": "617.70"
+        }
+      ],
+      "subtotal": "22418.24",
+      "tax": "4483.65",
+      "total": "26901.89",
+      "ice": "398966235771034",
+      "if_number": "67092774",
+      "invoice_number": "FA-1310",
+      "date": "2024-11-20",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 22418.24 + tax 4483.65 = 26901.89, stated total 26901.89 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 3899.77, subtotal 22418.24 (difference 18518.47)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 20.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2024-11-20",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 4,\n      \"price\": \"1745.77\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 8,\n      \"price\": \"493.72\"\n    },\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 10,\n      \"price\": \"1694.47\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 4,\n      \"price\": \"831.06\"\n    },\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 4,\n      \"price\": \"88.99\"\n    }\n  ],\n  \"subtotal\": \"31557.74\",\n  \"tax\": \"31557.74\",\n  \"total\": \"34713.51\",\n  \"ice\": \"450416703705890\",\n  \"if_number\": \"32226464\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": 4,
+          "price": "1745.77"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 8,
+          "price": "493.72"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": 10,
+          "price": "1694.47"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 4,
+          "price": "831.06"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": 4,
+          "price": "88.99"
+        }
+      ],
+      "subtotal": "31557.74",
+      "tax": "31557.74",
+      "total": "34713.51",
+      "ice": "450416703705890",
+      "if_number": "32226464"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": "4",
+          "price": "6983.08"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "8",
+          "price": "3949.76"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": "10",
+          "price": "16944.70"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "4",
+          "price": "3324.24"
+        },
+        {
+          "name": "Abonnement mensuel",
+          "qty": "4",
+          "price": "355.96"
+        }
+      ],
+      "subtotal": "31557.74",
+      "tax": "3155.77",
+      "total": "34713.51",
+      "ice": "450416703705890",
+      "if_number": "32226464",
+      "invoice_number": "FA-3368",
+      "date": "2025-10-26",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 31557.74 + tax 31557.74 = 63115.48, stated total 34713.51 (difference 28401.97)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 4854.01, subtotal 31557.74 (difference 26703.73)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 100.00%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Abonnement mensuel\",\n      \"qty\": 6,\n      \"price\": \"159.70\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 3,\n      \"price\": \"1879.95\"\n    },\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 3,\n      \"price\": \"110.78\"\n    }\n  ],\n  \"subtotal\": \"159.70 + 1879.95 + 110.78 = 2170.45\",\n  \"tax\": \"2170.45 * 7% = 1419.42\",\n  \"total\": \"2170.45 + 1419.42 = 3589.87\",\n  \"ice\": \"316081459654573\",\n  \"if_number\": \"02577698\",\n  \"invoice_number\": \"FA-6453\",\n  \"date\": \"08/10/2024\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": 6,
+          "price": "159.70"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 3,
+          "price": "1879.95"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": 3,
+          "price": "110.78"
+        }
+      ],
+      "subtotal": "159.70 + 1879.95 + 110.78 = 2170.45",
+      "tax": "2170.45 * 7% = 1419.42",
+      "total": "2170.45 + 1419.42 = 3589.87",
+      "ice": "316081459654573",
+      "if_number": "02577698",
+      "invoice_number": "FA-6453",
+      "date": "08/10/2024",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "6",
+          "price": "958.20"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "3",
+          "price": "5639.85"
+        },
+        {
+          "name": "Impression de documents",
+          "qty": "3",
+          "price": "332.34"
+        }
+      ],
+      "subtotal": "6930.39",
+      "tax": "485.13",
+      "total": "7415.52",
+      "ice": "316081459654573",
+      "if_number": "02577698",
+      "invoice_number": "FA-6453",
+      "date": "2024-10-08",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 15970187995110782976.00 + tax 21704571419.42 = 15970188016815353856.00, stated total 2170451419423589.75 (difference 15968017565395931136.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 2150.43, subtotal 15970187995110782976.00 (difference 15970187995110780928.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2024-10-08",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 10,\n      \"price\": \"706.22\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 1,\n      \"price\": \"1204.98\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 7,\n      \"price\": \"323.49\"\n    }\n  ],\n  \"subtotal\": \"7062.20\",\n  \"tax\": \"2106.32\",\n  \"total\": \"12637.93\",\n  \"ice\": \"4627757227488862\",\n  \"if_number\": \"88447328\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": 10,
+          "price": "706.22"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 1,
+          "price": "1204.98"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 7,
+          "price": "323.49"
+        }
+      ],
+      "subtotal": "7062.20",
+      "tax": "2106.32",
+      "total": "12637.93",
+      "ice": "4627757227488862",
+      "if_number": "88447328"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": "10",
+          "price": "7062.20"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "1",
+          "price": "1204.98"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "7",
+          "price": "2264.43"
+        }
+      ],
+      "subtotal": "10531.61",
+      "tax": "2106.32",
+      "total": "12637.93",
+      "ice": "462775722748862",
+      "if_number": "88447328",
+      "invoice_number": "FA-8151",
+      "date": "2025-04-10",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 7062.20 + tax 2106.32 = 9168.52, stated total 12637.93 (difference 3469.41)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 2234.69, subtotal 7062.20 (difference 4827.51)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 29.83%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "16 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 4,\n      \"price\": \"808.85\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 1,\n      \"price\": \"1213.58\"\n    }\n  ],\n  \"subtotal\": \"4448.98\",\n  \"tax\": \"311.43\",\n  \"total\": \"4760.41\",\n  \"ice\": \"324577826695522\",\n  \"if_number\": \"32243987\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": 4,
+          "price": "808.85"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 1,
+          "price": "1213.58"
+        }
+      ],
+      "subtotal": "4448.98",
+      "tax": "311.43",
+      "total": "4760.41",
+      "ice": "324577826695522",
+      "if_number": "32243987"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "4",
+          "price": "3235.40"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "1",
+          "price": "1213.58"
+        }
+      ],
+      "subtotal": "4448.98",
+      "tax": "311.43",
+      "total": "4760.41",
+      "ice": "324577826695522",
+      "if_number": "32243987",
+      "invoice_number": "FA-9584",
+      "date": "2025-03-15",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 4448.98 + tax 311.43 = 4760.41, stated total 4760.41 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 2022.43, subtotal 4448.98 (difference 2426.55)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 4,\n      \"price\": \"1028.58\"\n    },\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 10,\n      \"price\": \"1218.16\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 6,\n      \"price\": \"1310.37\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 1,\n      \"price\": \"979.17\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 6,\n      \"price\": \"1178.37\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 8,\n      \"price\": \"1160.65\"\n    }\n  ],\n  \"subtotal\": \"41492.73\",\n  \"tax\": \"5808.98\",\n  \"total\": \"47301.71\",\n  \"ice\": \"734659820922279\",\n  \"if_number\": \"74337437\",\n  \"invoice_number\": \"FA-6812\",\n  \"date\": \"24/06/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": 4,
+          "price": "1028.58"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": 10,
+          "price": "1218.16"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 6,
+          "price": "1310.37"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 1,
+          "price": "979.17"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 6,
+          "price": "1178.37"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 8,
+          "price": "1160.65"
+        }
+      ],
+      "subtotal": "41492.73",
+      "tax": "5808.98",
+      "total": "47301.71",
+      "ice": "734659820922279",
+      "if_number": "74337437",
+      "invoice_number": "FA-6812",
+      "date": "24/06/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Transport de marchandises",
+          "qty": "4",
+          "price": "4114.32"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "10",
+          "price": "12181.60"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "6",
+          "price": "7862.22"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "1",
+          "price": "979.17"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "6",
+          "price": "7070.22"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "8",
+          "price": "9285.20"
+        }
+      ],
+      "subtotal": "41492.73",
+      "tax": "5808.98",
+      "total": "47301.71",
+      "ice": "734659820922279",
+      "if_number": "74337437",
+      "invoice_number": "FA-6812",
+      "date": "2026-06-24",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 41492.73 + tax 5808.98 = 47301.71, stated total 47301.71 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "6 line item(s) sum to 6875.30, subtotal 41492.73 (difference 34617.43)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-06-24",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 7,\n      \"price\": \"1916.96\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 10,\n      \"price\": \"1844.77\"\n    },\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 1,\n      \"price\": \"1492.53\"\n    },\n    {\n      \"name\": \"Fournitures de bureau\",\n      \"qty\": 7,\n      \"price\": \"1445.73\"\n    }\n  ],\n  \"subtotal\": \"13418.72\",\n  \"tax\": \"18447.70\",\n  \"total\": \"49566.13\",\n  \"ice\": \"01600645753078\",\n  \"if_number\": \"77221024\",\n  \"invoice_number\": \"FA-2835\",\n  \"date\": \"27/03/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": 7,
+          "price": "1916.96"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 10,
+          "price": "1844.77"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": 1,
+          "price": "1492.53"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": 7,
+          "price": "1445.73"
+        }
+      ],
+      "subtotal": "13418.72",
+      "tax": "18447.70",
+      "total": "49566.13",
+      "ice": "01600645753078",
+      "if_number": "77221024",
+      "invoice_number": "FA-2835",
+      "date": "27/03/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": "7",
+          "price": "13418.72"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "10",
+          "price": "18447.70"
+        },
+        {
+          "name": "Prestation de conseil",
+          "qty": "1",
+          "price": "1492.53"
+        },
+        {
+          "name": "Fournitures de bureau",
+          "qty": "7",
+          "price": "10120.11"
+        }
+      ],
+      "subtotal": "43479.06",
+      "tax": "6087.07",
+      "total": "49566.13",
+      "ice": "016006454753078",
+      "if_number": "77221024",
+      "invoice_number": "FA-2835",
+      "date": "2026-03-27",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 13418.72 + tax 18447.70 = 31866.42, stated total 49566.13 (difference 17699.71)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 6699.99, subtotal 13418.72 (difference 6718.73)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 137.48%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-03-27",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "fail",
+          "detail": "14 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 3,\n      \"price\": \"1763.37\"\n    },\n    {\n      \"name\": \"Réparation véhicule\",\n      \"qty\": 10,\n      \"price\": \"433.93\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 10,\n      \"price\": \"1397.74\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 5,\n      \"price\": \"1030.09\"\n    }\n  ],\n  \"subtotal\": \"28757.26\",\n  \"tax\": \"4026.02\",\n  \"total\": \"32783.28\",\n  \"ice\": \"106855858471710\",\n  \"if_number\": \"97605825\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": 3,
+          "price": "1763.37"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": 10,
+          "price": "433.93"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 10,
+          "price": "1397.74"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 5,
+          "price": "1030.09"
+        }
+      ],
+      "subtotal": "28757.26",
+      "tax": "4026.02",
+      "total": "32783.28",
+      "ice": "106855858471710",
+      "if_number": "97605825"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "3",
+          "price": "5290.11"
+        },
+        {
+          "name": "Réparation véhicule",
+          "qty": "10",
+          "price": "4339.30"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "10",
+          "price": "13977.40"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "5",
+          "price": "5150.45"
+        }
+      ],
+      "subtotal": "28757.26",
+      "tax": "4026.02",
+      "total": "32783.28",
+      "ice": "106855858471710",
+      "if_number": "97605825",
+      "invoice_number": "FA-7179",
+      "date": "2026-05-23",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 28757.26 + tax 4026.02 = 32783.28, stated total 32783.28 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "4 line item(s) sum to 4625.13, subtotal 28757.26 (difference 24132.13)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 5,\n      \"price\": \"853.78\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 3,\n      \"price\": \"1759.40\"\n    }\n  ],\n  \"subtotal\": \"4268.90\",\n  \"tax\": \"5278.20\",\n  \"total\": \"9547.10\",\n  \"ice\": \"480052807592329\",\n  \"if_number\": \"83729295\",\n  \"invoice_number\": \"FA-9362\",\n  \"date\": \"19/06/2026\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Prestation de conseil",
+          "qty": 5,
+          "price": "853.78"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 3,
+          "price": "1759.40"
+        }
+      ],
+      "subtotal": "4268.90",
+      "tax": "5278.20",
+      "total": "9547.10",
+      "ice": "480052807592329",
+      "if_number": "83729295",
+      "invoice_number": "FA-9362",
+      "date": "19/06/2026",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Prestation de conseil",
+          "qty": "5",
+          "price": "4268.90"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "3",
+          "price": "5278.20"
+        }
+      ],
+      "subtotal": "9547.10",
+      "tax": "954.71",
+      "total": "10501.81",
+      "ice": "480052807592329",
+      "if_number": "83729295",
+      "invoice_number": "FA-9362",
+      "date": "2026-06-19",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 4268.90 + tax 5278.20 = 9547.10, stated total 9547.10 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 2613.18, subtotal 4268.90 (difference 1655.72)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 123.64%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-06-19",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 8,\n      \"price\": \"407.41\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 10,\n      \"price\": \"1892.60\"\n    },\n    {\n      \"name\": \"Maintenance informatique\",\n      \"qty\": 1,\n      \"price\": \"80.99\"\n    }\n  ],\n  \"subtotal\": \"22266.27\",\n  \"tax\": \"3117.28\",\n  \"total\": \"25383.55\",\n  \"ice\": \"447859541078940\",\n  \"if_number\": \"50150055\",\n  \"invoice_number\": \"FA-4456\",\n  \"date\": \"09/04/2026\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": 8,
+          "price": "407.41"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 10,
+          "price": "1892.60"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": 1,
+          "price": "80.99"
+        }
+      ],
+      "subtotal": "22266.27",
+      "tax": "3117.28",
+      "total": "25383.55",
+      "ice": "447859541078940",
+      "if_number": "50150055",
+      "invoice_number": "FA-4456",
+      "date": "09/04/2026"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Formation professionnelle",
+          "qty": "8",
+          "price": "3259.28"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "10",
+          "price": "18926.00"
+        },
+        {
+          "name": "Maintenance informatique",
+          "qty": "1",
+          "price": "80.99"
+        }
+      ],
+      "subtotal": "22266.27",
+      "tax": "3117.28",
+      "total": "25383.55",
+      "ice": "447859541078940",
+      "if_number": "50150055",
+      "invoice_number": "FA-4456",
+      "date": "2026-04-09",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 22266.27 + tax 3117.28 = 25383.55, stated total 25383.55 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 2381.00, subtotal 22266.27 (difference 19885.27)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 14.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2026-04-09",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 7,\n      \"price\": \"990.63\"\n    }\n  ],\n  \"subtotal\": \"6934.41\",\n  \"tax\": \"693.44\",\n  \"total\": \"7627.85\",\n  \"ice\": \"578104802646814\",\n  \"if_number\": \"29094220\",\n  \"invoice_number\": \"FA-9450\",\n  \"date\": \"07/01/2025\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": 7,
+          "price": "990.63"
+        }
+      ],
+      "subtotal": "6934.41",
+      "tax": "693.44",
+      "total": "7627.85",
+      "ice": "578104802646814",
+      "if_number": "29094220",
+      "invoice_number": "FA-9450",
+      "date": "07/01/2025",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "7",
+          "price": "6934.41"
+        }
+      ],
+      "subtotal": "6934.41",
+      "tax": "693.44",
+      "total": "7627.85",
+      "ice": "578104802646814",
+      "if_number": "29094220",
+      "invoice_number": "FA-9450",
+      "date": "2025-01-07",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 6934.41 + tax 693.44 = 7627.85, stated total 7627.85 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 990.63, subtotal 6934.41 (difference 5943.78)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-01-07",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"description\": \"Location de matériel\",\n      \"quantity\": 10,\n      \"price\": \"1190.88\"\n    },\n    {\n      \"description\": \"Installation électrique\",\n      \"quantity\": 3,\n      \"price\": \"1163.10\"\n    }\n  ],\n  \"subtotal\": \"1190.88 + 1163.10 = 2353.98\",\n  \"tax\": \"2353.98 * 7% = 1647.59\",\n  \"total\": \"1647.59 + 1077.87 = 2725.46\",\n  \"ice\": \"656716030288736\",\n  \"if_number\": \"70914325\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "description": "Location de matériel",
+          "quantity": 10,
+          "price": "1190.88"
+        },
+        {
+          "description": "Installation électrique",
+          "quantity": 3,
+          "price": "1163.10"
+        }
+      ],
+      "subtotal": "1190.88 + 1163.10 = 2353.98",
+      "tax": "2353.98 * 7% = 1647.59",
+      "total": "1647.59 + 1077.87 = 2725.46",
+      "ice": "656716030288736",
+      "if_number": "70914325"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Location de matériel",
+          "qty": "10",
+          "price": "11908.80"
+        },
+        {
+          "name": "Installation électrique",
+          "qty": "3",
+          "price": "3489.30"
+        }
+      ],
+      "subtotal": "15398.10",
+      "tax": "1077.87",
+      "total": "16475.97",
+      "ice": "656716030288736",
+      "if_number": "70914325",
+      "invoice_number": "FA-8408",
+      "date": "2025-07-24",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1190881163102354.00 + tax 23539871647.59 = 1190904702974001.50, stated total 1647591077872725.50 (difference 456686374898724.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 2353.98, subtotal 1190881163102354.00 (difference 1190881163100000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Installation électrique\",\n      \"qty\": 3,\n      \"price\": \"195.68\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 1,\n      \"price\": \"1477.92\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 2,\n      \"price\": \"1978.48\"\n    },\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 7,\n      \"price\": \"372.76\"\n    },\n    {\n      \"name\": \"Transport de marchandises\",\n      \"qty\": 8,\n      \"price\": \"1835.76\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 10,\n      \"price\": \"386.51\"\n    }\n  ],\n  \"subtotal\": \"27182.42\",\n  \"tax\": \"1902.77\",\n  \"total\": \"29085.19\",\n  \"ice\": \"090555280896577\",\n  \"if_number\": \"75180872\",\n  \"invoice_number\": \"FA-1645\",\n  \"date\": \"08/10/2024\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": 3,
+          "price": "195.68"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 1,
+          "price": "1477.92"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 2,
+          "price": "1978.48"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": 7,
+          "price": "372.76"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": 8,
+          "price": "1835.76"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 10,
+          "price": "386.51"
+        }
+      ],
+      "subtotal": "27182.42",
+      "tax": "1902.77",
+      "total": "29085.19",
+      "ice": "090555280896577",
+      "if_number": "75180872",
+      "invoice_number": "FA-1645",
+      "date": "08/10/2024"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Installation électrique",
+          "qty": "3",
+          "price": "587.04"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "1",
+          "price": "1477.92"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "2",
+          "price": "3956.96"
+        },
+        {
+          "name": "Développement logiciel",
+          "qty": "7",
+          "price": "2609.32"
+        },
+        {
+          "name": "Transport de marchandises",
+          "qty": "8",
+          "price": "14686.08"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "10",
+          "price": "3865.10"
+        }
+      ],
+      "subtotal": "27182.42",
+      "tax": "1902.77",
+      "total": "29085.19",
+      "ice": "090555280896577",
+      "if_number": "75180872",
+      "invoice_number": "FA-1645",
+      "date": "2024-10-08",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 27182.42 + tax 1902.77 = 29085.19, stated total 29085.19 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "6 line item(s) sum to 6247.11, subtotal 27182.42 (difference 20935.31)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2024-10-08",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Impression de documents\",\n      \"qty\": 4,\n      \"price\": \"1036.06\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 10,\n      \"price\": \"1438.93\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 9,\n      \"price\": \"1394.11\"\n    },\n    {\n      \"name\": \"Location de matériel\",\n      \"qty\": 9,\n      \"price\": \"1371.58\"\n    },\n    {\n      \"name\": \"Formation professionnelle\",\n      \"qty\": 3,\n      \"price\": \"1679.56\"\n    }\n  ],\n  \"subtotal\": \"4144.24\",\n  \"tax\": \"3392.44\",\n  \"total\": \"51855.87\",\n  \"ice\": \"854995627909474\",\n  \"if_number\": \"91574030\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": 4,
+          "price": "1036.06"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 10,
+          "price": "1438.93"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 9,
+          "price": "1394.11"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": 9,
+          "price": "1371.58"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": 3,
+          "price": "1679.56"
+        }
+      ],
+      "subtotal": "4144.24",
+      "tax": "3392.44",
+      "total": "51855.87",
+      "ice": "854995627909474",
+      "if_number": "91574030"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Impression de documents",
+          "qty": "4",
+          "price": "4144.24"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "10",
+          "price": "14389.30"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "9",
+          "price": "12546.99"
+        },
+        {
+          "name": "Location de matériel",
+          "qty": "9",
+          "price": "12344.22"
+        },
+        {
+          "name": "Formation professionnelle",
+          "qty": "3",
+          "price": "5038.68"
+        }
+      ],
+      "subtotal": "48463.43",
+      "tax": "3392.44",
+      "total": "51855.87",
+      "ice": "854995627909474",
+      "if_number": "91574030",
+      "invoice_number": "FA-1362",
+      "date": "2026-05-04",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 4144.24 + tax 3392.44 = 7536.68, stated total 51855.87 (difference 44319.19)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "5 line item(s) sum to 6920.24, subtotal 4144.24 (difference 2776.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 81.86%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 6,\n      \"price\": \"170.91\"\n    },\n    {\n      \"name\": \"Services de nettoyage\",\n      \"qty\": 2,\n      \"price\": \"1198.42\"\n    }\n  ],\n  \"subtotal\": \"3422.30\",\n  \"tax\": \"239.56\",\n  \"total\": \"3661.86\",\n  \"ice\": \"427309082944447\",\n  \"if_number\": \"32601529\",\n  \"invoice_number\": \"FA-4250\",\n  \"date\": \"08/09/2025\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": 6,
+          "price": "170.91"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": 2,
+          "price": "1198.42"
+        }
+      ],
+      "subtotal": "3422.30",
+      "tax": "239.56",
+      "total": "3661.86",
+      "ice": "427309082944447",
+      "if_number": "32601529",
+      "invoice_number": "FA-4250",
+      "date": "08/09/2025"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "6",
+          "price": "1025.46"
+        },
+        {
+          "name": "Services de nettoyage",
+          "qty": "2",
+          "price": "2396.84"
+        }
+      ],
+      "subtotal": "3422.30",
+      "tax": "239.56",
+      "total": "3661.86",
+      "ice": "427309082944447",
+      "if_number": "32601529",
+      "invoice_number": "FA-4250",
+      "date": "2025-09-08",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 3422.30 + tax 239.56 = 3661.86, stated total 3661.86 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 1369.33, subtotal 3422.30 (difference 2052.97)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 7.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-09-08",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Développement logiciel\",\n      \"qty\": 9,\n      \"price\": \"1127.86\"\n    }\n  ],\n  \"subtotal\": \"10150.74\",\n  \"tax\": \"14%\",\n  \"total\": \"11571.84\",\n  \"ice\": \"378653208132526\",\n  \"if_number\": \"01380824\",\n  \"invoice_number\": \"FA-9568\",\n  \"date\": \"28/04/2025\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": 9,
+          "price": "1127.86"
+        }
+      ],
+      "subtotal": "10150.74",
+      "tax": "14%",
+      "total": "11571.84",
+      "ice": "378653208132526",
+      "if_number": "01380824",
+      "invoice_number": "FA-9568",
+      "date": "28/04/2025"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Développement logiciel",
+          "qty": "9",
+          "price": "10150.74"
+        }
+      ],
+      "subtotal": "10150.74",
+      "tax": "1421.10",
+      "total": "11571.84",
+      "ice": "378653208132526",
+      "if_number": "01380824",
+      "invoice_number": "FA-9568",
+      "date": "2025-04-28",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 10150.74 + tax 14.00 = 10164.74, stated total 11571.84 (difference 1407.10)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 1127.86, subtotal 10150.74 (difference 9022.88)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.14%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-04-28",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n[\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n    \"qty\": 3,\n    \"price\": 372.80\n  },\n  {\n    \"name\": \"Abonnement mensuel\",\n   ",
+    "parsed": {
+      "name": "Abonnement mensuel",
+      "qty": 3,
+      "price": 372.8
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Abonnement mensuel",
+          "qty": "3",
+          "price": "1118.40"
+        }
+      ],
+      "subtotal": "1118.40",
+      "tax": "78.29",
+      "total": "1196.69",
+      "ice": "561811690701041",
+      "if_number": "54349869",
+      "invoice_number": "FA-7398",
+      "date": "2025-04-28",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "fail",
+          "detail": "missing: total",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax, total",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: no line items extracted",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "```json\n{\n  \"items\": [\n    {\n      \"name\": \"Prestation de conseil\",\n      \"qty\": 5,\n      \"price\": \"1389.64\"\n    }\n  ],\n  \"subtotal\": \"1389.64\",\n  \"tax\": \"1389.64\",\n  \"total\": \"1389.64\",\n  \"ice\": \"743547080868727\",\n  \"if_number\": \"50497714\",\n  \"invoice_number\": \"FA-8400\",\n  \"date\": \"12/08/2025\",\n  \"currency\": \"MAD\"\n}\n```",
+    "parsed": {
+      "items": [
+        {
+          "name": "Prestation de conseil",
+          "qty": 5,
+          "price": "1389.64"
+        }
+      ],
+      "subtotal": "1389.64",
+      "tax": "1389.64",
+      "total": "1389.64",
+      "ice": "743547080868727",
+      "if_number": "50497714",
+      "invoice_number": "FA-8400",
+      "date": "12/08/2025",
+      "currency": "MAD"
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Prestation de conseil",
+          "qty": "5",
+          "price": "6948.20"
+        }
+      ],
+      "subtotal": "6948.20",
+      "tax": "1389.64",
+      "total": "8337.84",
+      "ice": "743547080868727",
+      "if_number": "50497714",
+      "invoice_number": "FA-8400",
+      "date": "2025-08-12",
+      "currency": "MAD"
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 1389.64 + tax 1389.64 = 2779.28, stated total 1389.64 (difference 1389.64)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 1389.64, subtotal 1389.64 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 100.00%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "pass",
+          "detail": "2025-08-12",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "pass",
+          "detail": "15 digits (expected 15)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "pass",
+          "detail": "8 digits (expected 7-9)",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "pass",
+          "detail": "MAD",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  }
+]

@@ -172,6 +172,22 @@ survive contact with a real document.
 The generator asserts that `unit_price × quantity = line_total`, so the distractor is
 arithmetically real rather than a random decoy.
 
+**It worked, and the effect is large.** On the synthetic test set the base model scores 0.095
+F1 on line items while scoring 0.816 on `total` and 0.980 on `if_number`. Classifying every
+predicted line against what it could have come from
+([`scripts/inspect_items.py`](../scripts/inspect_items.py)):
+
+| Outcome | Count |
+|---|---|
+| price = **unit price** (read the P.U. column) | **104** |
+| price wrong for another reason | 20 |
+| name did not match any gold line | 17 |
+| price correct (read the Montant column) | 13 |
+
+Eight times out of nine, when the model got a line wrong, it was because it took the unit
+price. A synthetic set without the distractor would have reported line-item F1 somewhere near
+the scalar fields and been badly misleading about how this model behaves on a real invoice.
+
 ### Train and test synthetic invoices use disjoint seeds
 
 Faker is deterministic: the same seed produces a byte-identical invoice. Training draws from

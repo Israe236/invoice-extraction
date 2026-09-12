@@ -1,0 +1,79 @@
+{
+  "ok": true,
+  "extraction": {
+    "items": [
+      {
+        "description": "Services de nettoyage",
+        "quantity": 6,
+        "price": "645.30"
+      }
+    ],
+    "subtotal": "645.30",
+    "tax": "3871.80",
+    "total": "4413.85",
+    "ice": "040978053964059",
+    "if_number": "80947950"
+  },
+  "validation": {
+    "valid": false,
+    "severity": "error",
+    "needs_review": true,
+    "unverified": [
+      "date_valid",
+      "currency_known"
+    ],
+    "checks": [
+      {
+        "check": "required_fields",
+        "status": "pass",
+        "detail": "all required fields present",
+        "on_fail": "error"
+      },
+      {
+        "check": "tax_arithmetic",
+        "status": "fail",
+        "detail": "subtotal 645.30 + tax 3871.80 = 4517.10, stated total 4413.85 (difference 103.25)",
+        "on_fail": "error"
+      },
+      {
+        "check": "items_sum",
+        "status": "pass",
+        "detail": "1 line item(s) sum to 645.30, subtotal 645.30 (difference 0.00)",
+        "on_fail": "error"
+      },
+      {
+        "check": "tax_rate_plausible",
+        "status": "fail",
+        "detail": "implied VAT rate 600.00%, nearest standard Moroccan rate 20%",
+        "on_fail": "warning"
+      },
+      {
+        "check": "date_valid",
+        "status": "skipped",
+        "detail": "not checkable: no date extracted",
+        "on_fail": "warning"
+      },
+      {
+        "check": "ice_format",
+        "status": "pass",
+        "detail": "15 digits (expected 15)",
+        "on_fail": "warning"
+      },
+      {
+        "check": "if_format",
+        "status": "pass",
+        "detail": "8 digits (expected 7-9)",
+        "on_fail": "warning"
+      },
+      {
+        "check": "currency_known",
+        "status": "skipped",
+        "detail": "not checkable: no currency extracted",
+        "on_fail": "warning"
+      }
+    ]
+  },
+  "raw_output": "```json\n[\n  {\n    \"items\": [\n      {\n        \"description\": \"Services de nettoyage\",\n        \"quantity\": 6,\n        \"price\": \"645.30\"\n      }\n    ],\n    \"subtotal\": \"645.30\",\n    \"tax\": \"3871.80\",\n    \"total\": \"4413.85\",\n    \"ice\": \"040978053964059\",\n    \"if_number\": \"80947950\"\n  }\n]\n```",
+  "elapsed_seconds": 9.67,
+  "filename": "example_invoice.png"
+}

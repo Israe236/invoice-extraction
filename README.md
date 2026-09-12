@@ -63,13 +63,14 @@ The two halves are deliberately separable. The validation layer needs no GPU and
 
 ## Results
 
-> **Status:** the zero-shot baseline is measured. The fine-tuned column is pending a Kaggle
-> training run — see [Reproducing](#reproducing). Only measured numbers appear here; no cell
-> is filled in by estimation.
+> **Status:** the zero-shot baseline is measured on **both** test sets. The fine-tuned
+> column is pending a Kaggle training run — see [Reproducing](#reproducing-the-training).
+> Only measured numbers appear here; nothing is filled in by estimation.
 
-### Zero-shot baseline — CORD-v2 test split, 50 examples
+Both test sets, `Qwen2-VL-2B-Instruct`, 4-bit, no fine-tuning, `max_pixels=401408`, 50
+examples each, greedy decoding (`top_k=1`, so runs are deterministic).
 
-`Qwen2-VL-2B-Instruct`, 4-bit, no fine-tuning, `max_pixels=401408`.
+### CORD-v2 test split — real receipt photographs
 
 | Field | Precision | Recall | F1 | Support |
 |---|---|---|---|---|
@@ -77,73 +78,142 @@ The two halves are deliberately separable. The validation layer needs no GPU and
 | tax | 0.150 | 0.150 | **0.150** | 20 |
 | total | 0.800 | 0.340 | **0.478** | 47 |
 | items | 0.522 | 0.278 | **0.363** | 126 |
-| ice | — | — | n/a | 0 |
-| if_number | — | — | n/a | 0 |
-| invoice_number | — | — | n/a | 0 |
-| date | — | — | n/a | 0 |
-| currency | — | — | n/a | 0 |
+| ice, if_number, invoice_number, date, currency | — | — | n/a | 0 |
 | **micro-average** | | | **0.346** | |
 
-**JSON parse rate: 22/50 (44 %).** The base model failed to return parseable JSON on more
-than half the documents — after a repair pass that strips code fences, prose prefixes and
-trailing commas. This single number is the clearest argument for fine-tuning: a model that is
-sometimes accurate and often unparseable cannot be put in a workflow.
+**JSON parse rate: 22/50 (44 %).**
 
-`n/a` means **support 0** — CORD-v2 receipts carry no ICE, IF, invoice number, date or
-currency, so those fields were never tested here, rather than always wrong. They are measured
-on the synthetic test set instead, which is the whole reason the synthetic data exists.
+### Synthetic held-out invoices — French/Moroccan, seeds 900000+
 
-Raw per-example outputs: [`results/base_cord_predictions.json`](results/base_cord_predictions.json).
+| Field | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| subtotal | 0.688 | 0.660 | **0.673** | 50 |
+| tax | 0.688 | 0.660 | **0.673** | 50 |
+| total | 0.833 | 0.800 | **0.816** | 50 |
+| items | 0.097 | 0.093 | **0.095** | 161 |
+| ice | 0.854 | 0.820 | **0.837** | 50 |
+| if_number | 1.000 | 0.960 | **0.980** | 50 |
+| invoice_number | 1.000 | 0.680 | **0.809** | 50 |
+| date | 1.000 | 0.680 | **0.809** | 50 |
+| currency | 1.000 | 0.340 | **0.507** | 50 |
+| **micro-average** | | | **0.567** | |
+
+**JSON parse rate: 49/50 (98 %).**
+
+### What these numbers actually say
+
+**The parse rate gap is the story: 44 % on real photographs, 98 % on clean renders.** The
+base model does not fail on receipts because reading them is hard — it fails because it stops
+emitting JSON and starts writing prose. A model that is sometimes accurate and often
+unparseable cannot be put in a workflow, and this is the failure fine-tuning is best at
+fixing.
+
+**The base model is already decent at isolated scalar fields on a clean document.** IF
+0.980, ICE 0.837, invoice number and date 0.809. Precision is 1.000 on four fields and recall
+is what drags them down — when it answers, it is right; it just often declines to answer.
+Fine-tuning has less room to help here than expected, and saying so up front is more useful
+than a table that implies otherwise.
+
+**Line items collapse to 0.095, and the cause is measurable, not mysterious.** Running
+[`scripts/inspect_items.py`](scripts/inspect_items.py) over the saved predictions classifies
+every predicted line against what it could have come from:
+
+| Outcome | Count |
+|---|---|
+| price = **unit price** (read the P.U. column) | **104** |
+| price wrong for another reason | 20 |
+| name did not match any gold line | 17 |
+| price correct (read the Montant column) | 13 |
+
+The unit-price distractor column is responsible for the great majority of the failure. This
+is the trap the synthetic template deliberately sets, because every real invoice sets it too:
+
+```
+predicted: {"description": "Services de nettoyage", "quantity": 6, "price": "645.30"}
+gold     : {"name": "Services de nettoyage", "qty": "6",          "price": "3871.80"}
+```
+
+`645.30` is the unit price; `6 × 645.30 = 3871.80` is the line total. The model also renamed
+`name`→`description` and `qty`→`quantity` on some examples — schema adherence is a separate
+failure from reading accuracy, and both are things fine-tuning targets directly.
+
+`n/a` means **support 0**: CORD-v2 receipts carry no ICE, IF, invoice number, date or
+currency, so those fields were never tested there rather than always wrong. Measuring them is
+the entire reason the synthetic set exists.
+
+Raw per-example outputs, including the validation verdict for each:
+[`results/base_cord_predictions.json`](results/base_cord_predictions.json),
+[`results/base_synthetic_predictions.json`](results/base_synthetic_predictions.json).
 
 ---
 
 ## Example
+
+This is a **real request against the running API**, not an illustration. It is the base model
+(no adapter yet), and it shows precisely why the validation layer exists.
 
 Input — a generated Moroccan invoice (seed 900000, held-out test range), after photographic
 degradation:
 
 <img src="docs/assets/example_invoice.png" alt="Synthetic Moroccan invoice" width="520">
 
-Target output:
+What the model literally returned — note the code fence and the array wrapper, both of which
+the parser recovers from:
 
+````text
 ```json
-{
-  "items": [
-    { "name": "Services de nettoyage", "qty": "6", "price": "3871.80" }
-  ],
-  "subtotal": "3871.80",
-  "tax": "542.05",
-  "total": "4413.85",
-  "ice": "040978053964059",
-  "if_number": "80947950",
-  "invoice_number": "FA-7314",
-  "date": "2026-05-11",
-  "currency": "MAD"
-}
+[ { "items": [ { "description": "Services de nettoyage", "quantity": 6,
+                 "price": "645.30" } ],
+    "subtotal": "645.30", "tax": "3871.80", "total": "4413.85",
+    "ice": "040978053964059", "if_number": "80947950" } ]
 ```
+````
 
-Validation result attached by the API:
+Parsed, against the gold answer:
+
+| Field | Model | Gold | |
+|---|---|---|---|
+| line item price | `645.30` | `3871.80` | ✗ read the P.U. column |
+| subtotal | `645.30` | `3871.80` | ✗ same mistake |
+| tax | `3871.80` | `542.05` | ✗ shifted one row up |
+| total | `4413.85` | `4413.85` | ✓ |
+| ice | `040978053964059` | `040978053964059` | ✓ |
+| if_number | `80947950` | `80947950` | ✓ |
+| invoice_number, date, currency | missing | `FA-7314`, `2026-05-11`, `MAD` | ✗ not emitted |
+
+Every number the model produced is a number that genuinely appears on the document. Nothing
+looks obviously wrong. **This is the dangerous failure mode** — and the validation layer
+catches it with no reference answer, using only the document's own arithmetic:
 
 ```json
 {
-  "valid": true,
-  "severity": "ok",
-  "needs_review": false,
-  "unverified": [],
+  "valid": false,
+  "severity": "error",
+  "needs_review": true,
+  "unverified": ["date_valid", "currency_known"],
   "checks": [
-    { "check": "tax_arithmetic", "status": "pass",
-      "detail": "subtotal 3871.80 + tax 542.05 = 4413.85, stated total 4413.85 (difference 0.00)" },
-    { "check": "items_sum", "status": "pass",
-      "detail": "1 line item(s) sum to 3871.80, subtotal 3871.80 (difference 0.00)" },
-    { "check": "tax_rate_plausible", "status": "pass", "detail": "implied VAT rate 14.00%" },
-    { "check": "ice_format", "status": "pass", "detail": "15 digits (expected 15)" }
+    { "check": "tax_arithmetic", "status": "fail",
+      "detail": "subtotal 645.30 + tax 3871.80 = 4517.10, stated total 4413.85 (difference 103.25)" },
+    { "check": "tax_rate_plausible", "status": "fail",
+      "detail": "implied VAT rate 600.00%, nearest standard Moroccan rate 20%" },
+    { "check": "ice_format",  "status": "pass",    "detail": "15 digits (expected 15)" },
+    { "check": "if_format",   "status": "pass",    "detail": "8 digits (expected 7-9)" },
+    { "check": "items_sum",   "status": "pass",    "detail": "1 line item(s) sum to 645.30, subtotal 645.30" },
+    { "check": "date_valid",  "status": "skipped", "detail": "not checkable: no date extracted" }
   ]
 }
 ```
 
-Note the unit-price column (`645.30`) on the rendered invoice. It is a **deliberate
-distractor**: real invoices always print one next to the line total, and grabbing the wrong
-column is the most common real-world extraction failure. Ground truth is the *Montant* column.
+`severity: "error"` — do not post this automatically. A 600 % VAT rate is not a subtle hint.
+
+Two details worth noticing. `items_sum` **passes**, because the model was self-consistently
+wrong: it put the unit price in both the line and the subtotal. One rule alone would have
+missed this; the rules catch it as a set. And `date_valid` is **skipped**, not failed — the
+model emitted no date, so the rule could not run, and reporting that as a violation would be
+a lie about what was checked.
+
+Full response: [`docs/assets/example_api_response.json`](docs/assets/example_api_response.json).
+Response time 22 s on the 6 GB laptop GPU.
 
 ---
 

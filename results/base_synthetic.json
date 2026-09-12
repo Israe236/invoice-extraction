@@ -1,0 +1,66 @@
+{
+  "n_examples": 50,
+  "n_parsed": 49,
+  "parse_rate": 0.98,
+  "micro_f1": 0.5673,
+  "fields": {
+    "subtotal": {
+      "precision": 0.6875,
+      "recall": 0.66,
+      "f1": 0.6735,
+      "support": 50
+    },
+    "tax": {
+      "precision": 0.6875,
+      "recall": 0.66,
+      "f1": 0.6735,
+      "support": 50
+    },
+    "total": {
+      "precision": 0.8333,
+      "recall": 0.8,
+      "f1": 0.8163,
+      "support": 50
+    },
+    "items": {
+      "precision": 0.0974,
+      "recall": 0.0932,
+      "f1": 0.0952,
+      "support": 161
+    },
+    "ice": {
+      "precision": 0.8542,
+      "recall": 0.82,
+      "f1": 0.8367,
+      "support": 50
+    },
+    "if_number": {
+      "precision": 1.0,
+      "recall": 0.96,
+      "f1": 0.9796,
+      "support": 50
+    },
+    "invoice_number": {
+      "precision": 1.0,
+      "recall": 0.68,
+      "f1": 0.8095,
+      "support": 50
+    },
+    "date": {
+      "precision": 1.0,
+      "recall": 0.68,
+      "f1": 0.8095,
+      "support": 50
+    },
+    "currency": {
+      "precision": 1.0,
+      "recall": 0.34,
+      "f1": 0.5075,
+      "support": 50
+    }
+  },
+  "model": "base",
+  "adapter": null,
+  "dataset": "synthetic",
+  "config": "configs/baseline.yaml"
+}
