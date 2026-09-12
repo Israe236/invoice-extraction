@@ -7,6 +7,10 @@ A small vision-language model (Qwen2-VL-2B) fine-tuned with 4-bit QLoRA on free 
 plus a deterministic validation layer that checks the extracted numbers against accounting
 rules — `Total HT + TVA = Total TTC`, line items summing to the subtotal, dates that are real.
 
+Everything runs on a 6 GB laptop GPU and Kaggle's free tier. The zero-shot baseline is
+measured and reported below; the fine-tuned column is still pending a training run, and is
+left empty rather than estimated.
+
 ---
 
 ## The problem
