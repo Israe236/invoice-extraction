@@ -102,9 +102,10 @@ for the part of the problem that is not broken.
 `nvidia-smi` reports **6141 MiB** on the RTX 4050 laptop GPU. Every decision below traces
 back to that number.
 
-- **Inference is local, training is not.** 4-bit inference uses ~1.7 GB measured, so all
-  evaluation runs on the laptop. A training step adds activations, gradients and optimiser
-  state; that goes to Kaggle's free tier (P100 16 GB or 2×T4, ~30 GPU-hours/week).
+- **Everything runs on the laptop — but training only after four fixes.** 4-bit inference
+  uses ~1.7 GB. A training step also holds activations, gradients and optimiser state, and
+  out of the box that did not fit. With the fixes in §10a it peaks at 4.16 GB and one epoch
+  takes 25 minutes. The Kaggle notebook stays as the path for anyone without a GPU.
 - **`max_pixels` is capped.** This is the single most important line in the config. Left
   uncapped, Qwen2-VL will happily turn a phone photo into several thousand visual tokens and
   OOM instantly.
@@ -381,40 +382,85 @@ multi-minute stall before the first training step on Kaggle.
 
 ---
 
-## 10a. Why training does not run on the local GPU
+## 10a. How training was made to fit on the local GPU
 
-This was attempted properly, and it does not work. The measurements, so nobody repeats them:
+This is the best debugging story in the project, partly because the first conclusion was
+wrong. An earlier version of this section said local training was impossible. It is not:
+the final run trained **one full epoch in 25 minutes on the 6 GB laptop card**.
 
-| Stage | Result |
+### The symptoms, which pointed the wrong way
+
+| Attempt | What happened |
 |---|---|
-| Free VRAM with the Windows desktop running | **4.88 GB of 6.00 GB** (the compositor holds ~1.1 GB) |
-| Model loaded, 4-bit, LoRA attached | 1.98 GB |
-| Forward+backward at `max_pixels=401408` | requested **12.21 GB** → CUDA OOM |
-| Forward+backward at `max_pixels=100352` (128 visual tokens) | `CUDA driver error: device not ready` |
-| Same, with `CUDA_LAUNCH_BLOCKING=1` | **the WSL2 VM itself crashed** (`Wsl/Service/E_UNEXPECTED`) |
+| Model loaded, 4-bit, LoRA attached | 1.98 GB — fine |
+| Forward+backward at `max_pixels=401408` | PyTorch reported **12.21 GB allocated** on a 6 GB card |
+| Same at 128 visual tokens | `CUDA driver error: device not ready` |
+| Same with `CUDA_LAUNCH_BLOCKING=1` | the WSL2 VM itself crashed |
 
-Gradient checkpointing was confirmed active on all 62 checkpointable modules, including the
-vision tower, and `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` was set. Neither helped.
+`device not ready` is not an out-of-memory message, so for a while it looked like a driver or
+kernel bug. Standalone SDPA and matmul forward+backward on the same GPU worked perfectly,
+and so did over a hundred inference generations. That was the clue that the problem was the
+*model setup*, not the hardware.
 
-Two things worth separating here:
+### The four real causes
 
-1. **The capacity problem is real but not the whole story.** At full resolution the backward
-   pass wants ~12 GB against ~2.9 GB of usable headroom. That alone rules out the configured
-   resolution.
-2. **The failure at 128 visual tokens is not a capacity problem.** `device not ready` is a
-   driver-level fault, not an out-of-memory error, and it appeared in the bitsandbytes 4-bit
-   backward kernel. Inference on the same GPU, in the same environment, ran over a hundred
-   generations and a live API without a single fault. Whatever this is, it is specific to the
-   4-bit *training* path on this driver (566.14) under WSL2's WDDM passthrough.
+**1. Allocations were spilling past the card into host RAM.** Windows keeps about 1.1 GB of
+the 6 GB for the desktop, so only ~4.9 GB is free. WSL2's GPU passthrough (WDDM) does not
+refuse an allocation past that — it oversubscribes into system RAM. That is how PyTorch could
+"allocate 12.21 GB" on a 6 GB card, and why the failure showed up as a driver fault or the
+host OOM-killer instead of a readable error. **Fix:** `torch.cuda.set_per_process_memory_fraction`
+set *below* the physically free memory (`cuda_memory_fraction: 0.82`). After that, every
+over-allocation failed as a clean, fast, honest OOM, and the real debugging could start.
 
-So the split stands, and now for a measured reason rather than an assumed one: **inference
-local, training on Kaggle.** `scripts/probe_train_memory.py` and
-`scripts/sweep_train_memory.sh` are kept so the experiment can be re-run in one command if
-the driver or bitsandbytes is updated.
+**2. The frozen vision tower was inside the autograd graph.** No vision weight is ever
+trained, but `prepare_model_for_kbit_training` calls `enable_input_require_grads`, which
+makes the embedding output require grad. The image features are written into that same
+tensor, so the whole vision encoder stayed in the graph — its activations kept for backward,
+and with gradient checkpointing, its entire forward re-run during backward. **Fix:** run the
+vision encoder under `torch.no_grad()` (`freeze_vision_tower`). The gradients reaching the
+LoRA adapters are identical, because they never flowed through the vision tower anyway.
 
-The general lesson: "it fits in VRAM" is not the same claim as "it trains". Inference memory
-told us almost nothing about training memory, and a clean inference run told us nothing at
-all about kernel stability in backward.
+**3. A frozen 0.87 GB tensor was stored in fp32.** The same helper upcasts every
+non-quantised parameter to fp32. For layer norms that helps stability. For Qwen's token
+embedding (151,936 × 1,536 = 233M parameters) it is 0.869 GB of waste on a tensor that never
+changes — found with `scripts/inspect_model_memory.py`, which breaks memory down by dtype.
+**Fix:** cast frozen fp32 parameters back to bf16, keeping the trainable LoRA weights in fp32.
+Saved 0.44 GB.
+
+**4. My own measurement script had gradient checkpointing switched off.** HuggingFace only
+checkpoints a layer when the module is in training mode, and the probe never called
+`model.train()`. Every number measured before that fix was worse than what `Trainer` actually
+runs. This is worth admitting in an interview: a measurement bug cost more time than any
+model bug.
+
+Two things tried that did **not** help, recorded so nobody repeats them: lowering resolution
+(the sequence is mostly text — 945 tokens at the smallest setting, only 192 of them visual)
+and Liger's fused cross-entropy (the patch reported success but never engaged on this
+transformers version — the probe checks whether logits were still materialised).
+
+### Result
+
+| Measurement | Value |
+|---|---|
+| Peak VRAM, full forward+backward, seq_len 1255 | **4.16 GB** (of ~4.9 GB free) |
+| Training time, 1 epoch, 1000 examples, 125 optimiser steps | **25 min** (1501 s) |
+| Throughput | 0.67 examples/s, ~10 s per step once warm |
+| Training loss, step 10 → step 120 | 0.113 → 0.030 (mean over the epoch 0.044) |
+
+For comparison, the earlier CORD-only run on a Kaggle T4 took about 2 h 04 m for 800
+examples. The laptop is faster, because with the fixes above it no longer wastes memory
+bandwidth on a graph it never uses.
+
+Also needed: WSL's default memory cap is half the host RAM (7.8 GB here), and loading the
+model peaked at 5.3 GB of host RAM. `~/.wslconfig` raises it to 11 GB with 8 GB of swap —
+a copy is in `docs/wslconfig.example`.
+
+The settings live in `configs/train_local.yaml`. `configs/train.yaml` and the Kaggle notebook
+still work unchanged for anyone without a local GPU.
+
+**The general lesson:** when an error message does not match the obvious cause, first make
+failures honest (here, the memory cap), then measure — and check that the measuring tool
+itself runs the same code path as the real thing.
 
 ---
 

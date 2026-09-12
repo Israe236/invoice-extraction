@@ -33,7 +33,7 @@ number, and here is whether the document's own arithmetic agrees with it".
 
 ```mermaid
 flowchart TB
-    subgraph training ["Training — free tier, Kaggle P100"]
+    subgraph training ["Training — local RTX 4050 6 GB, 25 min/epoch"]
         CORD["CORD-v2<br/>800 real receipt photos<br/>public dataset"]
         SYNTH["Synthetic generator<br/>Faker → Jinja → WeasyPrint<br/>→ raster → degrade<br/>200 FR/MA invoices"]
         CORD --> MIX["Unified 9-field schema"]
@@ -292,12 +292,31 @@ python -m invoice_extraction.baseline --dataset cord --adapter checkpoints/qwen2
 
 ## Reproducing the training
 
-Training does not fit in 6 GB, so it runs on Kaggle's free tier. This was measured, not
-assumed: the backward pass wants 12.21 GB against 4.88 GB of actually-free VRAM, and at a
-resolution low enough to fit it fails with a driver fault in the 4-bit backward kernel that
-takes the WSL VM down with it. Inference on the same card is completely stable. Details in
-[DECISIONS §10a](docs/DECISIONS.md#10a-why-training-does-not-run-on-the-local-gpu);
-re-runnable with `bash scripts/sweep_train_memory.sh`.
+### On a 6 GB local GPU (how the reported adapter was trained)
+
+```bash
+python -m invoice_extraction.train configs/train_local_smoke.yaml   # 3 steps, ~1 min
+python -m invoice_extraction.train configs/train_local.yaml         # 1 epoch, ~25 min
+```
+
+Measured on an RTX 4050 laptop GPU: peak 4.16 GB VRAM, 25 minutes for one epoch over 1000
+examples. It did not fit at first — the run died with `CUDA driver error: device not ready`.
+Four fixes made it fit: capping PyTorch below the VRAM Windows actually leaves free, running
+the frozen vision tower outside autograd, casting a frozen 0.87 GB fp32 embedding back to
+bf16, and making sure gradient checkpointing was really on. The whole debugging story is in
+[DECISIONS §10a](docs/DECISIONS.md#10a-how-training-was-made-to-fit-on-the-local-gpu).
+Under WSL2, raise the VM's memory first — see [`docs/wslconfig.example`](docs/wslconfig.example).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/loss_curve_dark.png">
+  <img src="docs/assets/loss_curve_light.png" alt="Training loss falls from 0.113 at step 10 to 0.030 at step 120 over one epoch" width="720">
+</picture>
+
+Training loss, logged every 10 optimiser steps. Raw values are in
+[`results/train_v2_log_history.json`](results/train_v2_log_history.json); the figure is
+regenerated from them by `python scripts/plot_results.py`.
+
+### On Kaggle's free tier (no local GPU)
 
 1. Upload [`notebooks/train_kaggle.ipynb`](notebooks/train_kaggle.ipynb) to Kaggle.
 2. Set **Accelerator → GPU P100** and **Internet → On**.
