@@ -31,7 +31,8 @@ from transformers import (
 )
 
 from invoice_extraction.data import extract_fields, load_cord_split, to_chat_example
-from invoice_extraction.render import iter_synthetic_examples
+from invoice_extraction.render import degrade, render_invoice
+from invoice_extraction.synthetic import generate_invoice_data, to_ground_truth
 
 
 @dataclass
@@ -96,8 +97,18 @@ def load_model_for_training(config: TrainConfig) -> tuple[PreTrainedModel, AutoP
 
 
 class CordDataset(Dataset):
+    """CORD-v2 receipts, decoded one at a time.
+
+    The HuggingFace `Dataset` is kept as-is rather than wrapped in `list(...)`.
+    Materialising it decodes all 800 receipt images into memory at once --
+    roughly 6 GB, since CORD photographs run up to 3020 px wide. That is fine
+    on a Kaggle node with 30 GB of RAM and fatal on an 8 GB laptop, where the
+    kernel OOM-killer terminates the run with no traceback right after the
+    weights finish loading. Indexing the dataset instead decodes lazily.
+    """
+
     def __init__(self, split: str):
-        self.rows = list(load_cord_split(split))
+        self.rows = load_cord_split(split)
 
     def __len__(self) -> int:
         return len(self.rows)
@@ -110,15 +121,25 @@ class CordDataset(Dataset):
 
 
 class SyntheticDataset(Dataset):
+    """Generated French/Moroccan invoices, rendered on demand.
+
+    Rendering is deterministic in the seed, so producing example `i` at access
+    time gives exactly the same document as pre-rendering the whole set would
+    have -- at a fraction of the memory, and without a multi-minute stall
+    before the first training step.
+    """
+
     def __init__(self, n: int, seed: int):
-        self.examples = list(iter_synthetic_examples(n, seed=seed))
+        self.n = n
+        self.seed = seed
 
     def __len__(self) -> int:
-        return len(self.examples)
+        return self.n
 
     def __getitem__(self, idx: int) -> dict:
-        messages = self.examples[idx]
-        return {"image": messages[0]["content"][0]["image"], "messages": messages}
+        invoice = generate_invoice_data(seed=self.seed + idx)
+        image = degrade(render_invoice(invoice), seed=self.seed + idx)
+        return {"image": image, "messages": to_chat_example(image, to_ground_truth(invoice))}
 
 
 def make_collate_fn(processor: AutoProcessor):

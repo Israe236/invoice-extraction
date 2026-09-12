@@ -1,0 +1,38 @@
+# Three optimiser steps over a handful of examples.
+#
+# Run this before committing a machine to a multi-hour training run. Every
+# failure that has cost a session so far -- Trainer stripping the collator's
+# columns, DataParallel corrupting 4-bit weights, a resolution that made one
+# step take almost four minutes -- shows up here within a few minutes instead
+# of two hours in.
+#
+#   python -m invoice_extraction.train configs/train_smoke.yaml
+#
+# Identical to configs/train.yaml except for the four settings at the bottom.
+
+model_id: Qwen/Qwen2-VL-2B-Instruct
+max_pixels: 401408
+min_pixels: 3136
+
+synthetic_seed: 42
+
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+learning_rate: 0.0002
+num_train_epochs: 1
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+optim: paged_adamw_8bit
+warmup_ratio: 0.03
+save_strategy: epoch
+seed: 42
+
+# --- smoke-test overrides ---
+max_steps: 3
+num_synthetic_examples: 4  # rendering 200 invoices takes minutes on its own
+logging_steps: 1
+output_dir: outputs/smoke_test  # gitignored

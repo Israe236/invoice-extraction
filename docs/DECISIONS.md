@@ -369,6 +369,53 @@ launching and leaving. The smoke-test cell in the Kaggle notebook exists because
 
 **The metric punished correct answers.** Covered in §7.
 
+**The dataset classes loaded everything into RAM.** `CordDataset.__init__` did
+`list(load_cord_split(split))`, which decodes all 800 CORD receipt photographs at once —
+around 6 GB, since they run up to 3020 px wide — and `SyntheticDataset` pre-rendered all 200
+invoices. On a Kaggle node with 30 GB of RAM this is invisible. On an 8 GB laptop the kernel
+OOM-killer terminates the process immediately after the weights finish loading, with **no
+traceback at all**, because SIGKILL does not raise. Fixed by indexing the HuggingFace dataset
+lazily and rendering synthetic invoices on demand; rendering is deterministic in the seed, so
+the examples are identical either way. Worth fixing regardless of machine — it also removed a
+multi-minute stall before the first training step on Kaggle.
+
+---
+
+## 10a. Why training does not run on the local GPU
+
+This was attempted properly, and it does not work. The measurements, so nobody repeats them:
+
+| Stage | Result |
+|---|---|
+| Free VRAM with the Windows desktop running | **4.88 GB of 6.00 GB** (the compositor holds ~1.1 GB) |
+| Model loaded, 4-bit, LoRA attached | 1.98 GB |
+| Forward+backward at `max_pixels=401408` | requested **12.21 GB** → CUDA OOM |
+| Forward+backward at `max_pixels=100352` (128 visual tokens) | `CUDA driver error: device not ready` |
+| Same, with `CUDA_LAUNCH_BLOCKING=1` | **the WSL2 VM itself crashed** (`Wsl/Service/E_UNEXPECTED`) |
+
+Gradient checkpointing was confirmed active on all 62 checkpointable modules, including the
+vision tower, and `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` was set. Neither helped.
+
+Two things worth separating here:
+
+1. **The capacity problem is real but not the whole story.** At full resolution the backward
+   pass wants ~12 GB against ~2.9 GB of usable headroom. That alone rules out the configured
+   resolution.
+2. **The failure at 128 visual tokens is not a capacity problem.** `device not ready` is a
+   driver-level fault, not an out-of-memory error, and it appeared in the bitsandbytes 4-bit
+   backward kernel. Inference on the same GPU, in the same environment, ran over a hundred
+   generations and a live API without a single fault. Whatever this is, it is specific to the
+   4-bit *training* path on this driver (566.14) under WSL2's WDDM passthrough.
+
+So the split stands, and now for a measured reason rather than an assumed one: **inference
+local, training on Kaggle.** `scripts/probe_train_memory.py` and
+`scripts/sweep_train_memory.sh` are kept so the experiment can be re-run in one command if
+the driver or bitsandbytes is updated.
+
+The general lesson: "it fits in VRAM" is not the same claim as "it trains". Inference memory
+told us almost nothing about training memory, and a clean inference run told us nothing at
+all about kernel stability in backward.
+
 ---
 
 ## 11. Why `uv`, and why the repo lives where it does

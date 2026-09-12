@@ -292,7 +292,12 @@ python -m invoice_extraction.baseline --dataset cord --adapter checkpoints/qwen2
 
 ## Reproducing the training
 
-Training does not fit in 6 GB, so it runs on Kaggle's free tier.
+Training does not fit in 6 GB, so it runs on Kaggle's free tier. This was measured, not
+assumed: the backward pass wants 12.21 GB against 4.88 GB of actually-free VRAM, and at a
+resolution low enough to fit it fails with a driver fault in the 4-bit backward kernel that
+takes the WSL VM down with it. Inference on the same card is completely stable. Details in
+[DECISIONS §10a](docs/DECISIONS.md#10a-why-training-does-not-run-on-the-local-gpu);
+re-runnable with `bash scripts/sweep_train_memory.sh`.
 
 1. Upload [`notebooks/train_kaggle.ipynb`](notebooks/train_kaggle.ipynb) to Kaggle.
 2. Set **Accelerator → GPU P100** and **Internet → On**.

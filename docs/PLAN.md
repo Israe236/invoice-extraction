@@ -97,6 +97,24 @@ Three things this changes about the plan:
    matched lines took the unit price from the P.U. distractor column instead of the line
    total. See `scripts/inspect_items.py`.
 
+### Local training: attempted, does not work
+
+Training was tried on the RTX 4050 rather than assumed impossible. Measured:
+
+- only **4.88 GB of 6.00 GB** VRAM is free with the Windows desktop running
+- model + LoRA loads in 1.98 GB; the backward pass at `max_pixels=401408` wants **12.21 GB**
+- at `max_pixels=100352` it fails with `CUDA driver error: device not ready`, which is a
+  driver fault rather than an OOM, inside the bitsandbytes 4-bit backward kernel
+- with `CUDA_LAUNCH_BLOCKING=1` the **WSL2 VM itself crashed**
+
+Gradient checkpointing was verified on for all 62 checkpointable modules including the vision
+tower, and expandable segments were enabled. Inference on the same GPU is completely stable
+(100+ generations, a live API). Full write-up in
+[DECISIONS §10a](DECISIONS.md#10a-why-training-does-not-run-on-the-local-gpu). Re-runnable
+with `bash scripts/sweep_train_memory.sh`.
+
+**Kaggle is therefore required for the training run, not merely preferred.**
+
 ### In progress
 
 - [ ] v2 training run on Kaggle: CORD + 200 synthetic. This is what should move
