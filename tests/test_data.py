@@ -149,3 +149,23 @@ class TestSyntheticGenerator:
 
     def test_currency_is_mad(self):
         assert generate_invoice_data(seed=5).currency == "MAD"
+
+    @pytest.mark.parametrize("seed", range(20))
+    def test_dates_come_from_the_fixed_window(self, seed):
+        """Regression test: dates used to be drawn relative to today, so the same
+        seed produced a different invoice on a different day."""
+        from datetime import date
+
+        from invoice_extraction.synthetic import DATE_WINDOW_END, DATE_WINDOW_START
+
+        invoice_date = date.fromisoformat(generate_invoice_data(seed=seed).invoice_date_iso)
+        assert DATE_WINDOW_START <= invoice_date <= DATE_WINDOW_END
+
+    def test_held_out_seed_produces_a_pinned_date(self):
+        """Pin the exact date for the first held-out seed.
+
+        A window test alone would not have caught the original bug: a date
+        shifted by one day still sits inside a two-year window. Pinning the value
+        fails the moment a seed stops producing the same document.
+        """
+        assert generate_invoice_data(seed=900_000).invoice_date_iso == "2026-05-01"

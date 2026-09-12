@@ -126,21 +126,29 @@ def plot_f1(mode: str) -> Path | None:
         return None
     theme = THEMES[mode]
 
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4.8), dpi=150, sharex=True)
+    panels = (("cord", "CORD-v2 receipts"), ("synthetic", "Synthetic Moroccan invoices"))
+    # Fields with no gold values were never tested on a set; leave them out rather
+    # than drawing a zero that reads as "always wrong".
+    tested = {
+        dataset: [f for f in FIELDS if reports[("base", dataset)]["fields"][f]["support"] > 0]
+        for dataset, _ in panels
+    }
+    # Stack the panels and size each by its row count so a bar is the same
+    # thickness in both. Side by side, the 4-field panel drew bars twice as fat.
+    row_counts = [len(tested[dataset]) for dataset, _ in panels]
+    fig, axes = plt.subplots(
+        2, 1, figsize=(8.5, 0.42 * sum(row_counts) + 2.6), dpi=150, sharex=True,
+        gridspec_kw={"height_ratios": row_counts},
+    )
     fig.patch.set_facecolor(theme["surface"])
     bar_height = 0.36
 
-    for ax, (dataset, title) in zip(
-        axes, (("cord", "CORD-v2 receipts"), ("synthetic", "Synthetic Moroccan invoices")),
-        strict=True,
-    ):
+    for ax, (dataset, title) in zip(axes, panels, strict=True):
         style_axes(ax, theme)
         ax.grid(axis="y", visible=False)
         base = reports[("base", dataset)]["fields"]
         tuned = reports[("finetuned", dataset)]["fields"]
-        # Fields with no gold values were never tested on this set; leave them out
-        # rather than drawing a zero that reads as "always wrong".
-        fields = [f for f in FIELDS if base[f]["support"] > 0]
+        fields = tested[dataset]
         positions = range(len(fields))
 
         for offset, report, colour, label in (
@@ -158,7 +166,8 @@ def plot_f1(mode: str) -> Path | None:
         ax.invert_yaxis()
         ax.set_xlim(0, 1)
         ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
-        ax.set_xlabel("F1", color=theme["text_secondary"], fontsize=10)
+        if ax is axes[-1]:
+            ax.set_xlabel("F1", color=theme["text_secondary"], fontsize=10)
         micro_base = reports[("base", dataset)]["micro_f1"]
         micro_tuned = reports[("finetuned", dataset)]["micro_f1"]
         ax.set_title(

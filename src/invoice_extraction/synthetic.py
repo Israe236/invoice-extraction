@@ -1,12 +1,23 @@
 """Synthetic French/Moroccan invoice data generation."""
 
 from dataclasses import dataclass
+from datetime import date
 
 from faker import Faker
 
 from invoice_extraction.data import ExtractedFields, LineItem
 
 _fake = Faker("fr_FR")
+
+# Invoice dates are drawn from a FIXED window, not from "the last two years".
+# An earlier version used start_date="-2y", end_date="today", which made the
+# generator depend on the day it ran: the base model was scored on 11 September
+# and the fine-tuned model on 12 September, and every one of the 50 held-out
+# invoices came out with its date shifted by exactly one day. Every other field
+# matched, but "the same test set" was no longer literally true. A fixed window
+# makes a seed produce the same document on any day.
+DATE_WINDOW_START = date(2024, 9, 1)
+DATE_WINDOW_END = date(2026, 8, 31)
 
 TAX_RATES = (0.20, 0.14, 0.10, 0.07)  # standard + reduced Moroccan VAT rates
 
@@ -69,7 +80,7 @@ def generate_invoice_data(seed: int | None = None) -> InvoiceData:
     tax_rate = rng.choice(TAX_RATES)
     tax = round(subtotal * tax_rate, 2)
     total = round(subtotal + tax, 2)
-    invoice_date = _fake.date_between(start_date="-2y", end_date="today")
+    invoice_date = _fake.date_between(start_date=DATE_WINDOW_START, end_date=DATE_WINDOW_END)
 
     return InvoiceData(
         vendor_name=_fake.company(),
