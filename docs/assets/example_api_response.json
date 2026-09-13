@@ -3,25 +3,25 @@
   "extraction": {
     "items": [
       {
-        "description": "Services de nettoyage",
-        "quantity": 6,
-        "price": "645.30"
+        "name": "Services de nettoyage",
+        "qty": "6",
+        "price": "3871.80"
       }
     ],
-    "subtotal": "645.30",
-    "tax": "3871.80",
+    "subtotal": "3871.80",
+    "tax": "542.05",
     "total": "4413.85",
     "ice": "040978053964059",
-    "if_number": "80947950"
+    "if_number": "80947950",
+    "invoice_number": "FA-7314",
+    "date": "2026-05-01",
+    "currency": "MAD"
   },
   "validation": {
-    "valid": false,
-    "severity": "error",
-    "needs_review": true,
-    "unverified": [
-      "date_valid",
-      "currency_known"
-    ],
+    "valid": true,
+    "severity": "ok",
+    "needs_review": false,
+    "unverified": [],
     "checks": [
       {
         "check": "required_fields",
@@ -31,26 +31,26 @@
       },
       {
         "check": "tax_arithmetic",
-        "status": "fail",
-        "detail": "subtotal 645.30 + tax 3871.80 = 4517.10, stated total 4413.85 (difference 103.25)",
+        "status": "pass",
+        "detail": "subtotal 3871.80 + tax 542.05 = 4413.85, stated total 4413.85 (difference 0.00)",
         "on_fail": "error"
       },
       {
         "check": "items_sum",
         "status": "pass",
-        "detail": "1 line item(s) sum to 645.30, subtotal 645.30 (difference 0.00)",
+        "detail": "1 line item(s) sum to 3871.80, subtotal 3871.80 (difference 0.00)",
         "on_fail": "error"
       },
       {
         "check": "tax_rate_plausible",
-        "status": "fail",
-        "detail": "implied VAT rate 600.00%, nearest standard Moroccan rate 20%",
+        "status": "pass",
+        "detail": "implied VAT rate 14.00%",
         "on_fail": "warning"
       },
       {
         "check": "date_valid",
-        "status": "skipped",
-        "detail": "not checkable: no date extracted",
+        "status": "pass",
+        "detail": "2026-05-01",
         "on_fail": "warning"
       },
       {
@@ -67,13 +67,13 @@
       },
       {
         "check": "currency_known",
-        "status": "skipped",
-        "detail": "not checkable: no currency extracted",
+        "status": "pass",
+        "detail": "MAD",
         "on_fail": "warning"
       }
     ]
   },
-  "raw_output": "```json\n[\n  {\n    \"items\": [\n      {\n        \"description\": \"Services de nettoyage\",\n        \"quantity\": 6,\n        \"price\": \"645.30\"\n      }\n    ],\n    \"subtotal\": \"645.30\",\n    \"tax\": \"3871.80\",\n    \"total\": \"4413.85\",\n    \"ice\": \"040978053964059\",\n    \"if_number\": \"80947950\"\n  }\n]\n```",
-  "elapsed_seconds": 9.67,
+  "raw_output": "{\"items\": [{\"name\": \"Services de nettoyage\", \"qty\": \"6\", \"price\": \"3871.80\"}], \"subtotal\": \"3871.80\", \"tax\": \"542.05\", \"total\": \"4413.85\", \"ice\": \"040978053964059\", \"if_number\": \"80947950\", \"invoice_number\": \"FA-7314\", \"date\": \"2026-05-01\", \"currency\": \"MAD\"}",
+  "elapsed_seconds": 39.5,
   "filename": "example_invoice.png"
 }

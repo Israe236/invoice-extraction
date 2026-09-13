@@ -1,43 +1,43 @@
 {
   "n_examples": 50,
-  "n_parsed": 49,
-  "parse_rate": 0.98,
-  "micro_f1": 0.5673,
+  "n_parsed": 48,
+  "parse_rate": 0.96,
+  "micro_f1": 0.5692,
   "fields": {
     "subtotal": {
-      "precision": 0.6875,
-      "recall": 0.66,
-      "f1": 0.6735,
+      "precision": 0.7447,
+      "recall": 0.7,
+      "f1": 0.7216,
       "support": 50
     },
     "tax": {
-      "precision": 0.6875,
-      "recall": 0.66,
-      "f1": 0.6735,
+      "precision": 0.7447,
+      "recall": 0.7,
+      "f1": 0.7216,
       "support": 50
     },
     "total": {
-      "precision": 0.8333,
+      "precision": 0.8511,
       "recall": 0.8,
-      "f1": 0.8163,
+      "f1": 0.8247,
       "support": 50
     },
     "items": {
-      "precision": 0.0974,
-      "recall": 0.0932,
-      "f1": 0.0952,
+      "precision": 0.0855,
+      "recall": 0.0807,
+      "f1": 0.0831,
       "support": 161
     },
     "ice": {
-      "precision": 0.8542,
-      "recall": 0.82,
-      "f1": 0.8367,
+      "precision": 0.8511,
+      "recall": 0.8,
+      "f1": 0.8247,
       "support": 50
     },
     "if_number": {
-      "precision": 1.0,
-      "recall": 0.96,
-      "f1": 0.9796,
+      "precision": 0.9787,
+      "recall": 0.92,
+      "f1": 0.9485,
       "support": 50
     },
     "invoice_number": {

@@ -1,0 +1,5782 @@
+[
+  {
+    "raw_output": "{\"items\": [{\"name\": \"TICKET CP\", \"qty\": \"2\", \"price\": \"60.000\"}], \"subtotal\": \"60.000\", \"tax\": \"5.455\", \"total\": \"60.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "TICKET CP",
+          "qty": "2",
+          "price": "60.000"
+        }
+      ],
+      "subtotal": "60.000",
+      "tax": "5.455",
+      "total": "60.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "-TICKET CP",
+          "qty": "2",
+          "price": "60.000"
+        }
+      ],
+      "subtotal": "60.000",
+      "tax": "5.455",
+      "total": "60.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 60000.00 + tax 5455.00 = 65455.00, stated total 60000.00 (difference 5455.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 60000.00, subtotal 60000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 9.09%, nearest standard Moroccan rate 10%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"J.STB PROMO\", \"qty\": \"\", \"price\": \"17500\"}, {\"name\": \"Y.B.BAT\", \"qty\": \"\", \"price\": \"46000\"}, {\"name\": \"Y.BASO PROM\", \"qty\": \"\", \"price\": \"27500\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"91000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "J.STB PROMO",
+          "qty": "",
+          "price": "17500"
+        },
+        {
+          "name": "Y.B.BAT",
+          "qty": "",
+          "price": "46000"
+        },
+        {
+          "name": "Y.BASO PROM",
+          "qty": "",
+          "price": "27500"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "91000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "J.STB PROMO",
+          "qty": "",
+          "price": "17500"
+        },
+        {
+          "name": "Y.B.BAT",
+          "qty": "",
+          "price": "46000"
+        },
+        {
+          "name": "Y.BASO PROM",
+          "qty": "",
+          "price": "27500"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "91000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"COCONUT JELLY ( L )\", \"qty\": \"1\", \"price\": \"4,000\"}], \"subtotal\": \"28,000\", \"tax\": \"\", \"total\": \"28,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "COCONUT JELLY ( L )",
+          "qty": "1",
+          "price": "4,000"
+        }
+      ],
+      "subtotal": "28,000",
+      "tax": "",
+      "total": "28,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "JASMINE MT ( L )",
+          "qty": "1",
+          "price": "24,000"
+        }
+      ],
+      "subtotal": "28,000",
+      "tax": "",
+      "total": "28,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 4000.00, subtotal 28000.00 (difference 24000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"DONAT GULA\", \"qty\": \"1X\", \"price\": \"11,000\"}], \"subtotal\": \"11,000\", \"tax\": \"\", \"total\": \"11,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "DONAT GULA",
+          "qty": "1X",
+          "price": "11,000"
+        }
+      ],
+      "subtotal": "11,000",
+      "tax": "",
+      "total": "11,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "DONAT GULA",
+          "qty": "1X",
+          "price": "11,000"
+        }
+      ],
+      "subtotal": "11,000",
+      "tax": "",
+      "total": "11,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 11000.00, subtotal 11000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"ICE BLACKCOFFE\", \"qty\": \"2\", \"price\": \"82,000\"}, {\"name\": \"AVOCADO COFFEE\", \"qty\": \"1\", \"price\": \"61,000\"}, {\"name\": \"CHIKEN KATSU PF\", \"qty\": \"1\", \"price\": \"51,000\"}], \"subtotal\": \"194,000\", \"tax\": \"\", \"total\": \"174,600\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "ICE BLACKCOFFE",
+          "qty": "2",
+          "price": "82,000"
+        },
+        {
+          "name": "AVOCADO COFFEE",
+          "qty": "1",
+          "price": "61,000"
+        },
+        {
+          "name": "CHIKEN KATSU PF",
+          "qty": "1",
+          "price": "51,000"
+        }
+      ],
+      "subtotal": "194,000",
+      "tax": "",
+      "total": "174,600",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "ICE BLACKCOFFE",
+          "qty": "2",
+          "price": "82,000"
+        },
+        {
+          "name": "AVOCADO COFFEE",
+          "qty": "1",
+          "price": "61,000"
+        },
+        {
+          "name": "CHIKEN KATSU FF",
+          "qty": "1",
+          "price": "51,000"
+        }
+      ],
+      "subtotal": "194,000",
+      "tax": "",
+      "total": "174,600",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "3 line item(s) sum to 194000.00, subtotal 194000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"TRAD KY TOAST CARTE\", \"qty\": \"1.00\", \"price\": \"28.182\"}], \"subtotal\": \"28.182\", \"tax\": \"2.818\", \"total\": \"31.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "TRAD KY TOAST CARTE",
+          "qty": "1.00",
+          "price": "28.182"
+        }
+      ],
+      "subtotal": "28.182",
+      "tax": "2.818",
+      "total": "31.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "TRAD KY TOAST CARTE",
+          "qty": "",
+          "price": "28.182"
+        }
+      ],
+      "subtotal": "28.182",
+      "tax": "2.818",
+      "total": "31.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 28182.00 + tax 2818.00 = 31000.00, stated total 31000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 28182.00, subtotal 28182.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"EGG TART\", \"qty\": \"1\", \"price\": \"13,000\"}, {\"name\": \"CHOCO CUSTARD PASTRY\", \"qty\": \"2\", \"price\": \"24,000\"}, {\"name\": \"REDBEAN BREAD\", \"qty\": \"1\", \"price\": \"9,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"46,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "EGG TART",
+          "qty": "1",
+          "price": "13,000"
+        },
+        {
+          "name": "CHOCO CUSTARD PASTRY",
+          "qty": "2",
+          "price": "24,000"
+        },
+        {
+          "name": "REDBEAN BREAD",
+          "qty": "1",
+          "price": "9,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "46,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "EGG TART",
+          "qty": "1",
+          "price": "13,000"
+        },
+        {
+          "name": "CHOCO CUS ARD PASTRY",
+          "qty": "2",
+          "price": "24,000"
+        },
+        {
+          "name": "REDBEAN BREAD",
+          "qty": "1",
+          "price": "9,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "46,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Kupon 15\", \"qty\": \"\", \"price\": \"100,000\"}, {\"name\": \"ADD CHICKEN BOX\", \"qty\": \"\", \"price\": \"909\"}], \"subtotal\": \"100,909\", \"tax\": \"10,091\", \"total\": \"111,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Kupon 15",
+          "qty": "",
+          "price": "100,000"
+        },
+        {
+          "name": "ADD CHICKEN BOX",
+          "qty": "",
+          "price": "909"
+        }
+      ],
+      "subtotal": "100,909",
+      "tax": "10,091",
+      "total": "111,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Kupon 15",
+          "qty": "",
+          "price": "100,000"
+        }
+      ],
+      "subtotal": "100,909",
+      "tax": "10,091",
+      "total": "111,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 100909.00 + tax 10091.00 = 111000.00, stated total 111000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "2 line item(s) sum to 100909.00, subtotal 100909.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"[REG] BLACK SAKURA\", \"qty\": \"1\", \"price\": \"45,455\"}, {\"name\": \"COOKIE DOH SAUCES\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"NATA DE COCO\", \"qty\": \"1\", \"price\": \"0\"}], \"subtotal\": \"45,455\", \"tax\": \"4,545\", \"total\": \"50,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "[REG] BLACK SAKURA",
+          "qty": "1",
+          "price": "45,455"
+        },
+        {
+          "name": "COOKIE DOH SAUCES",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "NATA DE COCO",
+          "qty": "1",
+          "price": "0"
+        }
+      ],
+      "subtotal": "45,455",
+      "tax": "4,545",
+      "total": "50,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "[REG] BLACK SAKURA",
+          "qty": "1",
+          "price": "45,455"
+        }
+      ],
+      "subtotal": "45,455",
+      "tax": "4,545",
+      "total": "50,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 45455.00 + tax 4545.00 = 50000.00, stated total 50000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "3 line item(s) sum to 45455.00, subtotal 45455.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Bumbu Kaldu Ayam\", \"qty\": \"1\", \"price\": \"36000\"}], \"subtotal\": \"36000\", \"tax\": \"\", \"total\": \"36000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Bumbu Kaldu Ayam",
+          "qty": "1",
+          "price": "36000"
+        }
+      ],
+      "subtotal": "36000",
+      "tax": "",
+      "total": "36000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Bumbu Kaldu Ayam 1",
+          "qty": "",
+          "price": "36000"
+        }
+      ],
+      "subtotal": "36000",
+      "tax": "",
+      "total": "",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 36000.00, subtotal 36000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"CINNAMON SUGAR\", \"qty\": \"1 x\", \"price\": \"17,000\"}], \"subtotal\": \"17,000\", \"tax\": \"\", \"total\": \"17,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "CINNAMON SUGAR",
+          "qty": "1 x",
+          "price": "17,000"
+        }
+      ],
+      "subtotal": "17,000",
+      "tax": "",
+      "total": "17,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "CINNAMON SUGAR",
+          "qty": "1 x",
+          "price": "17,000"
+        }
+      ],
+      "subtotal": "17,000",
+      "tax": "",
+      "total": "17,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 17000.00, subtotal 17000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"BANABERRY FRESH CREAM OAK\", \"qty\": \"1\", \"price\": \"230,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"230,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "BANABERRY FRESH CREAM OAK",
+          "qty": "1",
+          "price": "230,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "230,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "BANABERRY FRESH CREAM CAK",
+          "qty": "1",
+          "price": "230,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "230,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"BLUS WANITA\", \"qty\": \"1\", \"price\": \"120,000\"}, {\"name\": \"1002-0060 SHOPPING BAG\", \"qty\": \"1\", \"price\": \"0\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"120,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "BLUS WANITA",
+          "qty": "1",
+          "price": "120,000"
+        },
+        {
+          "name": "1002-0060 SHOPPING BAG",
+          "qty": "1",
+          "price": "0"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "120,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "BLUS WANITA",
+          "qty": "1",
+          "price": ""
+        },
+        {
+          "name": "SHOPPING BAG",
+          "qty": "1",
+          "price": ""
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "120,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"RASD KUAH\", \"qty\": \"1\", \"price\": \"43.636\"}, {\"name\": \"A.MINERAL GELAS\", \"qty\": \"1\", \"price\": \"3,000\"}], \"subtotal\": \"46.636\", \"tax\": \"4.66\", \"total\": \"51,300\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "RASD KUAH",
+          "qty": "1",
+          "price": "43.636"
+        },
+        {
+          "name": "A.MINERAL GELAS",
+          "qty": "1",
+          "price": "3,000"
+        }
+      ],
+      "subtotal": "46.636",
+      "tax": "4.66",
+      "total": "51,300",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "BASO KUAH",
+          "qty": "1",
+          "price": "43.636"
+        },
+        {
+          "name": "A.MINERAL GELAS",
+          "qty": "1",
+          "price": "3,000"
+        }
+      ],
+      "subtotal": "46.636 46.636",
+      "tax": "4.664",
+      "total": "51.300",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 46636.00 + tax 4.66 = 46640.66, stated total 51300.00 (difference 4659.34)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "2 line item(s) sum to 46636.00, subtotal 46636.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 0.01%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"RedVelvet Cheese Slic\", \"qty\": \"1\", \"price\": \"38,000\"}, {\"name\": \"Chicken Baked Rice\", \"qty\": \"1\", \"price\": \"55,000\"}, {\"name\": \"Fish n Chips\", \"qty\": \"1\", \"price\": \"65,000\"}, {\"name\": \"Mushroom Soup\", \"qty\": \"1\", \"price\": \"35,000\"}, {\"name\": \"Chowmille\", \"qty\": \"1\", \"price\": \"24,000\"}, {\"name\": \"Iced Tea\", \"qty\": \"1\", \"price\": \"20,000\"}], \"subtotal\": \"238,000\", \"tax\": \"25,585\", \"total\": \"281,435\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "RedVelvet Cheese Slic",
+          "qty": "1",
+          "price": "38,000"
+        },
+        {
+          "name": "Chicken Baked Rice",
+          "qty": "1",
+          "price": "55,000"
+        },
+        {
+          "name": "Fish n Chips",
+          "qty": "1",
+          "price": "65,000"
+        },
+        {
+          "name": "Mushroom Soup",
+          "qty": "1",
+          "price": "35,000"
+        },
+        {
+          "name": "Chowmille",
+          "qty": "1",
+          "price": "24,000"
+        },
+        {
+          "name": "Iced Tea",
+          "qty": "1",
+          "price": "20,000"
+        }
+      ],
+      "subtotal": "238,000",
+      "tax": "25,585",
+      "total": "281,435",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "RedVelvet Cheese Slc",
+          "qty": "1",
+          "price": "38,000"
+        },
+        {
+          "name": "Chicken Baked Rice",
+          "qty": "1",
+          "price": "55,000"
+        },
+        {
+          "name": "Fish n Chips",
+          "qty": "1",
+          "price": "65,000"
+        },
+        {
+          "name": "Mushroom Soup",
+          "qty": "1",
+          "price": "35,000"
+        },
+        {
+          "name": "Chamomile",
+          "qty": "1",
+          "price": "25,000"
+        },
+        {
+          "name": "Iced Tea",
+          "qty": "1",
+          "price": "20,000"
+        }
+      ],
+      "subtotal": "238,000",
+      "tax": "25,585",
+      "total": "281,435",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 238000.00 + tax 25585.00 = 263585.00, stated total 281435.00 (difference 17850.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "6 line item(s) sum to 237000.00, subtotal 238000.00 (difference 1000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 10.75%, nearest standard Moroccan rate 10%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Lemon Tea (L)\", \"qty\": \"1\", \"price\": \"25.000\"}, {\"name\": \"Caramel Small\", \"qty\": \"1\", \"price\": \"38.000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"63.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Lemon Tea (L)",
+          "qty": "1",
+          "price": "25.000"
+        },
+        {
+          "name": "Caramel Small",
+          "qty": "1",
+          "price": "38.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "63.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Lemon Tea (L)",
+          "qty": "1",
+          "price": "25.000"
+        },
+        {
+          "name": "Caramel Small",
+          "qty": "1",
+          "price": "38.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "63.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"qty\": \"1\", \"price\": \"59,091\"}, {\"name\": \"LONGAN\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"ROASTED ALMOND\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"MANGGO\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"MINERAL WATER (bundling) 5k\", \"qty\": \"1\", \"price\": \"4,545\"}], \"subtotal\": \"63,636\", \"tax\": \"6,364\", \"total\": \"70,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "[LG] BLACK SAKURA",
+          "qty": "1",
+          "price": "59,091"
+        },
+        {
+          "name": "LONGAN",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "ROASTED ALMOND",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "MANGGO",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "MINERAL WATER (bundling) 5k",
+          "qty": "1",
+          "price": "4,545"
+        }
+      ],
+      "subtotal": "63,636",
+      "tax": "6,364",
+      "total": "70,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "[LG] BLACK SAKURA",
+          "qty": "1",
+          "price": "59,091"
+        },
+        {
+          "name": "IVINERAL WATER (bundling) 5k",
+          "qty": "1",
+          "price": "4,545"
+        }
+      ],
+      "subtotal": "63,636",
+      "tax": "6,364",
+      "total": "70,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 63636.00 + tax 6364.00 = 70000.00, stated total 70000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "5 line item(s) sum to 63636.00, subtotal 63636.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Goblin's Mace\", \"qty\": \"1\", \"price\": \"25,000\"}, {\"name\": \"Morarella Hot Dog\", \"qty\": \"2\", \"price\": \"38,000\"}, {\"name\": \"Chili Pepper\", \"qty\": \"1\", \"price\": \"14,000\"}, {\"name\": \"Croquette\", \"qty\": \"1\", \"price\": \"14,000\"}, {\"name\": \"Croquette\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"Plastik Amook\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"Plastik Putih\", \"qty\": \"1\", \"price\": \"0\"}], \"subtotal\": \"91,000\", \"tax\": \"\", \"total\": \"Rp 91,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Goblin's Mace",
+          "qty": "1",
+          "price": "25,000"
+        },
+        {
+          "name": "Morarella Hot Dog",
+          "qty": "2",
+          "price": "38,000"
+        },
+        {
+          "name": "Chili Pepper",
+          "qty": "1",
+          "price": "14,000"
+        },
+        {
+          "name": "Croquette",
+          "qty": "1",
+          "price": "14,000"
+        },
+        {
+          "name": "Croquette",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "Plastik Amook",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "Plastik Putih",
+          "qty": "1",
+          "price": "0"
+        }
+      ],
+      "subtotal": "91,000",
+      "tax": "",
+      "total": "Rp 91,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Goblin's Mace",
+          "qty": "1",
+          "price": "25,000"
+        },
+        {
+          "name": "Mozarella Hot Dog",
+          "qty": "2",
+          "price": "38,000"
+        },
+        {
+          "name": "Chili Pepper Croquette",
+          "qty": "1",
+          "price": "14,000"
+        },
+        {
+          "name": "Cheese Croquette",
+          "qty": "1",
+          "price": "14,000"
+        },
+        {
+          "name": "Plastik Amook",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "Plastik Putih Take Away",
+          "qty": "1",
+          "price": "0"
+        }
+      ],
+      "subtotal": "91,000",
+      "tax": "",
+      "total": "Rp. 91,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "7 line item(s) sum to 91000.00, subtotal 91000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Propolis Cair 1\", \"qty\": \"1\", \"price\": \"156000\"}], \"subtotal\": \"156000\", \"tax\": \"\", \"total\": \"\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Propolis Cair 1",
+          "qty": "1",
+          "price": "156000"
+        }
+      ],
+      "subtotal": "156000",
+      "tax": "",
+      "total": "",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Propolis Cair",
+          "qty": "1",
+          "price": "156000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "156000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "fail",
+          "detail": "missing: total",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax, total",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 156000.00, subtotal 156000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"AMBUSH DBL CHS\", \"qty\": \"4\", \"price\": \"60000\"}, {\"name\": \"AMBUSH CHS BUR\", \"qty\": \"10\", \"price\": \"100000\"}], \"subtotal\": \"160000\", \"tax\": \"16000\", \"total\": \"176000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "AMBUSH DBL CHS",
+          "qty": "4",
+          "price": "60000"
+        },
+        {
+          "name": "AMBUSH CHS BUR",
+          "qty": "10",
+          "price": "100000"
+        }
+      ],
+      "subtotal": "160000",
+      "tax": "16000",
+      "total": "176000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "AMBUSH DBL CHS",
+          "qty": "4",
+          "price": "60000"
+        },
+        {
+          "name": "AMBUSH CHS BUR",
+          "qty": "10",
+          "price": "100000"
+        }
+      ],
+      "subtotal": "160000",
+      "tax": "16000",
+      "total": "176000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 160000.00 + tax 16000.00 = 176000.00, stated total 176000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "2 line item(s) sum to 160000.00, subtotal 160000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"cashew nuts chkn\", \"qty\": \"1\", \"price\": \"64,500\"}, {\"name\": \"garlic pepper beef\", \"qty\": \"1\", \"price\": \"79,500\"}, {\"name\": \"red curry beef\", \"qty\": \"1\", \"price\": \"69,500\"}, {\"name\": \"phad thai\", \"qty\": \"1\", \"price\": \"64,500\"}, {\"name\": \"steamed rice\", \"qty\": \"4\", \"price\": \"47,600\"}], \"subtotal\": \"325,600\", \"tax\": \"34,351\", \"total\": \"377,859\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "cashew nuts chkn",
+          "qty": "1",
+          "price": "64,500"
+        },
+        {
+          "name": "garlic pepper beef",
+          "qty": "1",
+          "price": "79,500"
+        },
+        {
+          "name": "red curry beef",
+          "qty": "1",
+          "price": "69,500"
+        },
+        {
+          "name": "phad thai",
+          "qty": "1",
+          "price": "64,500"
+        },
+        {
+          "name": "steamed rice",
+          "qty": "4",
+          "price": "47,600"
+        }
+      ],
+      "subtotal": "325,600",
+      "tax": "34,351",
+      "total": "377,859",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "cashew nuts chkn",
+          "qty": "1",
+          "price": "64,500"
+        },
+        {
+          "name": "garlic pepper beef",
+          "qty": "1",
+          "price": "79,500"
+        },
+        {
+          "name": "red curry beef",
+          "qty": "1",
+          "price": "69,500"
+        },
+        {
+          "name": "phad thai",
+          "qty": "1",
+          "price": "64,500"
+        },
+        {
+          "name": "steamed rice",
+          "qty": "4",
+          "price": "47,600"
+        }
+      ],
+      "subtotal": "325,600",
+      "tax": "34,351",
+      "total": "377,859",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 325600.00 + tax 34351.00 = 359951.00, stated total 377859.00 (difference 17908.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "5 line item(s) sum to 325600.00, subtotal 325600.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 10.55%, nearest standard Moroccan rate 10%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"NASI GOR SFD TLR\", \"qty\": \"1\", \"price\": \"35.000\"}, {\"name\": \"ES TEH TAWAR\", \"qty\": \"1\", \"price\": \"3.000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"Rp 38.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "NASI GOR SFD TLR",
+          "qty": "1",
+          "price": "35.000"
+        },
+        {
+          "name": "ES TEH TAWAR",
+          "qty": "1",
+          "price": "3.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "Rp 38.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "NASI GOR SFD TLR",
+          "qty": "1",
+          "price": "Rp 35.000"
+        },
+        {
+          "name": "ES TEH TAWAR",
+          "qty": "1",
+          "price": "Rp 3.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "Rp 38.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"[MD] SOFT STEAMED CHEESEC\", \"qty\": \"2\", \"price\": \"20,000\"}, {\"name\": \"[MD] SOFT STEAMED CHOCOCA\", \"qty\": \"2\", \"price\": \"20,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"40,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "[MD] SOFT STEAMED CHEESEC",
+          "qty": "2",
+          "price": "20,000"
+        },
+        {
+          "name": "[MD] SOFT STEAMED CHOCOCA",
+          "qty": "2",
+          "price": "20,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "40,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "[MD] SOFT STEAMED CHEESEC",
+          "qty": "2",
+          "price": "20,000"
+        },
+        {
+          "name": "[MD] SOFT STEAMED CHOCOCA",
+          "qty": "2",
+          "price": "20,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "40,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"TWIST DONUT\", \"qty\": \"6\", \"price\": \"54,000\"}, {\"name\": \"REDBEAN BREAD\", \"qty\": \"1\", \"price\": \"9,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"63,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "TWIST DONUT",
+          "qty": "6",
+          "price": "54,000"
+        },
+        {
+          "name": "REDBEAN BREAD",
+          "qty": "1",
+          "price": "9,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "63,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "TWIST DONUT",
+          "qty": "6",
+          "price": "54,000"
+        },
+        {
+          "name": "REDBEAN BREAD",
+          "qty": "1",
+          "price": "9,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "63,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"5001-Corn Flakes Cookies\", \"qty\": \"x1\", \"price\": \"Rp.56,000\"}, {\"name\": \"5003-Chokoreto Cookies\", \"qty\": \"x1\", \"price\": \"Rp.62,000\"}, {\"name\": \"6002-Plastic Bag Medium\", \"qty\": \"x1\", \"price\": \"Rp.0\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"Rp.118,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "5001-Corn Flakes Cookies",
+          "qty": "x1",
+          "price": "Rp.56,000"
+        },
+        {
+          "name": "5003-Chokoreto Cookies",
+          "qty": "x1",
+          "price": "Rp.62,000"
+        },
+        {
+          "name": "6002-Plastic Bag Medium",
+          "qty": "x1",
+          "price": "Rp.0"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "Rp.118,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "5001-Corn Flakes Cookies",
+          "qty": "x1",
+          "price": "Rp.56.000"
+        },
+        {
+          "name": "5003-Chokoreto Cookies",
+          "qty": "x1",
+          "price": "Rp.62.000"
+        },
+        {
+          "name": "6002-Plastic Bag Medium",
+          "qty": "x1",
+          "price": "Rp.0"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "Rp.118.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"TWIST STRAWBERRY DONUT\", \"qty\": \"1\", \"price\": \"10,000\"}, {\"name\": \"TLJ CROQUETTE\", \"qty\": \"1\", \"price\": \"17,000\"}, {\"name\": \"POTATO PEPPER BAGEL\", \"qty\": \"1\", \"price\": \"16,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"43,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "TWIST STRAWBERRY DONUT",
+          "qty": "1",
+          "price": "10,000"
+        },
+        {
+          "name": "TLJ CROQUETTE",
+          "qty": "1",
+          "price": "17,000"
+        },
+        {
+          "name": "POTATO PEPPER BAGEL",
+          "qty": "1",
+          "price": "16,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "43,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "TWIST STRAWBERRY DONUT",
+          "qty": "1",
+          "price": "10,000"
+        },
+        {
+          "name": "TLJ CROQUETTE",
+          "qty": "1",
+          "price": "17,000"
+        },
+        {
+          "name": "POTATO PEPPER BAGEL",
+          "qty": "1",
+          "price": "16,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "43,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Cap Cay\", \"qty\": \"1\", \"price\": \"65.000\"}, {\"name\": \"Minuman\", \"qty\": \"2\", \"price\": \"4.000\"}, {\"name\": \"Lain-lain\", \"qty\": \"1\", \"price\": \"65.000\"}], \"subtotal\": \"138.000\", \"tax\": \"\", \"total\": \"138.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Cap Cay",
+          "qty": "1",
+          "price": "65.000"
+        },
+        {
+          "name": "Minuman",
+          "qty": "2",
+          "price": "4.000"
+        },
+        {
+          "name": "Lain-lain",
+          "qty": "1",
+          "price": "65.000"
+        }
+      ],
+      "subtotal": "138.000",
+      "tax": "",
+      "total": "138.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Nasi Cap Cay Porsi B esar",
+          "qty": "1",
+          "price": "65.000"
+        },
+        {
+          "name": "Teh Tawar",
+          "qty": "2",
+          "price": ""
+        },
+        {
+          "name": "Fu Yung Hai",
+          "qty": "1",
+          "price": "65.000"
+        }
+      ],
+      "subtotal": "Rp 138.000",
+      "tax": "",
+      "total": "Rp 138.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 134000.00, subtotal 138000.00 (difference 4000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"PKT AYAM\", \"qty\": \"\", \"price\": \"33,000\"}, {\"name\": \"GULAI OTAK\", \"qty\": \"\", \"price\": \"23,000\"}], \"subtotal\": \"56,000\", \"tax\": \"5,600\", \"total\": \"61,600\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "PKT AYAM",
+          "qty": "",
+          "price": "33,000"
+        },
+        {
+          "name": "GULAI OTAK",
+          "qty": "",
+          "price": "23,000"
+        }
+      ],
+      "subtotal": "56,000",
+      "tax": "5,600",
+      "total": "61,600",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "PKT AYAM",
+          "qty": "",
+          "price": "33,000"
+        },
+        {
+          "name": "GULAI OTAK",
+          "qty": "",
+          "price": "23,000"
+        }
+      ],
+      "subtotal": "56,000",
+      "tax": "5,600",
+      "total": "61,600",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 56000.00 + tax 5600.00 = 61600.00, stated total 61600.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "2 line item(s) sum to 56000.00, subtotal 56000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"SAMGYOPSAL\", \"qty\": \"2\", \"price\": \"194,000\"}, {\"name\": \"SUL LUNG TANG\", \"qty\": \"1\", \"price\": \"75,000\"}, {\"name\": \"MAKOLI\", \"qty\": \"1\", \"price\": \"100,000\"}], \"subtotal\": \"369,000\", \"tax\": \"38,745\", \"total\": \"426,195\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "SAMGYOPSAL",
+          "qty": "2",
+          "price": "194,000"
+        },
+        {
+          "name": "SUL LUNG TANG",
+          "qty": "1",
+          "price": "75,000"
+        },
+        {
+          "name": "MAKOLI",
+          "qty": "1",
+          "price": "100,000"
+        }
+      ],
+      "subtotal": "369,000",
+      "tax": "38,745",
+      "total": "426,195",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "SAMGYOPSAL",
+          "qty": "2",
+          "price": "194,000"
+        },
+        {
+          "name": "SUL LUNG TANG",
+          "qty": "1",
+          "price": "75,000"
+        },
+        {
+          "name": "MAKOLI",
+          "qty": "1",
+          "price": "100,000"
+        }
+      ],
+      "subtotal": "369,000",
+      "tax": "38,745",
+      "total": "426,195",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 369000.00 + tax 38745.00 = 407745.00, stated total 426195.00 (difference 18450.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "3 line item(s) sum to 369000.00, subtotal 369000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.50%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"COLD OCHA\", \"qty\": \"1\", \"price\": \"10,909\"}, {\"name\": \"BCA PROMO\", \"qty\": \"1\", \"price\": \"54,455\"}, {\"name\": \"ABURA UDON SPICY\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"KAKE UDON\", \"qty\": \"1\", \"price\": \"0\"}, {\"name\": \"SKEWERED SHUMAI\", \"qty\": \"1\", \"price\": \"12,727\"}, {\"name\": \"SKEWERED TOFU ROLL\", \"qty\": \"1\", \"price\": \"12,727\"}, {\"name\": \"EBI TEMPURA\", \"qty\": \"1\", \"price\": \"13,636\"}, {\"name\": \"KITSUNE UDON (KIDS)\", \"qty\": \"1\", \"price\": \"28,182\"}], \"subtotal\": \"132,636\", \"tax\": \"13,264\", \"total\": \"145,900\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "COLD OCHA",
+          "qty": "1",
+          "price": "10,909"
+        },
+        {
+          "name": "BCA PROMO",
+          "qty": "1",
+          "price": "54,455"
+        },
+        {
+          "name": "ABURA UDON SPICY",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "KAKE UDON",
+          "qty": "1",
+          "price": "0"
+        },
+        {
+          "name": "SKEWERED SHUMAI",
+          "qty": "1",
+          "price": "12,727"
+        },
+        {
+          "name": "SKEWERED TOFU ROLL",
+          "qty": "1",
+          "price": "12,727"
+        },
+        {
+          "name": "EBI TEMPURA",
+          "qty": "1",
+          "price": "13,636"
+        },
+        {
+          "name": "KITSUNE UDON (KIDS)",
+          "qty": "1",
+          "price": "28,182"
+        }
+      ],
+      "subtotal": "132,636",
+      "tax": "13,264",
+      "total": "145,900",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "COLD OCHA",
+          "qty": "1",
+          "price": "10,909"
+        },
+        {
+          "name": "BCA PROMO",
+          "qty": "1",
+          "price": "54,455"
+        },
+        {
+          "name": "SKEWERED SHUMAI",
+          "qty": "1",
+          "price": "12,727"
+        },
+        {
+          "name": "SKEWERED TOFU ROLL",
+          "qty": "1",
+          "price": "12,727"
+        },
+        {
+          "name": "EBI TEMPURA",
+          "qty": "1",
+          "price": "13,636"
+        },
+        {
+          "name": "KITSUNE UDON (KIDS)",
+          "qty": "1",
+          "price": "28,182"
+        }
+      ],
+      "subtotal": "132,636",
+      "tax": "13,264",
+      "total": "145,900",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 132636.00 + tax 13264.00 = 145900.00, stated total 145900.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "8 line item(s) sum to 132636.00, subtotal 132636.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Kupon 3\", \"qty\": \"\", \"price\": \"28,636\"}], \"subtotal\": \"28,636\", \"tax\": \"2,864\", \"total\": \"31,500\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Kupon 3",
+          "qty": "",
+          "price": "28,636"
+        }
+      ],
+      "subtotal": "28,636",
+      "tax": "2,864",
+      "total": "31,500",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Kupon 3",
+          "qty": "",
+          "price": "28,636"
+        }
+      ],
+      "subtotal": "28,636",
+      "tax": "2,864",
+      "total": "31,500",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 28636.00 + tax 2864.00 = 31500.00, stated total 31500.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 28636.00, subtotal 28636.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"SALMON PESTO\", \"qty\": \"1\", \"price\": \"85,500\"}, {\"name\": \"SALMON PESTO\", \"qty\": \"1\", \"price\": \"85,500\"}], \"subtotal\": \"85,500\", \"tax\": \"18,126\", \"total\": \"113,886\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "SALMON PESTO",
+          "qty": "1",
+          "price": "85,500"
+        },
+        {
+          "name": "SALMON PESTO",
+          "qty": "1",
+          "price": "85,500"
+        }
+      ],
+      "subtotal": "85,500",
+      "tax": "18,126",
+      "total": "113,886",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "SALMON PESTO",
+          "qty": "1",
+          "price": "85,500"
+        },
+        {
+          "name": "SALMON PESTO",
+          "qty": "1",
+          "price": "85,500"
+        }
+      ],
+      "subtotal": "85,500",
+      "tax": "18,126",
+      "total": "113,886",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 85500.00 + tax 18126.00 = 103626.00, stated total 113886.00 (difference 10260.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "2 line item(s) sum to 171000.00, subtotal 85500.00 (difference 85500.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 21.20%, nearest standard Moroccan rate 20%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"THAI ICED GREEN TEA\", \"qty\": \"1\", \"price\": \"24.000\"}], \"subtotal\": \"24.000\", \"tax\": \"\", \"total\": \"24.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "THAI ICED GREEN TEA",
+          "qty": "1",
+          "price": "24.000"
+        }
+      ],
+      "subtotal": "24.000",
+      "tax": "",
+      "total": "24.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "THAI ICED GREEN TEA",
+          "qty": "1",
+          "price": "24.000"
+        }
+      ],
+      "subtotal": "24.000",
+      "tax": "",
+      "total": "24.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 24000.00, subtotal 24000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"GRILLED BABY POTATO (R\", \"qty\": \"1\", \"price\": \"50,500\"}, {\"name\": \"HOT TUNA\", \"qty\": \"1\", \"price\": \"67,000\"}, {\"name\": \"HOT TUNA\", \"qty\": \"1\", \"price\": \"67,000\"}], \"subtotal\": \"117,500\", \"tax\": \"19,557\", \"total\": \"148,127\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "GRILLED BABY POTATO (R",
+          "qty": "1",
+          "price": "50,500"
+        },
+        {
+          "name": "HOT TUNA",
+          "qty": "1",
+          "price": "67,000"
+        },
+        {
+          "name": "HOT TUNA",
+          "qty": "1",
+          "price": "67,000"
+        }
+      ],
+      "subtotal": "117,500",
+      "tax": "19,557",
+      "total": "148,127",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "GRILLED BABY POTATO (R",
+          "qty": "1",
+          "price": "50,500"
+        },
+        {
+          "name": "HOT TUNA",
+          "qty": "1",
+          "price": "67,000"
+        },
+        {
+          "name": "HOT TUNA",
+          "qty": "1",
+          "price": "67,000"
+        }
+      ],
+      "subtotal": "117,500",
+      "tax": "19,557",
+      "total": "148,127",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 117500.00 + tax 19557.00 = 137057.00, stated total 148127.00 (difference 11070.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 184500.00, subtotal 117500.00 (difference 67000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 16.64%, nearest standard Moroccan rate 14%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Ash Chick Sambal Matah\", \"qty\": \"5\", \"price\": \"75,000\"}, {\"name\": \"Jamur Goreng\", \"qty\": \"2\", \"price\": \"10,000\"}], \"subtotal\": \"85,000\", \"tax\": \"8.500\", \"total\": \"93,500\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Ash Chick Sambal Matah",
+          "qty": "5",
+          "price": "75,000"
+        },
+        {
+          "name": "Jamur Goreng",
+          "qty": "2",
+          "price": "10,000"
+        }
+      ],
+      "subtotal": "85,000",
+      "tax": "8.500",
+      "total": "93,500",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Ash Chick Sambal Matah",
+          "qty": "5",
+          "price": "75.000"
+        },
+        {
+          "name": "Jamur Goreng",
+          "qty": "2",
+          "price": "10.000"
+        }
+      ],
+      "subtotal": "85.000",
+      "tax": "8.500",
+      "total": "93.500",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 85000.00 + tax 8500.00 = 93500.00, stated total 93500.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "2 line item(s) sum to 85000.00, subtotal 85000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"TWIST DONUT\", \"qty\": \"2\", \"price\": \"18,000\"}, {\"name\": \"BANANA DONUT\", \"qty\": \"1\", \"price\": \"11,000\"}, {\"name\": \"CREAMCHEESE BREAD\", \"qty\": \"1\", \"price\": \"13,000\"}, {\"name\": \"FRANKFRUT SAUSAGE ROLL\", \"qty\": \"1\", \"price\": \"12,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"54,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "TWIST DONUT",
+          "qty": "2",
+          "price": "18,000"
+        },
+        {
+          "name": "BANANA DONUT",
+          "qty": "1",
+          "price": "11,000"
+        },
+        {
+          "name": "CREAMCHEESE BREAD",
+          "qty": "1",
+          "price": "13,000"
+        },
+        {
+          "name": "FRANKFRUT SAUSAGE ROLL",
+          "qty": "1",
+          "price": "12,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "54,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "TWIST DONUT",
+          "qty": "2",
+          "price": "18,000"
+        },
+        {
+          "name": "BANANA DONUT",
+          "qty": "1",
+          "price": "11,000"
+        },
+        {
+          "name": "CREAMCHEESE BREAD",
+          "qty": "1",
+          "price": "13,000"
+        },
+        {
+          "name": "FRANKFRUT SAUSAGE ROLL",
+          "qty": "1",
+          "price": "12,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "54,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"XXL Crispy Chicken\", \"qty\": \"1\", \"price\": \"40,000\"}], \"subtotal\": \"40,000\", \"tax\": \"\", \"total\": \"40,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "XXL Crispy Chicken",
+          "qty": "1",
+          "price": "40,000"
+        }
+      ],
+      "subtotal": "40,000",
+      "tax": "",
+      "total": "40,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "XXL Crispy Chicken",
+          "qty": "1",
+          "price": "40,000"
+        }
+      ],
+      "subtotal": "40,000",
+      "tax": "",
+      "total": "40,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 40000.00, subtotal 40000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Popcorn Salt (S)\", \"qty\": \"1\", \"price\": \"20.000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"20.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Popcorn Salt (S)",
+          "qty": "1",
+          "price": "20.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "20.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Popcorn Salt (S)",
+          "qty": "1",
+          "price": "20.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"XLB Org Pork 10x\", \"qty\": \"1\", \"price\": \"78,000\"}, {\"name\": \"Sicito Babi\", \"qty\": \"1\", \"price\": \"65,000\"}, {\"name\": \"Hotplate Tahu\", \"qty\": \"1\", \"price\": \"58,000\"}, {\"name\": \"DF Fish Fillet Garlic\", \"qty\": \"1\", \"price\": \"108,000\"}, {\"name\": \"LM Pork Belly\", \"qty\": \"1\", \"price\": \"88,000\"}, {\"name\": \"Siew Mai\", \"qty\": \"1\", \"price\": \"38,800\"}, {\"name\": \"Kwan Yin Cup\", \"qty\": \"5\", \"price\": \"50,000\"}, {\"name\": \"Herbal Jelly\", \"qty\": \"1\", \"price\": \"38,000\"}, {\"name\": \"Onde-Onde\", \"qty\": \"1\", \"price\": \"38,000\"}], \"subtotal\": \"561,800\", \"tax\": \"60,394\", \"total\": \"664,329\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "XLB Org Pork 10x",
+          "qty": "1",
+          "price": "78,000"
+        },
+        {
+          "name": "Sicito Babi",
+          "qty": "1",
+          "price": "65,000"
+        },
+        {
+          "name": "Hotplate Tahu",
+          "qty": "1",
+          "price": "58,000"
+        },
+        {
+          "name": "DF Fish Fillet Garlic",
+          "qty": "1",
+          "price": "108,000"
+        },
+        {
+          "name": "LM Pork Belly",
+          "qty": "1",
+          "price": "88,000"
+        },
+        {
+          "name": "Siew Mai",
+          "qty": "1",
+          "price": "38,800"
+        },
+        {
+          "name": "Kwan Yin Cup",
+          "qty": "5",
+          "price": "50,000"
+        },
+        {
+          "name": "Herbal Jelly",
+          "qty": "1",
+          "price": "38,000"
+        },
+        {
+          "name": "Onde-Onde",
+          "qty": "1",
+          "price": "38,000"
+        }
+      ],
+      "subtotal": "561,800",
+      "tax": "60,394",
+      "total": "664,329",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "XLB Org Pork 10x",
+          "qty": "1",
+          "price": "78,000"
+        },
+        {
+          "name": "Sicito Babi",
+          "qty": "1",
+          "price": "65,000"
+        },
+        {
+          "name": "Hotplate Tahu",
+          "qty": "1",
+          "price": "58,000"
+        },
+        {
+          "name": "DF Fish Fillet Garlc",
+          "qty": "1",
+          "price": "108,000"
+        },
+        {
+          "name": "LM Pork Belly",
+          "qty": "1",
+          "price": "88,000"
+        },
+        {
+          "name": "Siew Mai",
+          "qty": "1",
+          "price": "38,800"
+        },
+        {
+          "name": "Kwan Yin Cup",
+          "qty": "5",
+          "price": "50,000"
+        },
+        {
+          "name": "Herbal Jelly",
+          "qty": "1",
+          "price": "38,000"
+        },
+        {
+          "name": "Onde-Onde",
+          "qty": "1",
+          "price": "38,000"
+        }
+      ],
+      "subtotal": "561,800",
+      "tax": "60,394",
+      "total": "664,329",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 561800.00 + tax 60394.00 = 622194.00, stated total 664329.00 (difference 42135.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "9 line item(s) sum to 561800.00, subtotal 561800.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 10.75%, nearest standard Moroccan rate 10%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"HPL754DR LUNCH BOX 3P SET W/RED BAG & SP\", \"qty\": \"8\", \"price\": \"1,944,000\"}, {\"name\": \"HPL500 RICE CASE 7L W/CUP\", \"qty\": \"5\", \"price\": \"975,000\"}, {\"name\": \"HPL754DR LUNCH BOX 3P SET W/BLACK BAG & SP\", \"qty\": \"4\", \"price\": \"972,000\"}], \"subtotal\": \"243,000\", \"tax\": \"\", \"total\": \"3,112,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "HPL754DR LUNCH BOX 3P SET W/RED BAG & SP",
+          "qty": "8",
+          "price": "1,944,000"
+        },
+        {
+          "name": "HPL500 RICE CASE 7L W/CUP",
+          "qty": "5",
+          "price": "975,000"
+        },
+        {
+          "name": "HPL754DR LUNCH BOX 3P SET W/BLACK BAG & SP",
+          "qty": "4",
+          "price": "972,000"
+        }
+      ],
+      "subtotal": "243,000",
+      "tax": "",
+      "total": "3,112,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "LUNCH BOX 3P SET W/RED BAG & SP00 N.",
+          "qty": "8",
+          "price": "1,944,000"
+        },
+        {
+          "name": "RICE CASE 7L W/CUP",
+          "qty": "5",
+          "price": "975,000"
+        },
+        {
+          "name": "LUNCH BOX 3P SET W/BLACK BAG & SP OON",
+          "qty": "4",
+          "price": "972,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "3 line item(s) sum to 1948944.00, subtotal 243000.00 (difference 1705944.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Snack Lestari All\", \"qty\": \"2\", \"price\": \"54,000\"}, {\"name\": \"Bakery Aneka Sisir banana,Pizza,yoko,Mer, Daging,abon,keju,cokelat,dll\", \"qty\": \"2\", \"price\": \"14,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"68,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Snack Lestari All",
+          "qty": "2",
+          "price": "54,000"
+        },
+        {
+          "name": "Bakery Aneka Sisir banana,Pizza,yoko,Mer, Daging,abon,keju,cokelat,dll",
+          "qty": "2",
+          "price": "14,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "68,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Snack Lestari All",
+          "qty": "2",
+          "price": "54,000"
+        },
+        {
+          "name": "Bakery Aneka Sisir Banana,Pizza,yoko,Mar mer,Daging,abon,keju,cokelat,dll",
+          "qty": "2",
+          "price": "14,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "68,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Chicken Maryland\", \"qty\": \"\", \"price\": \"47619.00\"}, {\"name\": \"Cappucino (Hot/Iced)\", \"qty\": \"\", \"price\": \"30303.00\"}, {\"name\": \"Naga Lychee Juice\", \"qty\": \"\", \"price\": \"34632.00\"}, {\"name\": \"Cafe Latte\", \"qty\": \"\", \"price\": \"30303.00\"}, {\"name\": \"Hot Chocolate Marshmallow\", \"qty\": \"\", \"price\": \"30303.00\"}, {\"name\": \"Chicken Cesar Salad\", \"qty\": \"\", \"price\": \"43290.00\"}, {\"name\": \"Mineral Water\", \"qty\": \"\", \"price\": \"12987.00\"}, {\"name\": \"Mineral Water\", \"qty\": \"\", \"price\": \"12987.00\"}, {\"name\": \"Lychee/Peach/Lemon/Mango\", \"qty\": \"\", \"price\": \"25974.00\"}, {\"name\": \"Chicken Maryland\", \"qty\": \"\", \"price\": \"47619.00\"}], \"subtotal\": \"316017.00\", \"tax\": \"49882.68\", \"total\": \"365000.00\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Chicken Maryland",
+          "qty": "",
+          "price": "47619.00"
+        },
+        {
+          "name": "Cappucino (Hot/Iced)",
+          "qty": "",
+          "price": "30303.00"
+        },
+        {
+          "name": "Naga Lychee Juice",
+          "qty": "",
+          "price": "34632.00"
+        },
+        {
+          "name": "Cafe Latte",
+          "qty": "",
+          "price": "30303.00"
+        },
+        {
+          "name": "Hot Chocolate Marshmallow",
+          "qty": "",
+          "price": "30303.00"
+        },
+        {
+          "name": "Chicken Cesar Salad",
+          "qty": "",
+          "price": "43290.00"
+        },
+        {
+          "name": "Mineral Water",
+          "qty": "",
+          "price": "12987.00"
+        },
+        {
+          "name": "Mineral Water",
+          "qty": "",
+          "price": "12987.00"
+        },
+        {
+          "name": "Lychee/Peach/Lemon/Mango",
+          "qty": "",
+          "price": "25974.00"
+        },
+        {
+          "name": "Chicken Maryland",
+          "qty": "",
+          "price": "47619.00"
+        }
+      ],
+      "subtotal": "316017.00",
+      "tax": "49882.68",
+      "total": "365000.00",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Chicken Maryland",
+          "qty": "",
+          "price": "47619.00"
+        },
+        {
+          "name": "Cappucino (Hot/Iced)",
+          "qty": "",
+          "price": "30303.00"
+        },
+        {
+          "name": "Naga Lychee Juice",
+          "qty": "",
+          "price": "34632.00"
+        },
+        {
+          "name": "Cafe Latte",
+          "qty": "",
+          "price": "30303.00"
+        },
+        {
+          "name": "Hot Chocolate Marshmallo",
+          "qty": "",
+          "price": "30303.00"
+        },
+        {
+          "name": "Chicken Cesar Salad",
+          "qty": "",
+          "price": "43290.00"
+        },
+        {
+          "name": "Mineral Water",
+          "qty": "",
+          "price": "12987.00"
+        },
+        {
+          "name": "Mineral Water",
+          "qty": "",
+          "price": "12987.00"
+        },
+        {
+          "name": "Lychee/Peach/Lemon/Mango",
+          "qty": "",
+          "price": "25974.00"
+        },
+        {
+          "name": "Chicken Maryland",
+          "qty": "",
+          "price": "47619.00"
+        }
+      ],
+      "subtotal": "316017.00",
+      "tax": "",
+      "total": "365000.00",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "warning",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 316017.00 + tax 49882.68 = 365899.68, stated total 365000.00 (difference 899.68)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "10 line item(s) sum to 316017.00, subtotal 316017.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 15.78%, nearest standard Moroccan rate 14%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Chicken HCC, 1Pcs\", \"qty\": \"1\", \"price\": \"15,000\"}], \"subtotal\": \"15,000\", \"tax\": \"1,500\", \"total\": \"16,500\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Chicken HCC, 1Pcs",
+          "qty": "1",
+          "price": "15,000"
+        }
+      ],
+      "subtotal": "15,000",
+      "tax": "1,500",
+      "total": "16,500",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Chicken HCC. 1Pcs",
+          "qty": "1",
+          "price": "15.000"
+        }
+      ],
+      "subtotal": "15,000",
+      "tax": "1,500",
+      "total": "16,500",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 15000.00 + tax 1500.00 = 16500.00, stated total 16500.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 15000.00, subtotal 15000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Cheese Tart\", \"qty\": \"6\", \"price\": \"165000.00\"}], \"subtotal\": \"165000.00\", \"tax\": \"15000.00\", \"total\": \"165000.00\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Cheese Tart",
+          "qty": "6",
+          "price": "165000.00"
+        }
+      ],
+      "subtotal": "165000.00",
+      "tax": "15000.00",
+      "total": "165000.00",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Cheese Tart",
+          "qty": "6",
+          "price": "165000.00"
+        }
+      ],
+      "subtotal": "Rp 165000.00",
+      "tax": "Rp 15000.00",
+      "total": "Rp 165000.00",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "fail",
+          "detail": "subtotal 165000.00 + tax 15000.00 = 180000.00, stated total 165000.00 (difference 15000.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "1 line item(s) sum to 165000.00, subtotal 165000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "fail",
+          "detail": "implied VAT rate 9.09%, nearest standard Moroccan rate 10%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Combo 1\", \"qty\": \"1\", \"price\": \"30.000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"30.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Combo 1",
+          "qty": "1",
+          "price": "30.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "30.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Combo 1",
+          "qty": "1",
+          "price": "30.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "30.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Lemon Tea (L).\", \"qty\": \"1\", \"price\": \"25.000\"}, {\"name\": \"Mike & Ike Original\", \"qty\": \"1\", \"price\": \"28.000\"}, {\"name\": \"Mike & Berry\", \"qty\": \"1\", \"price\": \"28.000\"}, {\"name\": \"Rotl Keju Manis.\", \"qty\": \"1\", \"price\": \"7.000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"88.000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Lemon Tea (L).",
+          "qty": "1",
+          "price": "25.000"
+        },
+        {
+          "name": "Mike & Ike Original",
+          "qty": "1",
+          "price": "28.000"
+        },
+        {
+          "name": "Mike & Berry",
+          "qty": "1",
+          "price": "28.000"
+        },
+        {
+          "name": "Rotl Keju Manis.",
+          "qty": "1",
+          "price": "7.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "88.000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Lemon Tea (L).",
+          "qty": "1",
+          "price": "25.000"
+        },
+        {
+          "name": "Mike & Ike Original",
+          "qty": "1",
+          "price": "28.000"
+        },
+        {
+          "name": "Mike & Berry",
+          "qty": "1",
+          "price": "28.000"
+        },
+        {
+          "name": "Roti Keju Manis.",
+          "qty": "1",
+          "price": "7.000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "88,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"S-Bubble Milk Tea\", \"qty\": \"1X\", \"price\": \"20,000\"}, {\"name\": \"S-Caramel Milk Tea\", \"qty\": \"1X\", \"price\": \"20,000\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"40,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "S-Bubble Milk Tea",
+          "qty": "1X",
+          "price": "20,000"
+        },
+        {
+          "name": "S-Caramel Milk Tea",
+          "qty": "1X",
+          "price": "20,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "40,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "S-Bubble Milk Tea",
+          "qty": "1X",
+          "price": "20,000"
+        },
+        {
+          "name": "S-Caramel Milk Tea",
+          "qty": "1X",
+          "price": "20,000"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "40,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"COPIA 1 /GB\", \"qty\": \"1\", \"price\": \"45,000.00\"}, {\"name\": \"PLASTIC BAG RED CENTRAL SI\", \"qty\": \"1\", \"price\": \"0.00\"}, {\"name\": \"COPIA 1 /GB\", \"qty\": \"1\", \"price\": \"18,000.00\"}], \"subtotal\": \"\", \"tax\": \"\", \"total\": \"63,000.00\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "COPIA 1 /GB",
+          "qty": "1",
+          "price": "45,000.00"
+        },
+        {
+          "name": "PLASTIC BAG RED CENTRAL SI",
+          "qty": "1",
+          "price": "0.00"
+        },
+        {
+          "name": "COPIA 1 /GB",
+          "qty": "1",
+          "price": "18,000.00"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "63,000.00",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "COPIA 1 /GB",
+          "qty": "1",
+          "price": "45,000.00"
+        },
+        {
+          "name": "PLASTIC BAG RED CENTRAL SI",
+          "qty": "1",
+          "price": "0.00"
+        },
+        {
+          "name": "COPIA 1 /GB",
+          "qty": "1",
+          "price": "18,000.00"
+        }
+      ],
+      "subtotal": "",
+      "tax": "",
+      "total": "63,000.00",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "items_sum",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing subtotal, tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "skipped",
+          "detail": "not checkable: subtotal missing or unparseable",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"S-Hazelnut KOI Cafe\", \"qty\": \"1X\", \"price\": \"25,000\"}], \"subtotal\": \"22,728\", \"tax\": \"2,272\", \"total\": \"25,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "S-Hazelnut KOI Cafe",
+          "qty": "1X",
+          "price": "25,000"
+        }
+      ],
+      "subtotal": "22,728",
+      "tax": "2,272",
+      "total": "25,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "S-Hazelnut KOI Cafe",
+          "qty": "1X",
+          "price": "25,000"
+        }
+      ],
+      "subtotal": "22,728",
+      "tax": "2,272",
+      "total": "25,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": false,
+      "severity": "error",
+      "needs_review": true,
+      "unverified": [
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "pass",
+          "detail": "subtotal 22728.00 + tax 2272.00 = 25000.00, stated total 25000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "fail",
+          "detail": "1 line item(s) sum to 25000.00, subtotal 22728.00 (difference 2272.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "pass",
+          "detail": "implied VAT rate 10.00%",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  },
+  {
+    "raw_output": "{\"items\": [{\"name\": \"Ptgs Eggtart\", \"qty\": \"1\", \"price\": \"12,000\"}, {\"name\": \"Choco Melt\", \"qty\": \"1\", \"price\": \"11,000\"}], \"subtotal\": \"23,000\", \"tax\": \"\", \"total\": \"23,000\", \"ice\": \"\", \"if_number\": \"\", \"invoice_number\": \"\", \"date\": \"\", \"currency\": \"\"}",
+    "parsed": {
+      "items": [
+        {
+          "name": "Ptgs Eggtart",
+          "qty": "1",
+          "price": "12,000"
+        },
+        {
+          "name": "Choco Melt",
+          "qty": "1",
+          "price": "11,000"
+        }
+      ],
+      "subtotal": "23,000",
+      "tax": "",
+      "total": "23,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "ground_truth": {
+      "items": [
+        {
+          "name": "Ptgs Eggtart",
+          "qty": "1",
+          "price": "12,000"
+        },
+        {
+          "name": "Choco Melt",
+          "qty": "1",
+          "price": "11,000"
+        }
+      ],
+      "subtotal": "23,000",
+      "tax": "",
+      "total": "23,000",
+      "ice": "",
+      "if_number": "",
+      "invoice_number": "",
+      "date": "",
+      "currency": ""
+    },
+    "validation": {
+      "valid": true,
+      "severity": "ok",
+      "needs_review": false,
+      "unverified": [
+        "tax_arithmetic",
+        "tax_rate_plausible",
+        "date_valid",
+        "ice_format",
+        "if_format",
+        "currency_known"
+      ],
+      "checks": [
+        {
+          "check": "required_fields",
+          "status": "pass",
+          "detail": "all required fields present",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_arithmetic",
+          "status": "skipped",
+          "detail": "not checkable: missing tax",
+          "on_fail": "error"
+        },
+        {
+          "check": "items_sum",
+          "status": "pass",
+          "detail": "2 line item(s) sum to 23000.00, subtotal 23000.00 (difference 0.00)",
+          "on_fail": "error"
+        },
+        {
+          "check": "tax_rate_plausible",
+          "status": "skipped",
+          "detail": "not checkable: subtotal or tax missing",
+          "on_fail": "warning"
+        },
+        {
+          "check": "date_valid",
+          "status": "skipped",
+          "detail": "not checkable: no date extracted",
+          "on_fail": "warning"
+        },
+        {
+          "check": "ice_format",
+          "status": "skipped",
+          "detail": "not checkable: no ICE on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "if_format",
+          "status": "skipped",
+          "detail": "not checkable: no IF on this document",
+          "on_fail": "warning"
+        },
+        {
+          "check": "currency_known",
+          "status": "skipped",
+          "detail": "not checkable: no currency extracted",
+          "on_fail": "warning"
+        }
+      ]
+    }
+  }
+]

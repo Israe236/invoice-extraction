@@ -65,8 +65,9 @@ happening on free compute.
    `BA` where `B` and `A` are thin. At `r=16` that is about 1 % of the parameters, so the
    optimiser state is ~1 % of the size.
 
-The result trains on a free Kaggle GPU and produces a **180 MB** artefact instead of a 4.4 GB
-one. The base model is unchanged and re-downloadable, so the adapter is the only thing that
+The result trains on the 6 GB laptop GPU in 25 minutes (once the memory fixes in §10a were in
+place) and produces a **74 MB** adapter — 18.5 M trainable parameters — instead of a 4.4 GB
+model. The base model is unchanged and re-downloadable, so the adapter is the only thing that
 has to move between machines.
 
 **Cost:** 4-bit introduces some quantisation error, and LoRA cannot express every update that
@@ -173,21 +174,22 @@ survive contact with a real document.
 The generator asserts that `unit_price × quantity = line_total`, so the distractor is
 arithmetically real rather than a random decoy.
 
-**It worked, and the effect is large.** On the synthetic test set the base model scores 0.095
-F1 on line items while scoring 0.816 on `total` and 0.980 on `if_number`. Classifying every
-predicted line against what it could have come from
+**It worked, and the effect is large.** On the synthetic test set the base model scores 0.083
+F1 on line items while scoring 0.825 on `total` and 0.949 on `if_number`. Pairing every
+predicted line with a gold line and classifying where its price came from
 ([`scripts/inspect_items.py`](../scripts/inspect_items.py)):
 
-| Outcome | Count |
-|---|---|
-| price = **unit price** (read the P.U. column) | **104** |
-| price wrong for another reason | 20 |
-| name did not match any gold line | 17 |
-| price correct (read the Montant column) | 13 |
+| Outcome | Base model | Fine-tuned |
+|---|---|---|
+| price correct (read the Montant column) | 13 | **161** |
+| price = **unit price** (read the P.U. column) | **124** | 0 |
+| predicted line with no matching gold line | 15 | 0 |
+| gold line the model never predicted | 15 | 0 |
 
-Eight times out of nine, when the model got a line wrong, it was because it took the unit
-price. A synthetic set without the distractor would have reported line-item F1 somewhere near
-the scalar fields and been badly misleading about how this model behaves on a real invoice.
+Of the 137 lines the base model matched by name, 124 — nine in ten — took the unit price.
+Fine-tuning removed the mistake entirely: 161 of 161 lines correct. A synthetic set without the
+distractor would have reported base line-item F1 somewhere near the scalar fields and hidden
+the single most useful thing fine-tuning taught the model.
 
 ### Train and test synthetic invoices use disjoint seeds
 
@@ -324,13 +326,37 @@ lines, since each line was rounded independently before being summed.
 model output that comes with "the arithmetic closes, and here is which checks were run" is
 something a finance team can actually wire into a workflow.
 
-### Why real CORD receipts get flagged
+### Does the flag actually work? Measured, not asserted
 
-Roughly one CORD receipt in five fails `items_sum`. That is expected, not a bug: CORD's schema
-has a `service_price` field that appears on only 14 of 100 receipts, and it was deliberately
-excluded from the schema as a simplification. Those receipts genuinely do not reconcile under
-*our* schema. This is written down rather than quietly tolerated, because it is the kind of
-thing that looks like a model failure in a results table and is not.
+The claim is "if validation does not raise an error, the totals can be trusted". On the test
+sets there *are* gold labels, so the claim can be checked
+([`scripts/validation_value.py`](../scripts/validation_value.py)). A document counts if its
+gold has a subtotal, tax and total; "totals correct" means all three match gold within a cent.
+
+| Run | Wrong totals | …flagged | Not flagged | …totals correct |
+|---|---|---|---|---|
+| Base, CORD | 5 | **5** | 2 | **2** |
+| Fine-tuned, CORD | 1 | **1** | 10 | **10** |
+| Base, synthetic | 17 | **17** | 0 | — |
+| Fine-tuned, synthetic | 0 | — | 50 | **50** |
+
+**Across all four runs, 23 documents had wrong totals and the flag caught all 23. Not one
+document with wrong totals passed unflagged.** That is the property that matters for posting
+invoices automatically: an unflagged document never carried a wrong total in any of these runs.
+
+The flag is not free, though. On fine-tuned CORD it raised an error on 10 receipts, and 9 of
+those had subtotal, tax and total all *correct*. Those are not model mistakes. Running the same
+rules over the **gold answers** shows that 15 of the 50 CORD receipts fail validation on their
+own. In 8 of the 9 cases `tax_arithmetic` fails because the receipt does not close under this
+schema: on some, the printed total equals the subtotal, so tax was already included in the
+prices; on others the total carries a charge the schema does not capture, such as the
+`service_price` field CORD records on a minority of receipts and that was deliberately left out.
+
+So on real receipts the flag is conservative — it sends some correct documents to a human — and
+that is the right way round for accounting. The fix belongs in the schema (a tax-inclusive flag
+and an "other charges" field), not in loosening the rules. This is written down rather than
+quietly tolerated, because it is exactly the kind of thing that looks like a model failure in a
+results table and is not.
 
 ---
 
@@ -379,6 +405,32 @@ traceback at all**, because SIGKILL does not raise. Fixed by indexing the Huggin
 lazily and rendering synthetic invoices on demand; rendering is deterministic in the seed, so
 the examples are identical either way. Worth fixing regardless of machine — it also removed a
 multi-minute stall before the first training step on Kaggle.
+
+**The synthetic test set changed from one day to the next.** The generator drew invoice dates
+with `date_between(start_date="-2y", end_date="today")` — relative to the day it ran. The
+base model was scored on 11 September and the fine-tuned model on 12 September, so every one
+of the 50 held-out invoices came out with its date shifted by exactly one day. It was caught
+by noticing that seed 900000's gold date read `2026-05-11` in one results file and
+`2026-05-12` in the other, then comparing all 50 records field by field: only `date`
+differed, and nothing else. Each model had still been scored against the date printed on its
+own image, so no score was wrong, but "base and fine-tuned were measured on the same test
+set" was no longer literally true. **Fix:** dates come from a fixed window
+(`DATE_WINDOW_START`/`DATE_WINDOW_END`), a test pins seed 900000 to one exact date, and both
+models were re-scored on the now byte-identical set. The lesson: a seed only makes data
+reproducible if nothing else the generator reads — here, the clock — changes between runs.
+
+**The line-item diagnosis script invented errors.** `scripts/inspect_items.py` classifies each
+predicted line as correct, unit-price mistake, or other. It looked gold lines up in a
+dictionary keyed by product name, and invoices often sell the same product on two lines, so
+the second line was compared against the wrong gold line. On the fine-tuned predictions it
+reported 22 wrong prices while line-item F1 was exactly 1.000 — two numbers that cannot both be
+true, which is how it was caught. **Fix:** pair each predicted line with one unused gold line,
+preferring the best match. On the base model the corrected count *strengthened* the finding
+rather than weakening it: the "wrong for some other reason" bucket had been entirely
+duplicate-name artefacts, and those lines were in fact unit-price mistakes too.
+
+Both of these are measurement bugs, not model bugs. They are the reason every analysis script
+in this project is checked against a second number that has to agree with it.
 
 ---
 
@@ -479,33 +531,42 @@ ML tooling is Linux-first (bitsandbytes, triton), WSL is where the work happens.
 
 Stated plainly, because a portfolio project that claims no weaknesses is not credible.
 
-- **The test sets are small.** 50 CORD receipts and 50 synthetic invoices. Enough to see a
-  large effect; not enough for tight confidence intervals on a per-field F1.
-- **Synthetic invoices come from one template.** Degradation varies the pixels, but the layout
-  does not vary. The model has seen one way of arranging a Moroccan invoice, and real
-  suppliers use many. This is the most important gap.
+- **The synthetic 1.000 measures one layout.** Every synthetic invoice, train and test, comes
+  from one template; degradation varies the pixels, not the arrangement. The fine-tuned model
+  getting all 50 held-out invoices exactly right shows it learned *this* layout, not that it
+  reads any Moroccan invoice. This is the most important gap, and the reason that number is
+  labelled an upper bound everywhere it appears.
 - **No real Moroccan invoices have been tested.** By design — no real client data — but it
-  means the ICE/IF/date numbers are measured against documents from the same generator that
-  produced the training data. They should be read as an upper bound.
-- **One epoch.** No learning-rate sweep, no early stopping on a validation loss, no seed
-  variance. The numbers are one run.
-- **CORD's `service_price` is excluded**, so some real receipts legitimately fail `items_sum`
-  (§9).
-- **Latency is not production-grade.** Roughly 50 s per document on a 6 GB laptop GPU in
-  4-bit. Fine for a demo, too slow for bulk processing without batching and better hardware.
+  means the ICE, IF, date and currency numbers come from the same generator as the training
+  data. CORD-v2 is the only real-world evidence, and it contains none of those fields.
+- **Small test sets, one run.** 50 documents per set, one epoch, one seed, no learning-rate
+  sweep. How noisy that is was measured by accident: re-scoring the base model after a change
+  that only altered the date printed on each synthetic invoice moved individual fields by up to
+  0.049 (micro-F1 by 0.002). Differences smaller than that should not be read as real.
+- **The validation flag is conservative on real receipts.** 15 of the 50 CORD *gold* answers
+  fail the rules on their own — tax-inclusive totals, and charges such as `service_price` that
+  the schema leaves out. On the fine-tuned model, 9 of the 10 flagged receipts had correct
+  totals (§9). Safe, but it sends correct documents to a human.
+- **CORD line items are the weakest real-world field** at 0.743 F1.
+- **Latency is demo-grade.** On the 6 GB laptop GPU in 4-bit: about 12 s per CORD receipt in
+  the evaluation loop, 26 s per synthetic invoice including rendering and model loading, and
+  39.5 s of generation for one live API request. Fine for a demo, too slow for bulk processing
+  without batching, a merged adapter and better hardware.
 
 ---
 
 ## 13. What comes next, in priority order
 
-1. **More synthetic layouts.** Three or four distinct invoice templates would attack the
-   biggest limitation directly and cost no GPU time.
-2. **More epochs, with a validation loss.** One epoch was a first honest pass; the obvious
-   next experiment is 2–3 epochs with early stopping.
-3. **Qwen3-VL-2B-Instruct.** Now that it exists, re-run the same pipeline on it. The code
-   needs a config change and nothing else, which is the point of keeping hyperparameters in
-   YAML.
-4. **Constrained decoding.** A grammar that forces valid JSON would take the parse rate to
-   100 % by construction rather than by training.
-5. **Confidence per field**, so the validation layer can say *which* number it doubts, not
-   just that the document does not reconcile.
+1. **More synthetic layouts.** Three or four distinct invoice templates attack the biggest
+   limitation directly and cost no GPU time. This is also what would turn the synthetic
+   1.000 into a number worth trusting.
+2. **A richer schema.** A tax-inclusive flag and an "other charges" field would remove most of
+   the validation false alarms on real receipts, because the rules would then describe how
+   those receipts actually add up.
+3. **Several seeds and a validation loss.** To put error bars on every number here, and to pick
+   the epoch count by evidence rather than by "one epoch fitted in 25 minutes".
+4. **Qwen3-VL-2B-Instruct.** Now that it exists, re-run the same pipeline on it. The code needs
+   a config change and nothing else, which is the point of keeping hyperparameters in YAML.
+5. **Faster inference.** Merge the adapter into the weights and batch requests.
+6. **Confidence per field**, so the validation layer can say *which* number it doubts, not just
+   that the document does not reconcile.

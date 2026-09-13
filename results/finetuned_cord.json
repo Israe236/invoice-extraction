@@ -1,0 +1,66 @@
+{
+  "n_examples": 50,
+  "n_parsed": 50,
+  "parse_rate": 1.0,
+  "micro_f1": 0.8268,
+  "fields": {
+    "subtotal": {
+      "precision": 0.9091,
+      "recall": 0.9677,
+      "f1": 0.9375,
+      "support": 31
+    },
+    "tax": {
+      "precision": 0.9048,
+      "recall": 0.95,
+      "f1": 0.9268,
+      "support": 20
+    },
+    "total": {
+      "precision": 0.9184,
+      "recall": 0.9574,
+      "f1": 0.9375,
+      "support": 47
+    },
+    "items": {
+      "precision": 0.7185,
+      "recall": 0.7698,
+      "f1": 0.7433,
+      "support": 126
+    },
+    "ice": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "if_number": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "invoice_number": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "date": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "currency": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    }
+  },
+  "model": "fine-tuned",
+  "adapter": "checkpoints/qwen2vl-2b-lora-v2",
+  "dataset": "cord",
+  "config": "configs/baseline.yaml"
+}
