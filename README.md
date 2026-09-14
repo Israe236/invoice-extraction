@@ -308,6 +308,17 @@ cd frontend && npm install && npm run dev
 # open http://localhost:5173
 ```
 
+Ports 8000 and 5173 are common defaults, and if another app already holds one, the frontend
+would quietly talk to that app instead. Both are overridable:
+
+```bash
+INVOICE_ADAPTER=checkpoints/qwen2vl-2b-lora-v2 uvicorn invoice_extraction.api:app --port 8765
+cd frontend && API_URL=http://127.0.0.1:8765 PORT=5199 npm run dev
+```
+
+`GET /health` reports which adapter is loaded, which is a quick way to confirm the frontend is
+talking to this API.
+
 The first `/extract` request loads the model onto the GPU, which takes about a minute. On the
 6 GB laptop GPU, the live request in the example above then spent 39.5 s generating. Inside the
 evaluation loop, the fine-tuned model averaged about 12 s per CORD receipt. For synthetic
