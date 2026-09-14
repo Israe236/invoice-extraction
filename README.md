@@ -1,5 +1,9 @@
 # invoice-extraction
 
+[![tests](https://github.com/Israe236/invoice-extraction/actions/workflows/tests.yml/badge.svg)](https://github.com/Israe236/invoice-extraction/actions/workflows/tests.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)
+
 Turn an invoice or receipt **image** into **structured JSON** an accountant can use directly,
 and flag the documents that do not add up.
 
@@ -7,6 +11,12 @@ A small vision-language model (Qwen2-VL-2B) fine-tuned with 4-bit QLoRA, plus a 
 validation layer that checks the extracted numbers against accounting rules —
 `Total HT + TVA = Total TTC`, line items summing to the subtotal, dates that are real.
 Everything, including training, runs on a 6 GB laptop GPU.
+
+<img src="docs/assets/demo_screenshot.png" alt="The demo app after uploading a Moroccan invoice: all nine extracted fields on the left, and the validation panel reporting Consistent with eight passed checks" width="900">
+
+*The React demo, recorded in a real browser against the running API with the fine-tuned
+model: one uploaded invoice, all nine fields extracted in 45 s, and every accounting check
+passed.*
 
 | Held-out test set (50 documents each) | Base model | Fine-tuned |
 |---|---|---|
@@ -17,6 +27,18 @@ Everything, including training, runs on a 6 GB laptop GPU.
 
 ¹ An upper bound, not a production estimate. The test invoices come from the same single
 template the model was trained on. See [Limitations](#limitations).
+
+### What this project covers
+
+| Area | What was done |
+|---|---|
+| **Fine-tuning** | 4-bit QLoRA on a vision-language model (Qwen2-VL-2B) with PyTorch, Hugging Face Transformers, PEFT and bitsandbytes |
+| **Working in 6 GB** | Diagnosed a training run that failed with driver faults, found four separate memory causes, and trained one epoch in 25 minutes on a laptop GPU ([write-up](docs/DECISIONS.md#10a-how-training-was-made-to-fit-on-the-local-gpu)) |
+| **Data** | Public CORD-v2 receipts plus a synthetic French/Moroccan invoice generator (Faker, Jinja, WeasyPrint, Albumentations), with train/test leakage ruled out by construction |
+| **Evaluation** | Per-field precision/recall/F1, JSON parse rate and support, base vs fine-tuned through one code path, every number reproducible from `results/` |
+| **Reliability** | An accounting validation layer tested against gold labels: every document with wrong totals was flagged |
+| **Engineering** | FastAPI service, React + Vite frontend, 259 pytest tests, GitHub Actions CI, `uv` environments |
+| **Honesty** | Limitations stated with numbers, and the bugs found in my own evaluation code — each caught by a second number that disagreed — written up in [DECISIONS.md](docs/DECISIONS.md#10-things-that-broke-and-the-fixes) |
 
 ---
 

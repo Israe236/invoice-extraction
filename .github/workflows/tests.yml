@@ -1,0 +1,36 @@
+name: tests
+
+# Runs the full test suite on every push. None of the 259 tests needs a GPU or a
+# model download, so this installs a CPU-only torch build instead of the
+# multi-gigabyte CUDA stack the project uses for training.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: System libraries for WeasyPrint (synthetic invoice rendering)
+        run: sudo apt-get update && sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0
+
+      - name: Install CPU-only dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install "transformers>=4.57" peft datasets pillow pyyaml faker jinja2 \
+            weasyprint pymupdf albumentations fastapi python-multipart httpx pytest ruff
+          pip install -e . --no-deps
+
+      - name: Lint
+        run: ruff check src tests scripts
+
+      - name: Test
+        run: pytest -p no:cacheprovider
