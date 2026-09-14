@@ -42,6 +42,41 @@ template the model was trained on. See [Limitations](#limitations).
 
 ---
 
+## The app, on real documents
+
+Each screenshot below is a real run: the image uploaded through the React page in a browser,
+read by the model behind the FastAPI service, and checked by the validation layer.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/demo_real_receipt.png" alt="A real receipt photo: subtotal 56,000, tax 5,600, total 61,600 and two line items extracted, verdict Consistent" width="100%">
+      <p><b>A real receipt photo (CORD-v2).</b> Two line items, subtotal, 10&nbsp;% tax and total
+      read correctly, and the arithmetic checks pass. 15.8&nbsp;s.</p>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/assets/demo_crumpled_receipt.png" alt="A crumpled, faded receipt photo: quantities 4 and 10, subtotal 160000, tax 16000, total 176000 extracted, verdict Consistent" width="100%">
+      <p><b>A crumpled, faded receipt.</b> Quantities, line amounts and all three totals read from
+      barely legible print. 17.6&nbsp;s.</p>
+    </td>
+  </tr>
+</table>
+
+<img src="docs/assets/demo_base_model_flagged.png" alt="The base model on the Moroccan invoice: line amount 645.30 extracted instead of 3871.80, the line-items check fails and the verdict is Do not post" width="760">
+
+**The same Moroccan invoice, read by the base model before fine-tuning.** The totals are right,
+so `Total HT + TVA = Total TTC` passes, but the line amount is the unit price (645.30, not
+3871.80). The line-items rule catches it and the app says **Do not post** — without ever seeing
+the correct answer. After fine-tuning, the same invoice comes back fully correct: see the
+screenshot at the top.
+
+The two receipts were chosen from the 14 CORD test receipts that the evaluation scored fully
+correct with at least two line items, so they show what a correct reading looks like, not a
+typical success rate. The success rate is in [Results](#results). Times are model generation
+on a 6 GB laptop GPU with the model already loaded.
+
+---
+
 ## The problem
 
 Entering supplier invoices by hand is slow, expensive and error-prone. The usual automation is
